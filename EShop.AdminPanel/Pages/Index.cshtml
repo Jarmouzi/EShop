@@ -1,0 +1,27 @@
+﻿@page
+@model EShop.AdminPanel.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Title</th>
+        <th>Level</th>
+        <th>ParentId</th>
+    </tr>
+    @foreach (var item in Model.Categories)
+    {
+        <tr>
+            <td>@item.Title</td>
+            <td>@item.Level</td>
+            <td>@item.ParentId</td>
+        </tr>
+    }
+</table>

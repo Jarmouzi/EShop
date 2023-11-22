@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Services.Model
+namespace EShop.Services.Model
 {
     public class LoginUser
     {

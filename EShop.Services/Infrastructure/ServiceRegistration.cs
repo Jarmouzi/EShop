@@ -1,9 +1,9 @@
-﻿using Application.Services.DataContexts;
-using Application.Services.Helper;
-using Application.Services.Identity;
-using Application.Services.Infrastructure.Authorizaion.Requirements;
-using Application.Services.Model;
-using Application.Services.Model.TypeSafe;
+﻿using EShop.DataContext;
+using EShop.IdentityService.Helper;
+using EShop.IdentityService.Identity;
+using EShop.IdentityService.Infrastructure.Authorizaion.Requirements;
+using EShop.Model;
+using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +16,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 
-namespace Application.Services.Infrastructure
+namespace EShop.IdentityService.Infrastructure
 {
     public static class ServiceRegistration
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, string? connectionStringConfigName)
+        public static IServiceCollection AddIdentityervices(this IServiceCollection services, string? connectionStringConfigName)
         {
             services.AddDbContext<UserIdentityContext>(options =>
             {
@@ -31,21 +31,21 @@ namespace Application.Services.Infrastructure
             return services;
         }
 
-        public static IdentityBuilder AddApplicationIdentity(this IServiceCollection services)
+        public static IdentityBuilder AddIdentityOptions(this IServiceCollection services)
         {
             return services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 // configuration can be written here:
-                // builder.Services.Configure<IdentityOptions>
+                // builder.IdentityService.Configure<IdentityOptions>
                 options.SignIn.RequireConfirmedAccount = true;
 
                 // Password settings.
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 3;
-                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 4;
 
                 // Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
@@ -53,8 +53,11 @@ namespace Application.Services.Infrastructure
                 options.Lockout.AllowedForNewUsers = true;
 
                 // User settings.
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                //options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
+
+                options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<UserIdentityContext>();
@@ -66,10 +69,10 @@ namespace Application.Services.Infrastructure
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.Cookie.Name = "My_Cookie_Name_In_Browser";
+                    options.Cookie.Name = "EShopAuthCookie";
                     // Cookie settings
                     // configuration can be written here:
-                    // builder.Services.ConfigureApplicationCookie
+                    // builder.IdentityService.ConfigureApplicationCookie
 
                     options.Cookie.HttpOnly = true;
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
@@ -78,6 +81,18 @@ namespace Application.Services.Infrastructure
                     options.AccessDeniedPath = "/Account/AccessDenied";
                     options.SlidingExpiration = true;
                 });
+                //.AddOpenIdConnect(options =>
+                //{
+                //    options.SignInScheme = "Cookies";
+                //    options.Authority = "-your-identity-provider-";
+                //    options.RequireHttpsMetadata = true;
+                //    options.ClientId = "-your-clientid-";
+                //    options.ClientSecret = "-your-client-secret-from-user-secrets-or-keyvault";
+                //    options.ResponseType = "code";
+                //    options.UsePkce = true;
+                //    options.Scope.Add("profile");
+                //    options.SaveTokens = true;
+                //}); 
 
             return services;
         }
@@ -113,7 +128,7 @@ namespace Application.Services.Infrastructure
             services.AddAuthorization(options =>
             {
                 //// Policy-based Role authorization
-                //// ClassRoomController
+                //// CategoryController
                 //options.AddPolicy(TS.Policies.FullControlPolicy, policy =>
                 //{
                 //    policy.RequireRole(TS.Roles.Admin);
@@ -136,31 +151,31 @@ namespace Application.Services.Infrastructure
 
 
                 //// Calim-based authorization
-                //// StudentController
+                //// ProductController
                 //options.AddPolicy("CaimBasedPolicy", policy =>
                 //{
-                //    policy.RequireClaim("Student");
+                //    policy.RequireClaim("Product");
                 //});
 
 
                 //// Calim-based authorization using value
-                //// StudentController
+                //// ProductController
                 //options.AddPolicy(TS.Policies.FullControlPolicy, policy =>
                 //{
-                //    policy.RequireClaim(TS.Contoller.Student,
+                //    policy.RequireClaim(TS.Contoller.Product,
                 //        TS.Permissions.Delete.ToString(),
                 //        TS.Permissions.Update.ToString());
                 //});
 
                 //options.AddPolicy(TS.Policies.ReadAndWritePolicy, policy =>
                 //{
-                //    policy.RequireClaim(TS.Contoller.Student,
+                //    policy.RequireClaim(TS.Contoller.Product,
                 //        TS.Permissions.Write.ToString());
                 //});
 
                 //options.AddPolicy(TS.Policies.ReadPolicy, policy =>
                 //{
-                //    policy.RequireClaim(TS.Contoller.Student,
+                //    policy.RequireClaim(TS.Contoller.Product,
                 //        TS.Permissions.Read.ToString());
                 //});
 
@@ -223,35 +238,28 @@ namespace Application.Services.Infrastructure
                     await roleManager.CreateAsync(userRole);
 
                     // Creating User Entities
-                    var adminUser = new IdentityUser() { UserName = "admin", Email = "admin@test.com" };
-                    var contributorUser = new IdentityUser() { UserName = "cont", Email = "c@test.com" };
-                    var user = new IdentityUser() { UserName = "user", Email = "user@test.com" };
+                    var adminUser = new IdentityUser() { UserName = "admin", Email = "admin@EShop.com" };
+                    var guest = new IdentityUser() { UserName = "guest", Email = "guest@EShop.com" };
 
                     // Adding Users with Password
-                    await userManager.CreateAsync(adminUser, "123");
-                    await userManager.CreateAsync(contributorUser, "123");
-                    await userManager.CreateAsync(user, "123");
+                    await userManager.CreateAsync(adminUser, "Etm@14863");
+                    await userManager.CreateAsync(guest, "Etm@guest!2#4%6");
 
                     // Ading Claims to Users
-                    await userManager.AddClaimAsync(adminUser, GetAdminClaims(TS.Contoller.Student));
-                    await userManager.AddClaimAsync(contributorUser, GetcontributorClaims(TS.Contoller.Student));
-                    await userManager.AddClaimAsync(user, GetUserClaims(TS.Contoller.Student));
+                    await userManager.AddClaimAsync(adminUser, GetAdminClaims(TS.Contoller.Product));
+                    await userManager.AddClaimAsync(guest, GetUserClaims(TS.Contoller.Product));
 
                     // Adding Roles to Users
                     await userManager.AddToRoleAsync(adminUser, TS.Roles.Admin);
-                    await userManager.AddToRoleAsync(contributorUser, TS.Roles.Contributor);
-                    await userManager.AddToRoleAsync(user, TS.Roles.User);
-
+                    await userManager.AddToRoleAsync(guest, TS.Roles.User);
 
                     //Ading Claims to Roles
                     await roleManager.AddClaimAsync(adminRole, GetAdminClaims(TS.Contoller.Module));
                     await roleManager.AddClaimAsync(contributorRole, GetcontributorClaims(TS.Contoller.Module));
                     await roleManager.AddClaimAsync(userRole, GetUserClaims(TS.Contoller.Module));
 
-
-                    await roleManager.AddClaimAsync(adminRole, GetAdminClaims(TS.Contoller.Teacher));
-                    await roleManager.AddClaimAsync(contributorRole, GetcontributorClaims(TS.Contoller.Teacher));
-                    await roleManager.AddClaimAsync(userRole, GetUserClaims(TS.Contoller.Teacher));
+                    await roleManager.AddClaimAsync(adminRole, GetAdminClaims(TS.Contoller.Supplier));
+                    await roleManager.AddClaimAsync(userRole, GetUserClaims(TS.Contoller.Supplier));
 
                 }
             }

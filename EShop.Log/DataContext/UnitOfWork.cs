@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.LogService.DBContext
+namespace EShop.LogService.DataContext
 {
     public interface IUnitOfWork : IDisposable
     {

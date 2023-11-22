@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Application.Services.Helper
+namespace EShop.IdentityService.Helper
 {
     public static class Extensions
     {

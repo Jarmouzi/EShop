@@ -1,40 +1,40 @@
-﻿using Application.Services.Model.TypeSafe;
+﻿using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Api.Controllers
+namespace EShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Policy = "CaimBasedPolicy")]
-    public class StudentController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        [HttpGet("GetStudent")]
+        [HttpGet("GetProduct")]
         //[Authorize(Policy = TS.Policies.ReadPolicy)]
         public string Get()
         {
-            return "Get a Student";
+            return "Get a Product";
         }
 
-        [HttpPost("AddStudent")]
+        [HttpPost("AddProduct")]
         //[Authorize(Policy = TS.Policies.ReadAndWritePolicy)]
         public string Add()
         {
-            return "Add a Student";
+            return "Add a Product";
         }
 
-        [HttpPut("UpdateStudent")]
+        [HttpPut("UpdateProduct")]
         //[Authorize(Policy = TS.Policies.FullControlPolicy)]
         public string Update()
         {
-            return "Update a Student";
+            return "Update a Product";
         }
 
-        [HttpDelete("DeleteStudent")]
+        [HttpDelete("DeleteProduct")]
         //[Authorize(Policy = TS.Policies.FullControlPolicy)]
         public string Delete()
         {
-            return "Delete a Student";
+            return "Delete a Product";
         }
     }
 }

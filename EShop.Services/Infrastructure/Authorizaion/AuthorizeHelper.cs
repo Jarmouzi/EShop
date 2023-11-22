@@ -1,5 +1,5 @@
-﻿using Application.Services.Helper;
-using Application.Services.Model.TypeSafe;
+﻿using EShop.IdentityService.Helper;
+using EShop.Model.TypeSafe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services.Infrastructure.Authorizaion
+namespace EShop.IdentityService.Infrastructure.Authorizaion
 {
     internal class AuthorizeHelper
     {

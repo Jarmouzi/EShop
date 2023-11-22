@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Model.TypeSafe
+﻿namespace EShop.Services.Model.TypeSafe
 {
     public class TS
     {
@@ -8,14 +8,15 @@
             public const string Admin = "Admin";
             public const string User = "User";
             public const string Contributor = "Contributor";
+            public const string Guest = "Guest";
         }
 
         public static class Contoller
         {
-            public const string Student = "Student";
-            public const string Teacher = "Teacher";
+            public const string Product = "Product";
+            public const string Supplier = "Supplier";
             public const string Module = "Module";
-            public const string ClassRoom = "ClassRoom";
+            public const string Category = "Category";
         }
 
         public static class Permissions

@@ -1,7 +1,7 @@
-﻿using Application.Services.Model.TypeSafe;
+﻿using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Application.Services.Infrastructure.Authorizaion.Requirements
+namespace EShop.IdentityService.Infrastructure.Authorizaion.Requirements
 {
     public class UserRequirements : IAuthorizationRequirement
     {

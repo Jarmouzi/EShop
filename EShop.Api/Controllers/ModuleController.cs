@@ -1,8 +1,8 @@
-﻿using Application.Services.Model.TypeSafe;
+﻿using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Api.Controllers
+namespace EShop.Api.Controllers
 {
 
     [Route("api/[controller]")]

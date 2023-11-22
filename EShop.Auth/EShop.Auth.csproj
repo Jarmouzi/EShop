@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application.Services\Application.Services.csproj" />
+    <ProjectReference Include="..\EShop.Model\EShop.Model.csproj" />
+    <ProjectReference Include="..\EShop.Services\EShop.IdentityService.csproj" />
   </ItemGroup>
 
 </Project>

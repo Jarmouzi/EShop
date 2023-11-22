@@ -1,14 +1,16 @@
-﻿using Application.Services.Model;
+﻿using EShop.Model;
 using System.Security.Claims;
+using System.Security.Principal;
 
-namespace Application.Services.Identity
+namespace EShop.IdentityService.Identity
 {
     public interface IAuthService
     {
-        Task<bool> Login(LoginUser credentials);
+        Task<Guid?> Login(LoginUser credentials);
         Task Logout();
         Task<bool> RegisterUser(LoginUser user);
         Task<bool> AddUserClaim(string user, Claim claim);
+        Task<bool> AddUpdateClaim(string user, Claim claim);
         Task GenerateCookieAuthentication(string username);
         Task<string> GenerateTokenString(string user, JwtConfiguration jwtConfig);
     }

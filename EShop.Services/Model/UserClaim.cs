@@ -1,4 +1,4 @@
-﻿namespace Application.Services.Model
+﻿namespace EShop.Services.Model
 {
     public class UserClaim
     {

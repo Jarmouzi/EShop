@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EShop.LogService.DBContext
+namespace EShop.Model
 {
-    public class EShopLogContext: DBContext
+    internal class VisitLog
     {
     }
 }

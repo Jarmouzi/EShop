@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services.Helper
+namespace EShop.IdentityService.Helper
 {
     internal static  class ClaimHelper
     {
@@ -19,4 +19,5 @@ namespace Application.Services.Helper
             return claim.Value.Deserialize<List<int>>();
         }
     }
+
 }

@@ -1,38 +1,38 @@
-﻿using Application.Services.Infrastructure.Authorizaion;
-using Application.Services.Model.TypeSafe;
+﻿using EShop.IdentityService.Infrastructure.Authorizaion;
+using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Api.Controllers
+namespace EShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     //[CustomAuthorize]
     [Authorize(Policy = TS.Policies.GenericPolicy)]
-    public class TeacherController : ControllerBase
+    public class SupplierController : ControllerBase
     {
-        [HttpGet("GetTeacher")]
+        [HttpGet("GetSupplier")]
         public string Get()
         {
-            return "Get a Teacher";
+            return "Get a Supplier";
         }
 
-        [HttpPost("AddTeacher")]
+        [HttpPost("AddSupplier")]
         public string Add()
         {
-            return "Add a Teacher";
+            return "Add a Supplier";
         }
 
-        [HttpPut("UpdateTeacher")]
+        [HttpPut("UpdateSupplier")]
         public string Update()
         {
-            return "Update a Teacher";
+            return "Update a Supplier";
         }
 
-        [HttpDelete("DeleteTeacher")]
+        [HttpDelete("DeleteSupplier")]
         public string Delete()
         {
-            return "Delete a Teacher";
+            return "Delete a Supplier";
         }
     }
 }

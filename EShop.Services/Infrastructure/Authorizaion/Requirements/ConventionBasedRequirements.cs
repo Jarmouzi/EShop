@@ -1,4 +1,4 @@
-﻿using Application.Services.Model.TypeSafe;
+﻿using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services.Infrastructure.Authorizaion.Requirements
+namespace EShop.IdentityService.Infrastructure.Authorizaion.Requirements
 {
     public class ConventionBasedRequirements : IAuthorizationRequirement
     {

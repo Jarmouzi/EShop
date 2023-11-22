@@ -1,8 +1,8 @@
-﻿using Application.Services.Model.TypeSafe;
+﻿using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-namespace Application.Services.Infrastructure.Authorizaion.Requirements
+namespace EShop.IdentityService.Infrastructure.Authorizaion.Requirements
 {
     public class ContributorRequirements : IAuthorizationRequirement
     {

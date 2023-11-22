@@ -1,15 +1,15 @@
-﻿using Application.Services.Model.TypeSafe;
+﻿using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Api.Controllers
+namespace EShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ClassRoomController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        [HttpGet("GetClassRoom")]
+        [HttpGet("GetCategory")]
         //[Authorize(Roles ="Admin")]
         //[Authorize(Roles = "Admin,Contributor")]
         //[Authorize(Roles = $"{TS.Roles.Admin},{TS.Roles.Contributor},{TS.Roles.User}")]
@@ -19,7 +19,7 @@ namespace Application.Api.Controllers
             return "Get a Class Room";
         }
 
-        [HttpPost("AddClassRoom")]
+        [HttpPost("AddCategory")]
         //[Authorize(Roles = "Admin")]
         //[Authorize(Roles = $"{TS.Roles.Admin},{TS.Roles.Contributor}")]
         //[Authorize(Policy = TS.Policies.ReadAndWritePolicy)]
@@ -28,7 +28,7 @@ namespace Application.Api.Controllers
             return "Add a Class Room";
         }
 
-        [HttpPut("UpdateClassRoom")]
+        [HttpPut("UpdateCategory")]
         //[Authorize(Roles = TS.Roles.Admin)]
         //[Authorize(Policy = TS.Policies.FullControlPolicy)]
         public string Update()
@@ -36,7 +36,7 @@ namespace Application.Api.Controllers
             return "Update a Class Room";
         }
 
-        [HttpDelete("DeleteClassRoom")]
+        [HttpDelete("DeleteCategory")]
         //[Authorize(Roles = TS.Roles.Admin)]
         //[Authorize(Policy = TS.Policies.FullControlPolicy)]
         public string Delete()

@@ -1,15 +1,18 @@
-﻿using Application.Services.Helper;
-using Application.Services.Model;
+﻿using EShop.IdentityService.Helper;
+using EShop.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 
-namespace Application.Services.Identity
+namespace EShop.IdentityService.Identity
 {
     public class AuthService : IAuthService
     {
@@ -27,14 +30,15 @@ namespace Application.Services.Identity
             _httpContext = httpContext;
         }
 
-        public async Task<bool> Login(LoginUser credentials)
+        public async Task<Guid?> Login(LoginUser credentials)
         {
             var user = await _userManager.FindByNameAsync(credentials.Username);
             if (user != null)
             {
-                return await _userManager.CheckPasswordAsync(user, credentials.Password);
+                if (await _userManager.CheckPasswordAsync(user, credentials.Password))
+                    return Guid.Parse(user.Id);
             }
-            return false;
+            return null;
         }
 
         public async Task Logout()
@@ -61,6 +65,22 @@ namespace Application.Services.Identity
             {
                 return false;
             }
+
+            var result = await _userManager.AddClaimAsync(identityUser, claim);
+            return result.Succeeded;
+        }
+        public async Task<bool> AddUpdateClaim(string user, Claim claim)
+        {
+            var identityUser = await _userManager.FindByNameAsync(user);
+            if (identityUser is null)
+            {
+                return false;
+            }
+
+            var claims = await _userManager.GetClaimsAsync(identityUser);
+            var oldClaim = claims.FirstOrDefault(c => c.Type == claim.Type);
+            if (oldClaim != null)
+                await _userManager.RemoveClaimAsync(identityUser, oldClaim);
 
             var result = await _userManager.AddClaimAsync(identityUser, claim);
             return result.Succeeded;
@@ -102,8 +122,9 @@ namespace Application.Services.Identity
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, username),
-            }; 
-            
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            };
+
             var permissionClaims = new List<Claim>();
 
 
@@ -120,7 +141,7 @@ namespace Application.Services.Identity
                 //claims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
             }
 
-            claims.AddRange(permissionClaims.OrderBy(t=>t.Type));
+            claims.AddRange(permissionClaims.OrderBy(t => t.Type));
             return claims;
         }
 
@@ -130,7 +151,10 @@ namespace Application.Services.Identity
             var result = new List<Claim>();
             foreach (var claim in claims)
             {
-                result.AddRange(claim.DeserializePermissions().Select(t => new Claim(claim.Type, t.ToString())));
+                if (claim.Value.Contains(','))
+                    result.AddRange(claim.DeserializePermissions().Select(t => new Claim(claim.Type, t.ToString())));
+                else
+                    result.Add(claim);
             }
             return result;
         }
