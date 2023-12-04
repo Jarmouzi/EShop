@@ -11,13 +11,13 @@ using System.Linq.Expressions;
 
 namespace EShop.Service.Implementation
 {
-    public class Repository<T, TViewModel> : IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseModel
+    public class Repository<T, TViewModel, TContext> : IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseModel where TContext : DbContext
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork<TContext> _unitOfWork;
         private readonly IMapper _mappingEngine;
         private readonly DbSet<T> _service;
 
-        public Repository(IUnitOfWork unitOfWork, IMapper mappingEngine)
+        public Repository(IUnitOfWork<TContext> unitOfWork, IMapper mappingEngine)
         {
             _unitOfWork = unitOfWork;
             _mappingEngine = mappingEngine;

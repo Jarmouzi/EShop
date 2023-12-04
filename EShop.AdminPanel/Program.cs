@@ -19,6 +19,8 @@ namespace EShop.AdminPanel
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddAutoMapper(typeof(Program), typeof(CategoryProfile));
+
             builder.Services.AddIdentityervices(builder.Configuration.GetConnectionString("IdentityConnection"));
             builder.Services.AddIdentityOptions();
             builder.Services.AddApplicationCookieAuth();
@@ -27,14 +29,8 @@ namespace EShop.AdminPanel
             builder.Services.AddScoped<LogService.DataContext.IUnitOfWork, LogService.DataContext.UnitOfWork>();
             builder.Services.AddScoped<ILogRepository, LogRepository>();
 
-            builder.Services.AddApplicationServices<EShopContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
-            builder.Services.AddScoped<DataContext.IUnitOfWork, DataContext.UnitOfWork>();
+            builder.Services.AddEShopServices(builder.Configuration.GetConnectionString("DefaultConnection"));
 
-
-            builder.Services.AddAutoMapper(typeof(Program), typeof(CategoryProfile));
-
-            builder.Services.AddScoped<IRepository<Category, CategoryViewModel>, Repository<Category, CategoryViewModel>>();
-            builder.Services.AddScoped<IRepository<Product, ProductViewModel>, Repository<Product, ProductViewModel>>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();

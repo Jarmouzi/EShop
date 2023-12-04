@@ -13,7 +13,7 @@ namespace EShop.Infrastructure
     public static class ServiceRegistration
     {
         public static IServiceCollection AddApplicationServices<TContext>(
-            this IServiceCollection services, 
+            this IServiceCollection services,
             string? connectionStringConfigName) where TContext : DbContext
         {
             services.AddDbContext<TContext>(options =>
@@ -22,18 +22,28 @@ namespace EShop.Infrastructure
             });
             return services;
         }
-
-        public static IServiceCollection AddRepository<T, TViewModel>(this IServiceCollection services) where T : BaseModel where TViewModel : BaseModel
+        public static IServiceCollection AddApiServices<TContext>(
+            this IServiceCollection services,
+            string? connectionStringConfigName) where TContext : DbContext
         {
-            services.AddSingleton<IRepository<T, TViewModel>>(ServiceProvider =>
+            services.AddDbContext<TContext>(options =>
             {
-                var unitOfWork = ServiceProvider.GetService<IUnitOfWork>();
-                var mapper = ServiceProvider.GetService<IMapper>();
-                return new Repository<T, TViewModel>(unitOfWork, mapper);
+                options.UseSqlServer(connectionStringConfigName);
             });
+            services.AddScoped<DataContext.IUnitOfWork<TContext>, DataContext.UnitOfWork<TContext>>();
+            return services;
+        }
+        public static IServiceCollection AddEShopServices(
+            this IServiceCollection services,
+            string? connectionStringConfigName)
+        {
+            services.AddApplicationServices<EShopContext>(connectionStringConfigName);
+            services.AddScoped<DataContext.IUnitOfWork<EShopContext>, DataContext.UnitOfWork<EShopContext>>();
+
+            services.AddScoped<IRepository<Category, CategoryViewModel>, Repository<Category, CategoryViewModel, EShopContext>>();
+            services.AddScoped<IRepository<Product, ProductViewModel>, Repository<Product, ProductViewModel, EShopContext>>();
 
             return services;
         }
-
     }
 }

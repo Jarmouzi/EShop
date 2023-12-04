@@ -22,8 +22,7 @@ namespace EShop.Api
             builder.Services.AddScoped<LogService.DataContext.IUnitOfWork, LogService.DataContext.UnitOfWork>();
             builder.Services.AddScoped<ILogRepository, LogRepository>();
 
-            builder.Services.AddApplicationServices<EShopContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
-            builder.Services.AddScoped<DataContext.IUnitOfWork, DataContext.UnitOfWork>();
+            builder.Services.AddEShopServices(builder.Configuration.GetConnectionString("DefaultConnection"));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

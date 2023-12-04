@@ -11,7 +11,7 @@ using EShop.Model;
 
 namespace EShop.DataContext
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork<TContext> : IDisposable where TContext : DbContext
     {
         Task<int> SaveAsync();
         IEnumerable<T> ExecWithStoreProcedure<T>(string query, params object[] parameters);
@@ -20,12 +20,12 @@ namespace EShop.DataContext
 
     }
 
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
     {
-        private readonly EShopContext _context;
+        private readonly TContext _context;
         private Dictionary<Type, object> _repositories;
 
-        public UnitOfWork(EShopContext context)
+        public UnitOfWork(TContext context)
         {
             _context = context;
             _repositories = new Dictionary<Type, object>();
