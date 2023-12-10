@@ -1,27 +1,82 @@
 ﻿@page
 @model EShop.AdminPanel.Pages.Account.LoginModel
+<!DOCTYPE html>
 @{
-    ViewData["Title"] = "Login";
+    Layout = null;
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" method="post">
-            <h2>Login</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="UserCredential.Username" class="form-control" autocomplete="off" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="UserCredential.Username">Email</label>
-                <span asp-validation-for="UserCredential.Username" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="UserCredential.Password" class="form-control" autocomplete="off" aria-required="true" placeholder="password" />
-                <label asp-for="UserCredential.Password">Password</label>
-                <span asp-validation-for="UserCredential.Password" class="text-danger"></span>
-            </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Login</button>
-        </form>
-    </div>
+<html dir="rtl">
 
-</div>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+
+    <title>پنل مدیریت فروشگاه اتما | ورود </title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/EShop.AdminPanel.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/css/AdminLTE.css">
+    <link rel="stylesheet" href="~/lib/iCheck/square/blue.css">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <img src="~/etma-logo-min.png" class="brand-image elevation-3" width="40px" height="40px" />
+            <span><b>پنل مدیریت فروشگاه اتما</b></span>
+        </div>
+        <div class="login-box-body">
+
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-group has-feedback">
+                    <label asp-for="UserCredential.Username">نام کاربری</label>
+                    <input asp-for="UserCredential.Username" class="form-control col-md-12" autocomplete="off" aria-required="true" placeholder="نام کاربری" />
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <label asp-for="UserCredential.Password">رمز عبور</label>
+                    <input asp-for="UserCredential.Password" class="form-control col-md-12" autocomplete="off" aria-required="true" placeholder="رمز عبور" />
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">ورود</button>
+                    </div>
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox"><span style="padding-right:20px;">مرا به خاطر بسپار</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            @*<div class="social-auth-links text-center">
+            <p>- OR -</p>
+            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat">
+            <i class="fa fa-facebook"></i> Sign in using
+            Facebook
+            </a>
+            <a href="#" class="btn btn-block btn-social btn-google btn-flat">
+            <i class="fa fa-google-plus"></i> Sign in using
+            Google+
+            </a>
+            </div>*@
+
+            <a href="#">رمز عبور را فراموش کردم</a><br>
+
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
+

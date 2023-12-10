@@ -42,6 +42,18 @@ namespace EShop.Infrastructure
 
             services.AddScoped<IRepository<Category, CategoryViewModel>, Repository<Category, CategoryViewModel, EShopContext>>();
             services.AddScoped<IRepository<Product, ProductViewModel>, Repository<Product, ProductViewModel, EShopContext>>();
+            services.AddScoped<IRepository<Region, RegionViewModel>, Repository<Region, RegionViewModel, EShopContext>>();
+
+            return services;
+        }
+        public static IServiceCollection AddPanelServices(
+            this IServiceCollection services,
+            string? connectionStringConfigName)
+        {
+            services.AddApplicationServices<EShopPanelContext>(connectionStringConfigName);
+            services.AddScoped<DataContext.IUnitOfWork<EShopPanelContext>, DataContext.UnitOfWork<EShopPanelContext>>();
+
+            services.AddScoped<IRepository<PanelResource, PanelResourceViewModel>, Repository<PanelResource, PanelResourceViewModel, EShopPanelContext>>();
 
             return services;
         }

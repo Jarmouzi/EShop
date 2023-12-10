@@ -18,6 +18,7 @@ namespace EShop.DataContext
 
         public DbSet<Category> Category { get; set; }
         public DbSet<Product> Product { get; set; }
+        public DbSet<Region> Region { get; set; }
 
     }
 }

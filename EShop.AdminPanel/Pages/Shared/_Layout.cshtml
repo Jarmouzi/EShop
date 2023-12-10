@@ -1,59 +1,74 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Admin Panel</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+
+    <title>پنل مدیریت فروشگاه اتما | @ViewData["Title"] </title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EShop.AdminPanel.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="~/css/AdminLTE.css">
+    <link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 </head>
-<body dir="rtl" lang="fa">
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">مدیریت فروشگاه</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="side navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/OnlyAdminPage">Only Admins</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Login</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="mr-2">
-                    <partial name="_LoginPartial"></partial>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <a class="logo" asp-area="" asp-page="/Index">
+                <img src="~/etma-logo-min.png" class="brand-image img-circle elevation-3" width="40px" height="40px" />
+                <span><b>پنل مدیریت فروشگاه اتما</b></span>
+            </a>
+
+            <partial name="_LoginPartial"></partial>
+        </header>
+
+
+        @await  Component.InvokeAsync("Sidebar")
+
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="form-modal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - EShop.مدیریت فروشگاه - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
-    </footer>
-
+        <footer class="main-footer">
+            <strong>
+                &copy; 2023 -پنل مدیریت فروشگاه اتما - <a asp-area="" asp-page="/Privacy">حقوق</a>
+            </strong>
+        </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/fastclick/lib/fastclick.js"></script>
+    <script src="~/js/adminlte.min.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+    <script src="~/lib/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/lib/chart.js/Chart.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

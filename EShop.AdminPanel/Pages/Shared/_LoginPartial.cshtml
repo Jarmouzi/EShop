@@ -1,25 +1,60 @@
-﻿@if (User.Identity.IsAuthenticated)
-{
-    <form method="post" asp-page="/Account/Logout" class="form-inline">
-        <span class="dropdown">
-            <span class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Welcome @User.Identity.Name
-            </span>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li class="dropdown-item">
-                    <button type="submit" class="m-lg-2 btn btn-likn">Logout</button>
-                </li>
-                <li class="dropdown-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Account/AddUser">New User</a>
-                </li>
-                <li class="dropdown-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Account/ClaimManagement">Manage Clames</a>
-                </li>
-            </ul>
-        </span>
-    </form>
-}
-else
-{
-    <a class="btn btn-link" asp-page="/Account/Login">Login</a>
-}
+﻿
+
+
+<nav class="navbar navbar-static-top">
+    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+    </a>
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+            <li class="dropdown user user-menu">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="~/img/user.png" class="user-image" alt="User Image">
+                        <span class="hidden-xs"> @User.Identity.Name</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src="~/img/user.png" class="img-circle" alt="User Image">
+                            <p>
+                                @User.Identity.Name
+                                <small> role</small>
+                            </p>
+                        </li>
+                        <li class="user-footer">
+
+                            <div class="pull-right">
+                                <a href="/Account/Logout" class="btn btn-default btn-flat">خروج</a>
+                            </div>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="~/img/user.png" class="user-image" alt="User Image">
+                        <span class="hidden-xs"> خوش آمدید</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src="~/img/user.png" class="img-circle" alt="User Image" />
+                            <p>
+                                کاربر مهمان
+
+                            </p>
+                        </li>
+                        <li class="user-footer">
+
+                            <div class="pull-right">
+                                <a href="/Account/Login" class="btn btn-default btn-flat">ورود</a>
+                            </div>
+                        </li>
+                    </ul>
+                }
+            </li>
+        </ul>
+    </div>
+
+</nav>
+

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<EShop.ViewModel.CategoryViewModel>
+<table class="table table-bordered" id="categories">
+    <thead>
+        <tr>
+            <th>عملیات</th>
+            <th>عنوان</th>
+            <th>تایید</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() != 0)
+        {
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td text-right">
+                        <a onclick="jQueryModalGet('?handler=CreateOrEdit&id=@c.Id','Edit Customer')" class="btn btn-info text-white"> <i class="fa fa-edit"></i> </a>
+                        <form method="post" asp-page="Index" asp-route-id="@c.Id" asp-page-handler="Delete" onsubmit="return jQueryModalDelete(this)" class="d-inline">
+                            <button type="submit" class="btn btn-danger text-white"> <i class="fa fa-remove"></i></button>
+                        </form>
+                        <a asp-page="./Filter" asp-route-id="@c.Id" data-toggle="tooltip" data-placement="top" title="تعریف فیلتر های جستجو"><i class="fa fa-search"></i>  </a>
+                    </td>
+                    <td>@c.Title</td>
+                    <td>
+                        @if (c.Confirmed)
+                        {
+                            <input type="checkbox" checked="checked" disabled="disabled" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" disabled="disabled" />
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        $("#customerTable").DataTable();
+    });
+</script>

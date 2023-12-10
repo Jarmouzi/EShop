@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Resource", "EShop.Res
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.AdminPanel", "EShop.AdminPanel\EShop.AdminPanel.csproj", "{2CD7A1A7-5E90-4DA3-A2C1-3190BA8A40AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.LogService", "EShop.Log\EShop.LogService.csproj", "{1ABD9725-691C-4BCD-A735-1B13ED99F333}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.LogService", "EShop.Log\EShop.LogService.csproj", "{1ABD9725-691C-4BCD-A735-1B13ED99F333}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

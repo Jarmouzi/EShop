@@ -1,4 +1,6 @@
+using Autofac.Core;
 using AutoMapper;
+using EShop.AdminPanel.Services;
 using EShop.AutoMapper;
 using EShop.DataContext;
 using EShop.IdentityService.Infrastructure;
@@ -10,6 +12,7 @@ using EShop.Service.Implementation;
 using EShop.Service.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace EShop.AdminPanel
 {
@@ -30,9 +33,13 @@ namespace EShop.AdminPanel
             builder.Services.AddScoped<ILogRepository, LogRepository>();
 
             builder.Services.AddEShopServices(builder.Configuration.GetConnectionString("DefaultConnection"));
+            builder.Services.AddPanelServices(builder.Configuration.GetConnectionString("PanelConnection"));
 
 
             // Add services to the container.
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
+            builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
@@ -41,7 +48,10 @@ namespace EShop.AdminPanel
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
+
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

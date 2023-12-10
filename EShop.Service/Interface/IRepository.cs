@@ -12,7 +12,7 @@ namespace EShop.Service.Interface
         Task<Result<IEnumerable<TViewModel>>> GetAllAsync();
         Task<Result<IEnumerable<TViewModel>>> GetAllAsync(Expression<Func<T, bool>> filter);
         Task<Result<TViewModel?>> GetAsync(Expression<Func<T, bool>> filter);
-        Result<TViewModel?> GetByIdAsync(Guid id);
+        Task<Result<TViewModel?>> GetByIdAsync(Guid id);
         //Task<Result<bool>> ExistsAsync(Guid id);
     }
 }

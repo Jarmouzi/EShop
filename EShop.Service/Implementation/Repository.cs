@@ -173,12 +173,12 @@ namespace EShop.Service.Implementation
             return result;
         }
 
-        public Result<TViewModel?> GetByIdAsync(Guid id)
+        public async Task<Result<TViewModel?>> GetByIdAsync(Guid id)
         {
             var result = new Result<TViewModel>();
             try
             {
-                var item = _service.Find(id);
+                var item = await _service.FindAsync(id);
                 if (item != null)
                 {
                     result.Data = _mappingEngine.Map<TViewModel>(item);

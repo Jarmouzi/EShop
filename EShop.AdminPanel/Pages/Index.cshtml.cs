@@ -14,7 +14,7 @@ namespace EShop.AdminPanel.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ILogRepository _dbLog;
-        private readonly IRepository<Category, CategoryViewModel> _categoryRepository;
+        private readonly IRepository<Model.Category, CategoryViewModel> _categoryRepository;
         private readonly IRepository<Product, ProductViewModel> _productRepository;
 
         public IEnumerable<CategoryViewModel> Categories { get; set; }
@@ -22,7 +22,7 @@ namespace EShop.AdminPanel.Pages
 
         public IndexModel(ILogger<IndexModel> logger
             , ILogRepository dbLog
-            , IRepository<Category, CategoryViewModel> categoryRepository
+            , IRepository<Model.Category, CategoryViewModel> categoryRepository
             , IRepository<Product, ProductViewModel> productRepository)
         {
             _logger = logger;
@@ -41,7 +41,8 @@ namespace EShop.AdminPanel.Pages
         {
             try
             {
-                var result = await _categoryRepository.GetAllAsync();
+                //var result = await _categoryRepository.GetAllAsync();
+                var result = await _categoryRepository.GetAllAsync(m => m.Level == 1 && m.Confirmed == true);
 
                 if (result.Status == TS.Status.Success)
                 {
@@ -55,13 +56,13 @@ namespace EShop.AdminPanel.Pages
                     Products = r.Data;
                 }
 
-                _dbLog.AddActionLogAsync(new LogService.Model.ActionLog
-                {
-                    Page = "Home",
-                    Action = "LoadModel",
-                    UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    VisitLogId = Guid.Parse(User.FindFirstValue("VLI"))
-                });
+                //_dbLog.AddActionLogAsync(new LogService.Model.ActionLog
+                //{
+                //    Page = "Home",
+                //    Action = "LoadModel",
+                //    UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                //    VisitLogId = Guid.Parse(User.FindFirstValue("VLI"))
+                //});
 
             }
             catch (Exception ex)
