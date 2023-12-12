@@ -24,6 +24,31 @@
 
     }
 
+    jQueryGet = (url, id, title) => {
+        try {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    debugger;
+                    $('#' + id).html(res);
+                    if (title != null)
+                        $('#saveBtn').html(title);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+
+    }
+
     jQueryModalPost = form => {
         try {
             $.ajax({
@@ -34,8 +59,9 @@
                 processData: false,
                 success: function (res) {
                     if (res.isValid) {
-                        $('#viewAll').html(res.html)
-                        $('#form-modal').modal('hide');
+                        $('#viewAll').html(res.html);
+
+                        return true;
                     }
                 },
                 error: function (err) {
@@ -47,8 +73,30 @@
             console.log(ex)
         }
     }
-    jQueryModalDelete = form => {
-        if (confirm('Are you sure to delete this record ?')) {
+
+    jQuerySearch = (url) => {
+        try {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        $('#viewAll').html(res.html);
+                    }
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+    }
+    jQueryDelete = form => {
+        if (confirm('آیا از حذف ' + form.title + ' مطمئن هستید؟')) {
             try {
                 $.ajax({
                     type: 'POST',

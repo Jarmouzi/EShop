@@ -1,32 +1,26 @@
-﻿@{
-    Layout = null;
-}
-@model EShop.ViewModel.RegionViewModel
-<form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);">
-    <div class="form-group row">
-        <label class="col-md-3 col-form-label">نام منطقه</label>
-        <div class="col-md-9">
-            <input type="text" autocomplete="off" asp-for="Title" name="Title" class="form-control">
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
+﻿@model EShop.ViewModel.RegionViewModel
+<form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
+    <div class="form-group col-md-6">
+        <label class="control-label">نام منطقه</label>
+        <input type="text" autocomplete="off" asp-for="Title" name="Title" class="form-control">
+        <span asp-validation-for="Title" class="text-danger"></span>
+
     </div>
-    <div class="form-group row">
-        <label class="col-md-3 col-form-label">نام کشور</label>
-        <div class="col-md-9">
-            <input type="text" autocomplete="off" asp-for="Country" name="Country" class="form-control">
-            <span asp-validation-for="Country" class="text-danger"></span>
-        </div>
+    <div class="form-group col-md-6">
+        <label class="control-label">نام کشور</label>
+        <input type="text" autocomplete="off" asp-for="Country" name="Country" class="form-control">
+        <span asp-validation-for="Country" class="text-danger"></span>
     </div>
-    <div class="form-group row">
-        <div class="col-md-3">
+    <div class="form-group col-md-12 pull-left">        
+        <div class="pull-left">
+            <a onclick="clearRegion()" class="btn btn-default">خالی کردن فرم</a>
+            <button id="saveBtn" type="submit" class="btn btn-success">ایجاد</button>
+            <a onclick="SearchRegion();" class="btn btn-info">جستجو</a>
         </div>
-    </div>
-    <div class="form-group justify-content-between">
-        <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">بازگشت</button>
-        <button type="submit" class="btn btn-primary save-button">ثبت</button>
     </div>
 
 </form>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
+
 </script>

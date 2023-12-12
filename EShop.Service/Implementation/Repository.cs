@@ -31,6 +31,9 @@ namespace EShop.Service.Implementation
             try
             {
                 var entity = _mappingEngine.Map<T>(model);
+                entity.Id = Guid.NewGuid();
+                entity.CreateDate = DateTime.Now;
+                
                 _service.Add(entity);
                 if (await _unitOfWork.SaveAsync() > 0)
                 {
@@ -53,8 +56,9 @@ namespace EShop.Service.Implementation
             var result = new Result<TViewModel>();
             try
             {
+                model.ModifyDate = DateTime.Now;
                 result.Data = model;
-
+                
                 var newModel = _service.Find(model.Id);
                 _mappingEngine.Map(model, newModel);
                 result.Data = _mappingEngine.Map<TViewModel>(newModel);
@@ -83,7 +87,8 @@ namespace EShop.Service.Implementation
                 var item = _service.Find(id);
                 if (item != null)
                 {
-                    _service.Remove(item);
+                    item.ExpireDate = DateTime.Now;
+                    //_service.Remove(item);
                     if (await _unitOfWork.SaveAsync() > 0)
                     {
                         result.Message = Resource.Notifications.SuccessfulDelete;

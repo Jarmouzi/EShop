@@ -23,55 +23,57 @@
     <link rel="stylesheet" href="~/lib/iCheck/square/blue.css">
 </head>
 <body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <img src="~/etma-logo-min.png" class="brand-image elevation-3" width="40px" height="40px" />
-            <span><b>پنل مدیریت فروشگاه اتما</b></span>
-        </div>
-        <div class="login-box-body">
+    <div class="shadow">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="~/etma-logo-min.png" class="brand-image elevation-3" width="40px" height="40px" />
+                <span><b>پنل مدیریت فروشگاه اتما</b></span>
+            </div>
+            <div class="login-box-body">
 
-            <form asp-action="Login" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-group has-feedback">
-                    <label asp-for="UserCredential.Username">نام کاربری</label>
-                    <input asp-for="UserCredential.Username" class="form-control col-md-12" autocomplete="off" aria-required="true" placeholder="نام کاربری" />
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback">
-                    <label asp-for="UserCredential.Password">رمز عبور</label>
-                    <input asp-for="UserCredential.Password" class="form-control col-md-12" autocomplete="off" aria-required="true" placeholder="رمز عبور" />
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="row">
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">ورود</button>
+                <form asp-action="Login" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div class="form-group has-feedback">
+                        <label asp-for="UserCredential.Username">نام کاربری</label>
+                        <input asp-for="UserCredential.Username" class="form-control col-md-12" autocomplete="off" aria-required="true" placeholder="نام کاربری" />
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
-                    <div class="col-xs-8">
-                        <div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"><span style="padding-right:20px;">مرا به خاطر بسپار</span>
-                            </label>
+                    <div class="form-group has-feedback">
+                        <label asp-for="UserCredential.Password">رمز عبور</label>
+                        <input asp-for="UserCredential.Password" class="form-control col-md-12" autocomplete="off" aria-required="true" placeholder="رمز عبور" />
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">ورود</button>
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox"><span style="padding-right:20px;">مرا به خاطر بسپار</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
 
-            @*<div class="social-auth-links text-center">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat">
-            <i class="fa fa-facebook"></i> Sign in using
-            Facebook
-            </a>
-            <a href="#" class="btn btn-block btn-social btn-google btn-flat">
-            <i class="fa fa-google-plus"></i> Sign in using
-            Google+
-            </a>
-            </div>*@
+                @*<div class="social-auth-links text-center">
+                <p>- OR -</p>
+                <a href="#" class="btn btn-block btn-social btn-facebook btn-flat">
+                <i class="fa fa-facebook"></i> Sign in using
+                Facebook
+                </a>
+                <a href="#" class="btn btn-block btn-social btn-google btn-flat">
+                <i class="fa fa-google-plus"></i> Sign in using
+                Google+
+                </a>
+                </div>*@
 
-            <a href="#">رمز عبور را فراموش کردم</a><br>
+                <a href="#">رمز عبور را فراموش کردم</a><br>
 
+            </div>
+            <!-- /.login-box-body -->
         </div>
-        <!-- /.login-box-body -->
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -5957,3 +5957,22 @@ div.aircalender > div .info-box-content {
     margin-right: 40px !important;
     min-height: 60px !important;
 }
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+    line-height: 0;
+}
+
+.d-inline {
+    display: inline-flex;
+}
+
+.d-link {
+    color: #3c8dbc;
+    background-color: transparent;
+    border: 0;
+}

@@ -204,16 +204,20 @@
             //     //     }
             //     // }).error(function (e) { alert("error" + e); });
             // });
-            $('#categories').on('click', '.updateItem', function () {
+            $('#categories').on('click', '.updateItem', function (e) {
+                e.preventDefault();
                 var categoryId = $(this).data('id');
-                $("#zCategory_ParentId").empty();
-                $("#zCategory_ParentId").append("<option value=''>انتخاب نمایید</option>");
-                $("#categories").empty();
-                $.getJSON(`?handler=SubCategories&CategoryId=${categoryId}`, (data) => {
-                    $.each(data, function (i, item) {
-                        $("#zCategory_ParentId").append(`<option value="${item.id}">${item.title}</option>`);
-                        set_data_row(item);
-                    });
+                $.getJSON(`?handler=UpdateCategory&CategoryId=${categoryId}`, (data) => {
+                    $('#zCategory_Title').val(data.title);
+
+                    if (data.level == 2) {
+                        $('#categoryid').val(data.parentId);
+                    }
+                    else if (data.level == 3) {
+                        $('#categoryid').val(data.parent.parentId);
+
+                        $('#zcategory_parentid').val(data.parentId);
+                    }
                 });
 
 
@@ -243,21 +247,21 @@
             }
 
             $("#categories").append(` <tr><td>
-                                <a href="" data-toggle="tooltip" data-placement="top" title="حذف" data-id="${item.id}" class="deleteItem"><i class="fa fa-remove"></i>  </a> |
-                                        <a href="" data-toggle="tooltip" data-placement="top" title="ویرایش" data-id="${item.id}" class="updateItem"> <i class="fa fa-edit"></i>  </a> |
-                                <a asp-page="./Filter" asp-route-id="${item.id}" data-toggle="tooltip" data-placement="top" title="تعریف فیلتر های جستجو"><i class="fa fa-search"></i>  </a>
-                                    </td><td>${item.title}</td>` + confirmed + `</tr>`);
+                                        <a href="" data-toggle="tooltip" data-placement="top" title="حذف" data-id="${item.id}" class="deleteItem"><i class="fa fa-remove"></i>  </a> |
+                                                <a href="" data-toggle="tooltip" data-placement="top" title="ویرایش" data-id="${item.id}" class="updateItem"> <i class="fa fa-edit"></i>  </a> |
+                                        <a asp-page="./Filter" asp-route-id="${item.id}" data-toggle="tooltip" data-placement="top" title="تعریف فیلتر های جستجو"><i class="fa fa-search"></i>  </a>
+                                            </td><td>${item.title}</td>` + confirmed + `</tr>`);
         }
 
-                // function getCategories(categoryId) {
-                //     $.ajax({
-                //         type: GET,
-                //         url: `?handler=SubCategories&CategoryId=${categoryId}`,
-                //         contentType: 'application/json'
-                //     }).done(function (data) {
-                //         return data;
-                //     });
-                // }
+                        // function getCategories(categoryId) {
+                        //     $.ajax({
+                        //         type: GET,
+                        //         url: `?handler=SubCategories&CategoryId=${categoryId}`,
+                        //         contentType: 'application/json'
+                        //     }).done(function (data) {
+                        //         return data;
+                        //     });
+                        // }
 
     </script>
 }

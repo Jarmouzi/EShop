@@ -14,12 +14,12 @@
             @foreach (var r in Model)
             {
                 <tr>
-                    <td text-right">
-                        <a onclick="jQueryModalGet('?handler=CreateOrEdit&id=@r.Id','Edit Region')" class="btn btn-info text-white"> <i class="fa fa-edit"></i> </a>
-                        <form method="post" asp-page="Index" asp-route-id="@r.Id" asp-page-handler="Delete" onsubmit="return jQueryModalDelete(this)" class="d-inline">
-                            <button type="submit" class="btn btn-danger text-white"> <i class="fa fa-remove"></i></button>
-                        </form>
-                        <a asp-page="./Filter" asp-route-id="@r.Id" data-toggle="tooltip" data-placement="top" title="تعریف فیلتر های جستجو"><i class="fa fa-search"></i>  </a>
+                    <td class="d-inline">
+                        <form method="post" asp-page="Index" asp-route-id="@r.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
+                            <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
+                        </form> |
+                        <a onclick="jQueryGet('?handler=FormPartial&id=@r.Id','regionForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+                        
                     </td>
                     <td>@r.Title</td>
                     <td>
@@ -30,6 +30,30 @@
         }
     </tbody>
 </table>
+@* <div class="row">
+    <ul class="pagination pull-left">
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a asp-page="/pagination" asp-route-currentpage="@i" class="page-link">@i</a>
+            </li>
+        }
+        <li class="page-item @(!Model.ShowFirst? "disabled":"")">
+            <a asp-page="/pagination" asp-route-CurrentPage="1" class="page-link"><i class="fas fa-fast-backward"></i></a>
+        </li>
+
+        <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
+            <a asp-page="/pagination" asp-route-CurrentPage="@(Model.CurrentPage -1)" class="page-link"><i class="fas fa-step-backward"></i></a>
+        </li>
+        <li class="page-item  @(!Model.ShowNext? "disabled":"")">
+            <a asp-page="/pagination" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link"><i class="fas fa-step-forward"></i></a>
+        </li>
+
+        <li class="page-item  @(!Model.ShowLast? "disabled":"")">
+            <a asp-page="/pagination" asp-route-CurrentPage="@Model.TotalPages" class="page-link"><i class="fas fa-fast-forward"></i></a>
+        </li>
+    </ul>
+</div> *@
 <script>
     $(document).ready(function () {
         $("#regionTable").DataTable();
