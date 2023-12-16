@@ -8,9 +8,9 @@ using EShop.Infrastructure;
 using EShop.LogService.DataContext;
 using EShop.LogService.Repository;
 using EShop.Model;
-using EShop.Service.Implementation;
-using EShop.Service.Interface;
-using EShop.ViewModel;
+using EShop.Repository.Implementation;
+using EShop.Repository.Interface;
+using EShop.ViewModel;  
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 

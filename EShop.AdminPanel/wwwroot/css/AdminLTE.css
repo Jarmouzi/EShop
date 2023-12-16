@@ -5976,3 +5976,7 @@ div.aircalender > div .info-box-content {
     background-color: transparent;
     border: 0;
 }
+.pagination > .page-item > .label-light {
+    padding-top: 7px;
+    padding-left: 3px;
+}

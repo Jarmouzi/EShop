@@ -2,20 +2,20 @@
 <form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
     <div class="form-group col-md-6">
         <label class="control-label">نام منطقه</label>
+        <span asp-validation-for="Title" class="text-danger">*</span>
         <input type="text" autocomplete="off" asp-for="Title" name="Title" class="form-control">
-        <span asp-validation-for="Title" class="text-danger"></span>
 
     </div>
     <div class="form-group col-md-6">
         <label class="control-label">نام کشور</label>
+        <span asp-validation-for="Country" class="text-danger">*</span>
         <input type="text" autocomplete="off" asp-for="Country" name="Country" class="form-control">
-        <span asp-validation-for="Country" class="text-danger"></span>
     </div>
     <div class="form-group col-md-12 pull-left">        
         <div class="pull-left">
             <a onclick="clearRegion()" class="btn btn-default">خالی کردن فرم</a>
             <button id="saveBtn" type="submit" class="btn btn-success">ایجاد</button>
-            <a onclick="SearchRegion();" class="btn btn-info">جستجو</a>
+            <a onclick="SearchRegion(10, 0);" class="btn btn-info">جستجو</a>
         </div>
     </div>
 

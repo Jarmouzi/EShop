@@ -14,7 +14,7 @@ namespace EShop.DataContext
     public interface IUnitOfWork<TContext> : IDisposable where TContext : DbContext
     {
         Task<int> SaveAsync();
-        IEnumerable<T> ExecWithStoreProcedure<T>(string query, params object[] parameters);
+        IEnumerable<TResult> ExecWithStoreProcedure<TResult>(string query, params object[] parameters) where TResult : class;
         int ExecWithStoreProcedure(string query, params object[] parameters);
         Microsoft.EntityFrameworkCore.DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
@@ -46,8 +46,7 @@ namespace EShop.DataContext
             return await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<T> ExecWithStoreProcedure<T>(string query, params object[] parameters)
-
+        public IEnumerable<TResult> ExecWithStoreProcedure<TResult>(string query, params object[] parameters) where TResult : class
         {
             try
             {
@@ -56,7 +55,7 @@ namespace EShop.DataContext
                     parameters = new object[] { };
                 }
 
-                var a = _context.Database.SqlQueryRaw<T>(query, parameters);
+                var a = _context.Database.SqlQueryRaw<TResult>(query, parameters);
                 return a;
             }
             catch (Exception ex)

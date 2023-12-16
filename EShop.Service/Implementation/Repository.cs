@@ -2,14 +2,16 @@
 using EShop.DataContext;
 using EShop.Model;
 using EShop.Model.TypeSafe;
-using EShop.Service.Interface;
+using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.VisualBasic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Mvc;
 
-namespace EShop.Service.Implementation
+namespace EShop.Repository.Implementation
 {
     public class Repository<T, TViewModel, TContext> : IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseModel where TContext : DbContext
     {
@@ -140,6 +142,33 @@ namespace EShop.Service.Implementation
                 if (item != null)
                 {
                     result.Data = _mappingEngine.Map<IEnumerable<TViewModel>>(item);
+                    result.Status = TS.Status.Success;
+                    return result;
+                }
+                result.Status = TS.Status.Warning;
+                result.Message = Resource.Notifications.NotFound;
+            }
+            catch (Exception ex)
+            {
+                result.Status = TS.Status.ServerError;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<Result<IEnumerable<TResult>>> GetPrecedureAsync<TResult>(string procedureName, SqlParameter[] sparams ) where TResult : class
+        {
+            var result = new Result<IEnumerable<TResult>>();
+
+            try
+            {                
+                string Query = $"exec {procedureName} " +
+                    string.Join(", ", sparams.Select(m => m.ParameterName + (m.Direction == System.Data.ParameterDirection.Output? " OUTPUT" : "")));
+                var list = _unitOfWork.ExecWithStoreProcedure<TResult>(Query, sparams).ToList();
+
+                if (list.Any())
+                {
+                    result.Data = list;
                     result.Status = TS.Status.Success;
                     return result;
                 }

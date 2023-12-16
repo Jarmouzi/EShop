@@ -1,11 +1,11 @@
 using EShop.AdminPanel.Services;
 using EShop.LogService.Repository;
-using EShop.Service.Interface;
+using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,11 +16,11 @@ namespace EShop.AdminPanel.Pages.Region
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ILogRepository _dbLog;
-        private readonly IRepository<Model.Region, RegionViewModel> _regionRepository;
+        private readonly IRegionRepository _regionRepository;
         private readonly IRazorRenderService _renderService;
         public IndexModel(ILogger<IndexModel> logger
             , ILogRepository dbLog
-            , IRepository<Model.Region, RegionViewModel> regionRepository,
+            , IRegionRepository regionRepository,
             IRazorRenderService renderService)
         {
             _logger = logger;
@@ -33,16 +33,14 @@ namespace EShop.AdminPanel.Pages.Region
         public void OnGet()
         {
         }
-        public async Task<PartialViewResult> OnGetViewAllPartial(string title, string country)
+        public async Task<PartialViewResult> OnGetViewAllPartial(string? title = null, string? country = null, int take = 10, int skip = 0)
         {
-            Regions = await _regionRepository.GetAllAsync(m => 
-                (title == null || m.Title.Contains(title)) && 
-                (country == null || m.Country.Contains(country)));
+            var list = await _regionRepository.GetPaginatedResult(title, country, take, skip);
 
             return new PartialViewResult
             {
                 ViewName = "_RegionList",
-                ViewData = new ViewDataDictionary<IEnumerable<RegionViewModel>>(ViewData, Regions.Data)
+                ViewData = new ViewDataDictionary<PaginatedViewModel<RegionViewModel>>(ViewData, list.Data)
             };
         }
         public async Task<PartialViewResult> OnGetFormPartial(Guid id)
@@ -107,13 +105,35 @@ namespace EShop.AdminPanel.Pages.Region
 
         private async Task<JsonResult> GetRegions(RegionViewModel? region)
         {
-            if(region == null)
-            Regions = await _regionRepository.GetAllAsync();
+            if (region == null)
+                Regions = await _regionRepository.GetAllAsync();
             else
                 Regions = await _regionRepository.GetAllAsync(m => m.Title.Contains(region.Title) && m.Country.Contains(region.Country));
 
             var html = await _renderService.ToStringAsync("_RegionList", Regions.Data);
             return new JsonResult(new { isValid = true, html = html });
+        }
+        private async Task<PaginatedViewModel<RegionViewModel>> GetRegions(string? title = null, string? country = null, int take = 10, int skip = 0)
+        {
+            var totalCount = new SqlParameter("@TotalCount", 0);
+            totalCount.Direction = System.Data.ParameterDirection.Output;
+            var sparam = new SqlParameter[] {
+                new SqlParameter("@Title", title),
+                new SqlParameter("@Country", country),
+                new SqlParameter("@Take", country),
+                new SqlParameter("@Skip", country),
+                totalCount
+            };
+
+            Regions = await _regionRepository.GetPrecedureAsync<RegionViewModel>("Region_Get", sparam);
+
+            return new PaginatedViewModel<RegionViewModel>
+            {
+                Data = Regions.Data,
+                Take = take,
+                Skip = skip,
+                TotalCount = Convert.ToInt32(totalCount.Value)
+            };
         }
     }
 }

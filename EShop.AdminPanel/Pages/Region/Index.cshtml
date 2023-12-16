@@ -48,14 +48,10 @@
     <script>
         $(document).ready(function () {
             $('#regionForm').load('?handler=FormPartial');
-            $('#viewAll').load('?handler=ViewAllPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
 
         });
-        $(function () {
-            $('#reload').on('click', function () {
-                $('#viewAll').load('?handler=ViewAllPartial');
-            });
-        });
+
         clearRegion = () => {
             $('#create-form').attr('action', '/Region?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');
             $('#Title').val('');
@@ -63,7 +59,7 @@
             $('#saveBtn').html('ایجاد');
         }
 
-        SearchRegion = () => {
+        SearchRegion = (take, skip) => {
             //e.preventDefault();
             debugger;
             // var data = {
@@ -85,7 +81,7 @@
             //jQuerySearch(`?handler=SearchAsync?title=${title}?country=${country}`);
 
             //jQueryGet('?handler=ViewAllPartial&title=Model.Title&country=Model.Country', 'viewAll')
-            $('#viewAll').load(`?handler=ViewAllPartial&title=${title}&country=${country}`);
+            $('#viewAll').load(`?handler=ViewAllPartial&title=${title}&country=${country}&take=${take}&skip=${skip}`);
         }
 
     </script>

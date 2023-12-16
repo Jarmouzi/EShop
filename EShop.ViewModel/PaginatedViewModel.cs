@@ -1,5 +1,4 @@
-﻿using EShop.Model;
-using EShop.Model.TypeSafe;
+﻿using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -9,21 +8,16 @@ using System.Threading.Tasks;
 
 namespace EShop.ViewModel
 {
-    public class RegionViewModel : BaseModel
+    public class PaginatedViewModel<T> where T : class
     {
-        public string Title { get; set; }
-        public string Country { get; set; }
-    }
-
-    public class RegionListViewModel {
-        public RegionListViewModel()
+        public PaginatedViewModel()
         {
-            Regions = new List<RegionViewModel>();
+            Data = new List<T>();
             TotalCount = 0;
             Take = 10;
             Skip = 0;
         }
-        public List<RegionViewModel> Regions { get; set; }
+        public IEnumerable<T> Data { get; set; }
 
         public SelectList PaginationList { get { return new SelectList(TS.DefaultValue.Pagination, 10); } }
         public int TotalCount { get; set; }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using EShop.DataContext;
 using EShop.Model;
-using EShop.Service.Implementation;
-using EShop.Service.Interface;
+using EShop.Repository.Implementation;
+using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,7 +42,7 @@ namespace EShop.Infrastructure
 
             services.AddScoped<IRepository<Category, CategoryViewModel>, Repository<Category, CategoryViewModel, EShopContext>>();
             services.AddScoped<IRepository<Product, ProductViewModel>, Repository<Product, ProductViewModel, EShopContext>>();
-            services.AddScoped<IRepository<Region, RegionViewModel>, Repository<Region, RegionViewModel, EShopContext>>();
+            services.AddScoped<IRegionRepository, RegionRepository>();
 
             return services;
         }

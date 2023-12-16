@@ -1,6 +1,6 @@
 ﻿using EShop.LogService.Repository;
 using EShop.Model;
-using EShop.Service.Interface;
+using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 

@@ -46,5 +46,10 @@
             public const string Info = "Info";
             public const string ServerError = "ServerError";
         }
+
+        public static class DefaultValue
+        {
+            public static List<int> Pagination { get { return new List<int> { 10, 25, 50, 100 }; } }
+        }
     }
 }
