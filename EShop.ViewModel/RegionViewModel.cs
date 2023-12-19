@@ -1,5 +1,4 @@
-﻿using EShop.Model;
-using EShop.Model.TypeSafe;
+﻿using EShop.Model.TypeSafe;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EShop.ViewModel
 {
-    public class RegionViewModel : BaseModel
+    public class RegionViewModel : BaseViewModel
     {
         public string Title { get; set; }
         public string Country { get; set; }

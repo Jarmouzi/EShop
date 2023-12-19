@@ -7,7 +7,7 @@
             <div class="label-light"> تعداد رکورد در هر صفحه: </div>
         </li>
         <li class="page-item" style="padding-left: 10px;">
-            <select asp-for="@Model.Take" asp-items="@Model.PaginationList" class="form-control" onchange="Search(this.value, 0);" onselect="Search(@Model.Take, 0);"></select>
+            <select asp-for="@Model.Take" asp-items="@Model.PaginationList" class="form-control" onchange="Search(0);" onselect="Search(0);"></select>
         </li>
         @if (Model.Skip == 0)
         {
@@ -21,10 +21,10 @@
         else
         {
             <li class="page-item">
-                <a onclick="Search(@Model.Take, 0);" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+                <a onclick="Search(0);" class="page-link"><i class="fa fa-angle-double-right"></i></a>
             </li>
             <li class="page-item">
-                <a onclick="Search(@Model.Take, @(Model.Skip - 1));" class="page-link"><i class="fa fa-angle-right"></i></a>
+                <a onclick="Search(@(Model.Skip - 1));" class="page-link"><i class="fa fa-angle-right"></i></a>
             </li>
         }
 
@@ -40,10 +40,10 @@
         else
         {
             <li class="page-item">
-                <a onclick="Search(@Model.Take, @(Model.Skip + 1));" class="page-link"><i class="fa fa-angle-left"></i></a>
+                <a onclick="Search(@(Model.Skip + 1));" class="page-link"><i class="fa fa-angle-left"></i></a>
             </li>
             <li class="page-item">
-                <a onclick="Search(@Model.Take, @(Model.TotalCount / Model.Take));" asp-route-CurrentPage="@Model.TotalCount" class="page-link"><i class="fa fa-angle-double-left"></i></a>
+                <a onclick="Search(@(Model.TotalCount / Model.Take));" asp-route-CurrentPage="@Model.TotalCount" class="page-link"><i class="fa fa-angle-double-left"></i></a>
             </li>
         }
     </ul>

@@ -1,0 +1,267 @@
+﻿@page
+@model EShop.AdminPanel.Pages.Category1.IndexModel
+@{
+    ViewData["Title"] = "گروهبندی محصولات";
+}
+<section class="content-header">
+    <h1>
+        @ViewData["Title"]
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> داشبورد</a></li>
+        <li><a href="#"><i class="fa fa-archive"></i> محصولات</a></li>
+        <li class="active">
+            @ViewData["Title"]
+        </li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                @*                 <div class="box-header with-border">
+                <h3 class="box-title">
+                @ViewData["Title"]
+                </h3>
+                </div> *@
+                <form role="form" id="registerForm" method="post" class="form-horizontal">
+                    <div class="box-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label">گروه بندی سطح 1</label>
+                            <select id="CategoryIdd" asp-items="Model.PrimaryCategories" class="form-control">
+                                <option value="">انتخاب نمایید</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="_Category.ParentId" class="control-label">گروه بندی سطح 2</label>
+                            <select asp-for="_Category.ParentId" asp-items="Model.SecondaryCategories" class="form-control">
+                                <option value="">انتخاب نمایید</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label">عنوان گروهبندی بندی</label>
+                            <input type="text" class="form-control" asp-for="_Category.Title" placeholder="عنوان دسته بندی">
+                        </div>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <div class="pull-left">
+                            <button type="submit" class="btn btn-success">ایجاد</button>
+                            <a href="/warning/Index" class="btn btn-info ">بازگشت</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 id="list-title" class="box-title">
+                        لیست گروهبندی محصولات در سطح 1
+                    </h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table no-margin">
+                        <thead>
+                            <tr>
+                                <th>عملیات</th>
+                                <th>عنوان</th>
+                                <th>تایید</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categories">
+                            @foreach (var c in Model.Categories)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="" data-toggle="tooltip" data-placement="top" title="حذف" data-id="@c.Id" class="deleteItem"> <i class="fa fa-remove"></i>  </a> |
+                                        <a href="" data-toggle="tooltip" data-placement="top" title="ویرایش" data-id="@c.Id" class="updateItem"> <i class="fa fa-edit"></i>  </a> |
+                                        <a asp-page="./Filter" asp-route-id="@c.Id" data-toggle="tooltip" data-placement="top" title="تعریف فیلتر های جستجو"><i class="fa fa-search"></i>  </a>
+
+                                    </td>
+                                    <td>@c.Title</td>
+                                    <td>
+                                        @if (c.Confirmed)
+                                        {
+                                            <input type="checkbox" checked="checked" disabled="disabled" />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" disabled="disabled" />
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            // document.getElementById('CategoryId').addEventListener('change', (e) => {
+            //     document.getElementById('zCategory_ParentId').innerHTML = "<option value=''>انتخاب نمایید</option>";
+            //     var t = document.getElementById("CategoryId");
+            //     var selectedText = t.options[t.selectedIndex].text;
+            //     document.getElementById('list-title').innerText = 'لیست گروه بندی "' + selectedText + '" در سطح 2';
+            //     fetch(`?handler=SubCategories&CategoryId=${e.target.value}`)
+            //         .then((response) => {
+            //             return response.json();
+            //         })
+            //         .then((data) => {
+            //             document.getElementById('categories').innerHTML = '';
+            //             Array.prototype.forEach.call(data, function (item, i) {
+            //                 document.getElementById('zCategory_ParentId').innerHTML += `<option value="${item.id}">${item.title}</option>`;
+            //                 set_data_row(item);
+            //             });
+            //         });
+            // });
+            $("#CategoryIdd").on("change", function () {
+                var categoryId = $(this).val();
+                $("#zCategory_ParentId").empty();
+                $("#zCategory_ParentId").append("<option value=''>انتخاب نمایید</option>");
+                $("#categories").empty();
+                $.getJSON(`?handler=SubCategories&CategoryId=${categoryId}`, (data) => {
+                    $.each(data, function (i, item) {
+                        $("#zCategory_ParentId").append(`<option value="${item.id}">${item.title}</option>`);
+                        set_data_row(item);
+                    });
+                });
+            });
+
+            // document.getElementById('zCategory_ParentId').addEventListener('change', (e) => {
+            //     var t = document.getElementById("zCategory_ParentId");
+            //     var selectedText = t.options[t.selectedIndex].text;
+            //     document.getElementById('list-title').innerText = 'لیست زیر گروه "' + selectedText + '" در سطح 3';
+            //     fetch(`?handler=SubCategories&CategoryId=${e.target.value}`)
+            //         .then((response) => {
+            //             return response.json();
+            //         })
+            //         .then((data) => {
+            //             Array.prototype.forEach.call(data, function (item, i) {
+            //                 set_data_row(item);
+            //             });
+            //         });
+
+
+            // });
+            $("#zCategory_ParentId").on("change", function () {
+                var categoryId = $(this).val();
+                $("#categories").empty();
+                $.getJSON(`?handler=SubCategories&CategoryId=${categoryId}`, (data) => {
+                    $.each(data, function (i, item) {
+                        set_data_row(item);
+                    });
+                });
+            });
+
+            // $(".deleteItem").click(function () {
+            //     if (confirm('آیا از حذف دسته بندی مطمئن هستید؟')) {
+            //         debugger;
+            //         var categoryId = $(this).data('id');
+            //         fetch('?handler=DeleteCategory&CategoryId=' + categoryId)
+            //             .then((response) => {
+            //                 return response.json();
+            //             })
+            //             .then((data) => {
+            //                 alert("حذف با موفقیت انجام شد! " + data)
+            //             });
+            //     }
+            // });
+            // $(".updateItem").click(function () {
+            //     var categoryId = $(this).data('id');
+            //     $("#zCategory_ParentId").empty();
+            //     $("#zCategory_ParentId").append("<option value=''>انتخاب نمایید</option>");
+            //     $("#categories").empty();
+            //     getCategories(categoryId).then(function (data) {
+            //         $.each(data, function (i, item) {
+            //             debugger;
+            //             $("#zCategory_ParentId").append(`<option value="${item.id}">${item.title}</option>`);
+            //             set_data_row(item);
+            //         });
+            //     });
+
+            //     // $.getJSON(`?handler=SubCategories&CategoryId=${categoryId}`, (data) => {
+            //     //     debugger;
+            //     //     $('#zCategory_Title').value = data.title;
+
+            //     //     if (data.Level == 2) {
+            //     //         $('#CategoryId').value = data.parentId;
+            //     //     }
+            //     //     else if (data.Level == 3) {
+            //     //         $('#CategoryId').value = data.parent.parentId;
+
+            //     //         $('#zCategory_ParentId').value = data.parentId;
+            //     //     }
+            //     // }).error(function (e) { alert("error" + e); });
+            // });
+            $('#categories').on('click', '.updateItem', function (e) {
+                e.preventDefault();
+                var categoryId = $(this).data('id');
+                $.getJSON(`?handler=UpdateCategory&CategoryId=${categoryId}`, (data) => {
+                    $('#zCategory_Title').val(data.title);
+
+                    if (data.level == 2) {
+                        $('#categoryid').val(data.parentId);
+                    }
+                    else if (data.level == 3) {
+                        $('#categoryid').val(data.parent.parentId);
+
+                        $('#zcategory_parentid').val(data.parentId);
+                    }
+                });
+
+
+
+                // .then(function (data) {
+                //     debugger;
+                //     $('#zCategory_Title').val(data.title);
+
+                //     if (data.level == 2) {
+                //         $('#categoryid').val(data.parentId);
+                //     }
+                //     else if (data.level == 3) {
+                //         $('#categoryid').val(data.parent.parentId);
+
+                //         $('#zcategory_parentid').val(data.parentId);
+                //     }
+
+                // });
+            });
+
+        });
+
+        function set_data_row(item) {
+            var confirmed = `<td> <input type="checkbox" disabled="disabled" /> </td> `;
+            if (item.confirmed == true) {
+                confirmed = `<td> <input type="checkbox" checked="checked" disabled="disabled" /> </td> `;
+            }
+
+            $("#categories").append(` <tr><td>
+                                        <a href="" data-toggle="tooltip" data-placement="top" title="حذف" data-id="${item.id}" class="deleteItem"><i class="fa fa-remove"></i>  </a> |
+                                                <a href="" data-toggle="tooltip" data-placement="top" title="ویرایش" data-id="${item.id}" class="updateItem"> <i class="fa fa-edit"></i>  </a> |
+                                        <a asp-page="./Filter" asp-route-id="${item.id}" data-toggle="tooltip" data-placement="top" title="تعریف فیلتر های جستجو"><i class="fa fa-search"></i>  </a>
+                                            </td><td>${item.title}</td>` + confirmed + `</tr>`);
+        }
+
+                        // function getCategories(categoryId) {
+                        //     $.ajax({
+                        //         type: GET,
+                        //         url: `?handler=SubCategories&CategoryId=${categoryId}`,
+                        //         contentType: 'application/json'
+                        //     }).done(function (data) {
+                        //         return data;
+                        //     });
+                        // }
+
+    </script>
+}

@@ -10,10 +10,11 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Nodes;
 
 namespace EShop.Repository.Implementation
 {
-    public class Repository<T, TViewModel, TContext> : IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseModel where TContext : DbContext
+    public class Repository<T, TViewModel, TContext> : IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseViewModel where TContext : DbContext
     {
         private readonly IUnitOfWork<TContext> _unitOfWork;
         private readonly IMapper _mappingEngine;
@@ -167,6 +168,32 @@ namespace EShop.Repository.Implementation
                 var list = _unitOfWork.ExecWithStoreProcedure<TResult>(Query, sparams).ToList();
 
                 if (list.Any())
+                {
+                    result.Data = list;
+                    result.Status = TS.Status.Success;
+                    return result;
+                }
+                result.Status = TS.Status.Warning;
+                result.Message = Resource.Notifications.NotFound;
+            }
+            catch (Exception ex)
+            {
+                result.Status = TS.Status.ServerError;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+        public async Task<Result<JsonArray>> GetPrecedureAsync(string procedureName, SqlParameter[] sparams) 
+        {
+            var result = new Result<JsonArray>();
+
+            try
+            {
+                string Query = $"exec {procedureName} " +
+                    string.Join(", ", sparams.Select(m => m.ParameterName + (m.Direction == System.Data.ParameterDirection.Output ? " OUTPUT" : "")));
+                var list = _unitOfWork.ExecWithStoreProcedure<JsonArray>(Query, sparams).FirstOrDefault();
+
+                if (list != null)
                 {
                     result.Data = list;
                     result.Status = TS.Status.Success;

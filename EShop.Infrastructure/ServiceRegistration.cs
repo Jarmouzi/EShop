@@ -40,7 +40,7 @@ namespace EShop.Infrastructure
             services.AddApplicationServices<EShopContext>(connectionStringConfigName);
             services.AddScoped<DataContext.IUnitOfWork<EShopContext>, DataContext.UnitOfWork<EShopContext>>();
 
-            services.AddScoped<IRepository<Category, CategoryViewModel>, Repository<Category, CategoryViewModel, EShopContext>>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IRepository<Product, ProductViewModel>, Repository<Product, ProductViewModel, EShopContext>>();
             services.AddScoped<IRegionRepository, RegionRepository>();
 

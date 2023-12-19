@@ -85,7 +85,7 @@ namespace EShop.AdminPanel.Pages.Region
                 {
                     await _regionRepository.Update(region);
                 }
-                return await GetRegions(null);
+                return await GetRegions();
             }
             else
             {
@@ -93,47 +93,18 @@ namespace EShop.AdminPanel.Pages.Region
                 return new JsonResult(new { isValid = false, html = html });
             }
         }
-        public async Task<JsonResult> OnGetSearchAsync(string title, string country)
-        {
-            return await GetRegions(new RegionViewModel { Title = title, Country = country});
-        }
         public async Task<JsonResult> OnPostDeleteAsync(Guid id)
         {
             await _regionRepository.Delete(id);
-            return await GetRegions(null);
+            return await GetRegions();
         }
 
-        private async Task<JsonResult> GetRegions(RegionViewModel? region)
+        private async Task<JsonResult> GetRegions(string? title = null, string? country = null, int take = 10, int skip = 0)
         {
-            if (region == null)
-                Regions = await _regionRepository.GetAllAsync();
-            else
-                Regions = await _regionRepository.GetAllAsync(m => m.Title.Contains(region.Title) && m.Country.Contains(region.Country));
+            var list = await _regionRepository.GetPaginatedResult(title, country, take, skip);
 
-            var html = await _renderService.ToStringAsync("_RegionList", Regions.Data);
+            var html = await _renderService.ToStringAsync("_RegionList", list.Data);
             return new JsonResult(new { isValid = true, html = html });
-        }
-        private async Task<PaginatedViewModel<RegionViewModel>> GetRegions(string? title = null, string? country = null, int take = 10, int skip = 0)
-        {
-            var totalCount = new SqlParameter("@TotalCount", 0);
-            totalCount.Direction = System.Data.ParameterDirection.Output;
-            var sparam = new SqlParameter[] {
-                new SqlParameter("@Title", title),
-                new SqlParameter("@Country", country),
-                new SqlParameter("@Take", country),
-                new SqlParameter("@Skip", country),
-                totalCount
-            };
-
-            Regions = await _regionRepository.GetPrecedureAsync<RegionViewModel>("Region_Get", sparam);
-
-            return new PaginatedViewModel<RegionViewModel>
-            {
-                Data = Regions.Data,
-                Take = take,
-                Skip = skip,
-                TotalCount = Convert.ToInt32(totalCount.Value)
-            };
         }
     }
 }

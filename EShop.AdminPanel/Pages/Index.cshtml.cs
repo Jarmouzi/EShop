@@ -14,21 +14,15 @@ namespace EShop.AdminPanel.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ILogRepository _dbLog;
-        private readonly IRepository<Model.Category, CategoryViewModel> _categoryRepository;
-        private readonly IRepository<Product, ProductViewModel> _productRepository;
-
+       
         public IEnumerable<CategoryViewModel> Categories { get; set; }
         public IEnumerable<ProductViewModel> Products { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger
-            , ILogRepository dbLog
-            , IRepository<Model.Category, CategoryViewModel> categoryRepository
-            , IRepository<Product, ProductViewModel> productRepository)
+            , ILogRepository dbLog)
         {
             _logger = logger;
             _dbLog = dbLog;
-            _categoryRepository = categoryRepository;
-            _productRepository = productRepository;
         }
         public async void OnGet()
         {
@@ -41,20 +35,7 @@ namespace EShop.AdminPanel.Pages
         {
             try
             {
-                //var result = await _categoryRepository.GetAllAsync();
-                var result = await _categoryRepository.GetAllAsync(m => m.Level == 1 && m.Confirmed == true);
 
-                if (result.Status == TS.Status.Success)
-                {
-                    Categories = result.Data;
-                }
-
-                var r = await _productRepository.GetAllAsync();
-
-                if (r.Status == TS.Status.Success)
-                {
-                    Products = r.Data;
-                }
 
                 //_dbLog.AddActionLogAsync(new LogService.Model.ActionLog
                 //{

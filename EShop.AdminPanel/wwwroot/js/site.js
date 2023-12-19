@@ -59,6 +59,7 @@
                 processData: false,
                 success: function (res) {
                     if (res.isValid) {
+                        clearForm();
                         $('#viewAll').html(res.html);
 
                         return true;

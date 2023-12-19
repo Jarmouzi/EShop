@@ -6,7 +6,7 @@
         <tr>
             <th>عملیات</th>
             <th>عنوان</th>
-            <th>تایید</th>
+            <th>کشور</th>
         </tr>
     </thead>
     <tbody>
@@ -38,53 +38,7 @@
         }
     </tbody>
 </table>
-<div class="col-md-12">
-    <ul class="pagination pull-left d-inline">
-        <li class="page-item">
-            <div class="label-light"> تعداد رکورد در هر صفحه: </div>
-        </li>
-        <li class="page-item" style="padding-left: 10px;">
-            <select asp-for="@Model.Take" asp-items="@Model.PaginationList" class="form-control" onchange="SearchRegion(this.value, 0);" onselect="SearchRegion(@Model.Take, 0);"></select>
-        </li>
-        @if (Model.Skip == 0)
-        {
-            <li class="page-item disabled">
-                <a class="page-link"><i class="fa fa-angle-right"></i></a>
-            </li>
-            <li class="page-item disabled">
-                <a class="page-link"><i class="fa fa-angle-double-right"></i></a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item">
-                <a onclick="SearchRegion(@Model.Take, 0);" class="page-link"><i class="fa fa-angle-double-right"></i></a>
-            </li>
-            <li class="page-item">
-                <a onclick="SearchRegion(@Model.Take, @(Model.Skip - 1));" class="page-link"><i class="fa fa-angle-right"></i></a>
-            </li>
-        }
-
-        @if (Model.TotalCount / Model.Take == Model.Skip)
-        {
-            <li class="page-item disabled">
-                <a class="page-link"><i class="fa fa-angle-left"></i></a>
-            </li>
-            <li class="page-item disabled">
-                <a class="page-link"><i class="fa fa-angle-double-left"></i></a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item">
-                <a onclick="SearchRegion(@Model.Take, @(Model.Skip + 1));" class="page-link"><i class="fa fa-angle-left"></i></a>
-            </li>
-            <li class="page-item">
-                <a onclick="SearchRegion(@Model.Take, @(Model.TotalCount / Model.Take));" asp-route-CurrentPage="@Model.TotalCount" class="page-link"><i class="fa fa-angle-double-left"></i></a>
-            </li>
-        }
-    </ul>
-</div>
+<partial name="_paginationpartial" model="@Model.Pagination" />
 <script>
     $(document).ready(function () {
         $("#regionTable").DataTable();

@@ -1,5 +1,4 @@
-﻿using EShop.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EShop.ViewModel
 {
-    public class PanelResourceViewModel : BaseModel
+    public class PanelResourceViewModel : BaseViewModel
     {
         public string PageAddress { get; set; }
         public string Method { get; set; }
