@@ -54,7 +54,7 @@ namespace EShop.Repository.Implementation
             return result;
         }
 
-        public async Task<Result<TViewModel>> Update(TViewModel model)
+        public async Task<Result<TViewModel>> UpdateAsync(TViewModel model)
         {
             var result = new Result<TViewModel>();
             try
@@ -81,7 +81,7 @@ namespace EShop.Repository.Implementation
             return result;
         }
 
-        public async Task<Result<Guid>> Delete(Guid id)
+        public async Task<Result<Guid>> DeleteAsync(Guid id)
         {
             var result = new Result<Guid>();
             result.Data = id;
@@ -183,15 +183,16 @@ namespace EShop.Repository.Implementation
             }
             return result;
         }
-        public async Task<Result<JsonArray>> GetPrecedureAsync(string procedureName, SqlParameter[] sparams) 
+        public async Task<Result<string>> GetPrecedureAsync(string procedureName, string jsonparams) 
         {
-            var result = new Result<JsonArray>();
+            var result = new Result<string>();
 
             try
             {
-                string Query = $"exec {procedureName} " +
-                    string.Join(", ", sparams.Select(m => m.ParameterName + (m.Direction == System.Data.ParameterDirection.Output ? " OUTPUT" : "")));
-                var list = _unitOfWork.ExecWithStoreProcedure<JsonArray>(Query, sparams).FirstOrDefault();
+                string Query = $"exec {procedureName} @JsonParams";
+                var list = _unitOfWork.ExecWithStoreProcedure<string>(Query, new SqlParameter[] { 
+                    new SqlParameter("JsonParams", jsonparams == null ? DBNull.Value : jsonparams)
+                }).FirstOrDefault();
 
                 if (list != null)
                 {

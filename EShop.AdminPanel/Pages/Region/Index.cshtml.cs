@@ -83,7 +83,7 @@ namespace EShop.AdminPanel.Pages.Region
                 }
                 else
                 {
-                    await _regionRepository.Update(region);
+                    await _regionRepository.UpdateAsync(region);
                 }
                 return await GetRegions();
             }
@@ -95,7 +95,7 @@ namespace EShop.AdminPanel.Pages.Region
         }
         public async Task<JsonResult> OnPostDeleteAsync(Guid id)
         {
-            await _regionRepository.Delete(id);
+            await _regionRepository.DeleteAsync(id);
             return await GetRegions();
         }
 

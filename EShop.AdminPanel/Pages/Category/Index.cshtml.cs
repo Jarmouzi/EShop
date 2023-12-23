@@ -145,7 +145,7 @@ namespace EShop.AdminPanel.Pages.Category
                 }
                 else
                 {
-                    await _categoryRepository.Update(category);
+                    await _categoryRepository.UpdateAsync(category);
                 }
                 return await GetCategories();
             }
@@ -157,7 +157,7 @@ namespace EShop.AdminPanel.Pages.Category
         }
         public async Task<JsonResult> OnPostDeleteAsync(Guid id)
         {
-            await _categoryRepository.Delete(id);
+            await _categoryRepository.DeleteAsync(id);
             return await GetCategories();
         }
 

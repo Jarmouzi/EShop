@@ -60,7 +60,7 @@ namespace EShop.AdminPanel.Pages.Category1
         }
         public async Task<JsonResult> OnGetDeleteCategory()
         {
-            var result = await _categoryRepository.Delete(CategoryId);
+            var result = await _categoryRepository.DeleteAsync(CategoryId);
             return new JsonResult(result.Data);
         }
         public async Task<JsonResult> OnGetUpdateCategory()
