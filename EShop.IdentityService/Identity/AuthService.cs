@@ -100,7 +100,7 @@ namespace EShop.IdentityService.Identity
         {
             var claims = await GetClaims(user);
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("6AD2EFDE-AB2C-4841-A05E-7045C855BA22-6AD2EFDE-AB2C-4841-A05E-7045C855BA22-6AD2EFDE-AB2C-4841-A05E-7045C855BA22"));// jwtConfig.Key));
 
             var signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
 
@@ -115,6 +115,34 @@ namespace EShop.IdentityService.Identity
             return tokenString;
         }
 
+        public async Task<string> GenerateOTPToken(string user)
+        {
+            var identityUser = await _userManager.FindByNameAsync(user);
+            if (identityUser is null)
+            {
+                return string.Empty;
+            }
+
+            var token = await _userManager.GenerateUserTokenAsync(identityUser, "TokenProviderName", "OTPTokenPurpose");
+            return token;
+        }
+
+        public async Task<string?> VerifyOTPToken(string user, string token)
+        {
+            var identityUser = await _userManager.FindByNameAsync(user);
+            if (identityUser is null)
+            {
+                return null;
+            }
+
+            var result = await _userManager.VerifyUserTokenAsync(identityUser, "TokenProviderName", "OTPTokenPurpose", token);
+
+            if (result)
+                return identityUser.UserName;
+
+            return null;
+        }
+
         private async Task<List<Claim>> GetClaims(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -125,23 +153,23 @@ namespace EShop.IdentityService.Identity
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
 
-            var permissionClaims = new List<Claim>();
+            //var permissionClaims = new List<Claim>();
 
 
-            permissionClaims.AddRange(GetClaimsSeperated(await _userManager.GetClaimsAsync(user)));
-            //claims.AddRange(GetClaimsSeperated(await _userManager.GetClaimsAsync(user)));
-            var roles = await _userManager.GetRolesAsync(user);
+            //permissionClaims.AddRange(GetClaimsSeperated(await _userManager.GetClaimsAsync(user)));
+            ////claims.AddRange(GetClaimsSeperated(await _userManager.GetClaimsAsync(user)));
+            //var roles = await _userManager.GetRolesAsync(user);
 
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+            //foreach (var role in roles)
+            //{
+            //    claims.Add(new Claim(ClaimTypes.Role, role));
 
-                var identityRole = await _roleManager.FindByNameAsync(role);
-                permissionClaims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
-                //claims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
-            }
+            //    var identityRole = await _roleManager.FindByNameAsync(role);
+            //    permissionClaims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
+            //    //claims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
+            //}
 
-            claims.AddRange(permissionClaims.OrderBy(t => t.Type));
+            //claims.AddRange(permissionClaims.OrderBy(t => t.Type));
             return claims;
         }
 

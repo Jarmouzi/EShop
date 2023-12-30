@@ -9,46 +9,46 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Security.Claims;
 
-namespace EShop.AdminPanel.Pages.Region
+namespace EShop.AdminPanel.Pages.BasicInfo.Product
 {
     [AuthorizePage]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ILogRepository _dbLog;
-        private readonly IRegionRepository _regionRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IRazorRenderService _renderService;
         public IndexModel(ILogger<IndexModel> logger
             , ILogRepository dbLog
-            , IRegionRepository regionRepository,
+            , IProductRepository productRepository,
             IRazorRenderService renderService)
         {
             _logger = logger;
             _dbLog = dbLog;
-            _regionRepository = regionRepository;
+            _productRepository = productRepository;
             _renderService = renderService;
         }
         public void OnGet()
         {
         }
-        public async Task<PartialViewResult> OnGetViewAllPartial(string? title = null, string? country = null, int take = 10, int skip = 0)
+        public async Task<PartialViewResult> OnGetViewAllPartial(string? title = null, int take = 10, int skip = 0)
         {
-            var result = new PaginatedViewModel<RegionViewModel>();
+            var result = new PaginatedViewModel<ProductViewModel>();
             try
             {
-                var list = await _regionRepository.GetPaginatedResult(title, country, take, skip);
+                var list = await _productRepository.GetPaginatedResult(title, take, skip);
 
                 result = list.Data;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Region OnGetViewAllPartial: " + ex.Message, [title, country, take, skip]);
+                _logger.LogError("Product OnGetViewAllPartial: " + ex.Message, [title, take, skip]);
             }
 
             return new PartialViewResult
             {
-                ViewName = "_RegionList",
-                ViewData = new ViewDataDictionary<PaginatedViewModel<RegionViewModel>>(ViewData, result)
+                ViewName = "_ProductList",
+                ViewData = new ViewDataDictionary<PaginatedViewModel<ProductViewModel>>(ViewData, result)
             };
         }
         public async Task<PartialViewResult> OnGetFormPartial(Guid id)
@@ -58,50 +58,51 @@ namespace EShop.AdminPanel.Pages.Region
                 if (id == new Guid())
                     return new PartialViewResult
                     {
-                        ViewName = "_RegionForm",
-                        ViewData = new ViewDataDictionary<RegionViewModel>(ViewData, new RegionViewModel())
+                        ViewName = "_ProductForm",
+                        ViewData = new ViewDataDictionary<ProductViewModel>(ViewData, new ProductViewModel())
                     };
                 else
                 {
-                    var region = await _regionRepository.GetByIdAsync(id);
+                    var product = await _productRepository.GetByIdAsync(id);
                     return new PartialViewResult
                     {
-                        ViewName = "_RegionForm",
-                        ViewData = new ViewDataDictionary<RegionViewModel>(ViewData, region.Data)
+                        ViewName = "_ProductForm",
+                        ViewData = new ViewDataDictionary<ProductViewModel>(ViewData, product.Data)
                     };
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Region OnPostCreateOrEditAsync: " + ex.Message, id);
+                _logger.LogError("Product OnPostCreateOrEditAsync: " + ex.Message, id);
             }
 
             return new PartialViewResult
             {
-                ViewName = "_RegionForm",
-                ViewData = new ViewDataDictionary<RegionViewModel>(ViewData, new RegionViewModel())
+                ViewName = "_ProductForm",
+                ViewData = new ViewDataDictionary<ProductViewModel>(ViewData, new ProductViewModel())
             };
         }
+
         public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
         {
             try
             {
                 if (id == new Guid())
-                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_RegionForm", new RegionViewModel()) });
+                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_ProductForm", new ProductViewModel()) });
                 else
                 {
-                    var thisRegion = await _regionRepository.GetByIdAsync(id);
-                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_RegionForm", thisRegion) });
+                    var thisProduct = await _productRepository.GetByIdAsync(id);
+                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_ProductForm", thisProduct) });
                 }
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("Region OnPostCreateOrEditAsync: " + ex.Message, id);
+                _logger.LogError("Product OnPostCreateOrEditAsync: " + ex.Message, id);
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, RegionViewModel region)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, ProductViewModel product)
         {
             var html = "";
             try
@@ -109,26 +110,26 @@ namespace EShop.AdminPanel.Pages.Region
                 ModelState.Remove("Id");
                 if (ModelState.IsValid)
                 {
-                    region.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    product.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                     if (id == null || id == new Guid())
                     {
-                        await _regionRepository.AddAsync(region);
+                        await _productRepository.AddAsync(product);
                     }
                     else
                     {
-                        await _regionRepository.UpdateAsync(region);
+                        await _productRepository.UpdateAsync(product);
                     }
-                    return await GetRegions();
+                    return await GetProducts();
                 }
                 else
                 {
-                    html = await _renderService.ToStringAsync("_RegionForm", region);
+                    html = await _renderService.ToStringAsync("_ProductForm", product);
                 }
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("Region OnPostCreateOrEditAsync: " + ex.Message, region);
+                _logger.LogError("Product OnPostCreateOrEditAsync: " + ex.Message, product);
             }
             return new JsonResult(new { isValid = false, html = html });
         }
@@ -136,31 +137,31 @@ namespace EShop.AdminPanel.Pages.Region
         {
             try
             {
-                await _regionRepository.DeleteAsync(id);
+                await _productRepository.DeleteAsync(id);
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("Region OnPostDeleteAsync: " + ex.Message, id);
+                _logger.LogError("Product OnPostDeleteAsync: " + ex.Message, id);
             }
-            return await GetRegions();
+            return await GetProducts();
         }
 
-        private async Task<JsonResult> GetRegions()
+        private async Task<JsonResult> GetProducts()
         {
             var isValid = false;
             var html = "";
             try
             {
-                var list = await _regionRepository.GetPaginatedResult(null, null, 10, 0);
+                var list = await _productRepository.GetPaginatedResult(null, 10, 0);
 
                 isValid = list.Status == TS.Status.Success;
 
-                html = await _renderService.ToStringAsync("_RegionList", list.Data);
+                html = await _renderService.ToStringAsync("_ProductList", list.Data);
             }
             catch (Exception ex)
             {
-                _logger.LogError("Region GetRegions: " + ex.Message);
+                _logger.LogError("Product GetProducts: " + ex.Message);
             }
             return new JsonResult(new { isValid = isValid, html = html });
         }

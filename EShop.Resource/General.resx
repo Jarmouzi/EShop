@@ -124,6 +124,9 @@
     <value>Air Pollution Monitoring System</value>
     <comment>سامانه پايش آلودگي هواي کشور</comment>
   </data>
+  <data name="AQIStatus" xml:space="preserve">
+    <value>AQI Status</value>
+  </data>
   <data name="AQIType" xml:space="preserve">
     <value>AQI Type</value>
   </data>
@@ -277,6 +280,9 @@
   <data name="Order" xml:space="preserve">
     <value>Order by</value>
   </data>
+  <data name="Pollutant" xml:space="preserve">
+    <value>Pollutant</value>
+  </data>
   <data name="PollutantParam" xml:space="preserve">
     <value>Pollutant Parameter</value>
   </data>
@@ -375,11 +381,5 @@
   </data>
   <data name="Wed" xml:space="preserve">
     <value>Wednesday</value>
-  </data>
-  <data name="AQIStatus" xml:space="preserve">
-    <value>AQI Status</value>
-  </data>
-  <data name="Pollutant" xml:space="preserve">
-    <value>Pollutant</value>
   </data>
 </root>

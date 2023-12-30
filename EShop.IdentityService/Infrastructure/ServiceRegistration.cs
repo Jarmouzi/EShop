@@ -211,7 +211,14 @@ namespace EShop.IdentityService.Infrastructure
 
             services.AddSingleton<IAuthorizationHandler, GenericRequirmentsHandler>();
 
-            services.AddSingleton<IAuthorizationHandler, ConventionBasedRequirementHandler>();
+            services.AddSingleton<IAuthorizationHandler, ConventionBasedRequirementHandler>(); 
+            
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromMinutes(5);
+            }); 
+            
+            services.AddScoped<IUserTwoFactorTokenProvider<IdentityUser>, EmailTokenProvider<IdentityUser>>();
 
             return services;
         }

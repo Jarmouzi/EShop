@@ -1,6 +1,6 @@
 ﻿@model EShop.ViewModel.CategoryViewModel
 <form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
-    <input type="hidden" asp-for="CreateDate" />
+@*     <input type="hidden" asp-for="CreateDate" /> *@
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <div class="form-group col-md-6">
         <label class="control-label">گروه بندی سطح 1</label>

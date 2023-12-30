@@ -1,5 +1,6 @@
 
-using EShop.DataContext;
+using AutoMapper;
+using EShop.AutoMapper;
 using EShop.IdentityService.Infrastructure;
 using EShop.Infrastructure;
 using EShop.LogService.DataContext;
@@ -13,6 +14,8 @@ namespace EShop.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddAutoMapper(typeof(Program), typeof(CategoryProfile));
 
             // Add services to the container.
             builder.Services.AddApplicationJwtAuth(builder.Configuration.GetSection("Jwt").Get<JwtConfiguration>());

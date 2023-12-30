@@ -24,7 +24,8 @@ namespace EShop.Auth.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginUser credentials)
         {
-            if (credentials == null) {
+            if (credentials == null)
+            {
                 throw new ArgumentNullException("Login credentials");
             }
             var userId = await _authService.Login(credentials);
@@ -49,6 +50,35 @@ namespace EShop.Auth.Controllers
                         token = await _authService.GenerateTokenString(credentials.Username, _config)
                     });
             }
+
+            return BadRequest();
+        }
+
+        [HttpPost("GenerateToken")]
+        public async Task<IActionResult> GenerateToken(string email)
+        {
+            var token = await _authService.GenerateOTPToken(email);
+
+            //send email 
+
+
+            return Ok(token);
+
+            //return BadRequest();
+        }
+
+        [HttpPost("VerifyToken")]
+        public async Task<IActionResult> VerifyToken(string email, string token)
+        {
+            var user = await _authService.VerifyOTPToken(email, token);
+
+            if(user != null)
+
+                return Ok(
+                    new
+                    {
+                        token = await _authService.GenerateTokenString(user, _config)
+                    });
 
             return BadRequest();
         }

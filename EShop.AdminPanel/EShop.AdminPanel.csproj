@@ -7,15 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\BasicInfo\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="wwwroot\lib\ckeditor\.npm\assets\ckeditor4.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\BasicInfo\Index.cshtml" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\lib\bootstrap-colorpicker\.github\CODE_OF_CONDUCT.md" />
     <None Include="wwwroot\lib\bootstrap-colorpicker\.github\CONTRIBUTING.md" />
@@ -199,14 +194,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EShop.AutoMapper\EShop.AutoMapper.csproj" />
+    <ProjectReference Include="..\EShop.IdentityService\EShop.IdentityService.csproj" />
     <ProjectReference Include="..\EShop.Infrastructure\EShop.Infrastructure.csproj" />
     <ProjectReference Include="..\EShop.Log\EShop.LogService.csproj" />
     <ProjectReference Include="..\EShop.Model\EShop.Model.csproj" />
-    <ProjectReference Include="..\EShop.Services\EShop.IdentityService.csproj" />
-    <ProjectReference Include="..\EShop.Service\EShop.Repository.csproj" />
+    <ProjectReference Include="..\EShop.Repository\EShop.Repository.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\BasicInfo\" />
     <Folder Include="Pages\Product\" />
     <Folder Include="Pages\Supplier\" />
     <Folder Include="wwwroot\img\" />
@@ -215,14 +211,6 @@
     <Folder Include="wwwroot\lib\adminlte\dist\font\" />
     <Folder Include="wwwroot\lib\adminlte\dist\img\credit\" />
     <Folder Include="wwwroot\lib\adminlte\dist\js\pages\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\BasicInfo\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\BasicInfo\Index.cshtml" />
   </ItemGroup>
 
 </Project>

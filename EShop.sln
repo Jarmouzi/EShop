@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.IdentityService", "EShop.Services\EShop.IdentityService.csproj", "{AC0E0D86-9923-4E6F-BFD3-19D7423A4532}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.IdentityService", "EShop.IdentityService\EShop.IdentityService.csproj", "{AC0E0D86-9923-4E6F-BFD3-19D7423A4532}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Api", "EShop.Api\EShop.Api.csproj", "{372424AE-B78F-445B-B24D-6DAA5A3017C0}"
 EndProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Model", "EShop.Model\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Infrastructure", "EShop.Infrastructure\EShop.Infrastructure.csproj", "{241FFA32-1871-4BB4-9FF6-14D44A7C3016}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Repository", "EShop.Service\EShop.Repository.csproj", "{706204B9-7E25-485F-BA4A-D4376CC7F719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Repository", "EShop.Repository\EShop.Repository.csproj", "{706204B9-7E25-485F-BA4A-D4376CC7F719}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.ViewModel", "EShop.ViewModel\EShop.ViewModel.csproj", "{AA19574B-F0FC-4527-99F8-17BCCDD86D43}"
 EndProject

@@ -14,7 +14,7 @@ namespace EShop.Repository.Interface
         Task<Result<IEnumerable<TViewModel>>> GetAllAsync();
         Task<Result<IEnumerable<TViewModel>>> GetAllAsync(Expression<Func<T, bool>> filter);
         Task<Result<IEnumerable<TResult>>> GetPrecedureAsync<TResult>(string procedureName, SqlParameter[] sparams) where TResult : class;
-        Task<Result<string>> GetPrecedureAsync(string procedureName, string jsonparams);
+        Task<Result<string>> GetPrecedureAsync(string procedureName, string? jsonparams = null);
         Task<Result<TViewModel?>> GetAsync(Expression<Func<T, bool>> filter);
         Task<Result<TViewModel?>> GetByIdAsync(Guid id);
         //Task<Result<bool>> ExistsAsync(Guid id);

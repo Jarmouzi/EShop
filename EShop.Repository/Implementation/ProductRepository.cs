@@ -1,47 +1,38 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EShop.DataContext;
 using EShop.Model;
+using EShop.ViewModel;
 using EShop.Model.TypeSafe;
 using EShop.Repository.Interface;
-using EShop.ViewModel;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.Repository.Implementation
 {
-    public class CategoryRepository : Repository<Model.Category, CategoryViewModel, EShopContext>, ICategoryRepository
+    public class ProductRepository : Repository<Product, ProductViewModel, EShopContext>, IProductRepository
     {
-        public CategoryRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
+        public ProductRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
         {
         }
 
-        public async Task<Result<PaginatedViewModel<CategoryViewModel>>> GetPaginatedResult(Guid? Level1Id = null, Guid? Level2Id = null, int take = 10, int skip = 0)
+        public async Task<Result<PaginatedViewModel<ProductViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
         {
-            var result = new Result<PaginatedViewModel<CategoryViewModel>> ();
+            var result = new Result<PaginatedViewModel<ProductViewModel>> ();
 
             try
             {
                 var totalCount = new SqlParameter("@TotalCount", System.Data.SqlDbType.Int);
                 totalCount.Direction = System.Data.ParameterDirection.Output;
                 var sparam = new SqlParameter[] {
-                new SqlParameter("@Level1Id", Level1Id == null ? DBNull.Value : Level1Id),
-                new SqlParameter("@Level2Id", Level2Id == null ? DBNull.Value : Level2Id),
-                new SqlParameter("@Take", take),
+					new SqlParameter("@Title", title == null ? DBNull.Value : title),
+					new SqlParameter("@Take", take),
                     new SqlParameter("@Skip", skip),
                     totalCount
                 };
 
-                var r = await GetPrecedureAsync<CategoryViewModel>("Category_Get", sparam);
+                var r = await GetPrecedureAsync<ProductViewModel>("Product_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
-                    result.Data = new PaginatedViewModel<CategoryViewModel>
+                    result.Data = new PaginatedViewModel<ProductViewModel>
                     {
                         Data = r.Data,
                         Pagination = new PaginationViewModel

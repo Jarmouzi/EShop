@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EShop.Data\EShop.DataContext.csproj" />
-    <ProjectReference Include="..\EShop.Service\EShop.Repository.csproj" />
+    <ProjectReference Include="..\EShop.Repository\EShop.Repository.csproj" />
   </ItemGroup>
 
 </Project>

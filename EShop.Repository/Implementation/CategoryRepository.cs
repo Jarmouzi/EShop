@@ -16,32 +16,32 @@ using System.Threading.Tasks;
 
 namespace EShop.Repository.Implementation
 {
-    public class RegionRepository : Repository<Model.Region, RegionViewModel, EShopContext>, IRegionRepository
+    public class CategoryRepository : Repository<Category, CategoryViewModel, EShopContext>, ICategoryRepository
     {
-        public RegionRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
+        public CategoryRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
         {
         }
 
-        public async Task<Result<PaginatedViewModel<RegionViewModel>>> GetPaginatedResult(string? title = null, string? country = null, int take = 10, int skip = 0)
+        public async Task<Result<PaginatedViewModel<CategoryViewModel>>> GetPaginatedResult(Guid? Level1Id = null, Guid? Level2Id = null, int take = 10, int skip = 0)
         {
-            var result = new Result<PaginatedViewModel<RegionViewModel>> ();
+            var result = new Result<PaginatedViewModel<CategoryViewModel>> ();
 
             try
             {
                 var totalCount = new SqlParameter("@TotalCount", System.Data.SqlDbType.Int);
                 totalCount.Direction = System.Data.ParameterDirection.Output;
                 var sparam = new SqlParameter[] {
-                new SqlParameter("@Title", title == null ? DBNull.Value : title),
-                new SqlParameter("@Country", country == null ? DBNull.Value : country),
+                new SqlParameter("@Level1Id", Level1Id == null ? DBNull.Value : Level1Id),
+                new SqlParameter("@Level2Id", Level2Id == null ? DBNull.Value : Level2Id),
                 new SqlParameter("@Take", take),
                     new SqlParameter("@Skip", skip),
                     totalCount
                 };
 
-                var r = await GetPrecedureAsync<RegionViewModel>("Region_Get", sparam);
+                var r = await GetPrecedureAsync<CategoryViewModel>("Category_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
-                    result.Data = new PaginatedViewModel<RegionViewModel>
+                    result.Data = new PaginatedViewModel<CategoryViewModel>
                     {
                         Data = r.Data,
                         Pagination = new PaginationViewModel

@@ -41,7 +41,7 @@ namespace EShop.Infrastructure
             services.AddScoped<DataContext.IUnitOfWork<EShopContext>, DataContext.UnitOfWork<EShopContext>>();
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IRepository<Product, ProductViewModel>, Repository<Product, ProductViewModel, EShopContext>>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IRegionRepository, RegionRepository>();
 
             return services;

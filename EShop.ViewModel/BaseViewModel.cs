@@ -12,8 +12,8 @@ namespace EShop.ViewModel
         [ValidateNever]
         public Guid Id { get; set; }
         public Guid? ModifiedBy { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime? ModifyDate { get; set; }
-        public DateTime? ExpireDate { get; set; }
+        //public DateTime CreateDate { get; set; }
+        //public DateTime? ModifyDate { get; set; }
+        //public DateTime? ExpireDate { get; set; }
     }
 }

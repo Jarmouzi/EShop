@@ -59,11 +59,12 @@ namespace EShop.Repository.Implementation
             var result = new Result<TViewModel>();
             try
             {
-                model.ModifyDate = DateTime.Now;
                 result.Data = model;
                 
                 var newModel = _service.Find(model.Id);
                 _mappingEngine.Map(model, newModel);
+                newModel.ModifyDate = DateTime.Now;
+
                 result.Data = _mappingEngine.Map<TViewModel>(newModel);
 
                 if (await _unitOfWork.SaveAsync() > 0)
@@ -183,7 +184,7 @@ namespace EShop.Repository.Implementation
             }
             return result;
         }
-        public async Task<Result<string>> GetPrecedureAsync(string procedureName, string jsonparams) 
+        public async Task<Result<string>> GetPrecedureAsync(string procedureName, string? jsonparams = null) 
         {
             var result = new Result<string>();
 

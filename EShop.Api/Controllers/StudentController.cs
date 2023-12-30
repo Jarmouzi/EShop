@@ -16,6 +16,13 @@ namespace EShop.Api.Controllers
             return "Get a Product";
         }
 
+        [HttpGet("GetProducts")]
+        //[Authorize(Policy = TS.Policies.ReadPolicy)]
+        public JsonResult Getall()
+        {
+            return new JsonResult("[{ \"title\": \"x\", \"path\": \"#\" }, { \"title\": \"y\", \"path\": \"#\" }, { \"title\": \"z\", \"path\": \"#\" }]");
+        }
+
         [HttpPost("AddProduct")]
         //[Authorize(Policy = TS.Policies.ReadAndWritePolicy)]
         public string Add()

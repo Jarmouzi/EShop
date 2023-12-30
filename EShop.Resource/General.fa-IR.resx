@@ -123,6 +123,9 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>سامانه پایش کیفی هوای کشور</value>
   </data>
+  <data name="AQIStatus" xml:space="preserve">
+    <value>وضعیت شاخص</value>
+  </data>
   <data name="AQIType" xml:space="preserve">
     <value>نوع شاخص</value>
   </data>
@@ -276,6 +279,9 @@
   <data name="Order" xml:space="preserve">
     <value>مرتب سازی بر اساس</value>
   </data>
+  <data name="Pollutant" xml:space="preserve">
+    <value>آلاینده</value>
+  </data>
   <data name="PollutantParam" xml:space="preserve">
     <value>پارامتر آلاینده</value>
   </data>
@@ -374,11 +380,5 @@
   </data>
   <data name="Wed" xml:space="preserve">
     <value>چهارشنبه</value>
-  </data>
-  <data name="AQIStatus" xml:space="preserve">
-    <value>وضعیت شاخص</value>
-  </data>
-  <data name="Pollutant" xml:space="preserve">
-    <value>آلاینده</value>
   </data>
 </root>

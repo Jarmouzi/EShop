@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EShop.IdentityService\EShop.IdentityService.csproj" />
     <ProjectReference Include="..\EShop.Model\EShop.Model.csproj" />
-    <ProjectReference Include="..\EShop.Services\EShop.IdentityService.csproj" />
   </ItemGroup>
 
 </Project>

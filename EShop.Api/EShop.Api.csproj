@@ -7,15 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EShop.AutoMapper\EShop.AutoMapper.csproj" />
+    <ProjectReference Include="..\EShop.IdentityService\EShop.IdentityService.csproj" />
     <ProjectReference Include="..\EShop.Infrastructure\EShop.Infrastructure.csproj" />
     <ProjectReference Include="..\EShop.Log\EShop.LogService.csproj" />
-    <ProjectReference Include="..\EShop.Model\EShop.Model.csproj" />
-    <ProjectReference Include="..\EShop.Services\EShop.IdentityService.csproj" />
+    <ProjectReference Include="..\EShop.Repository\EShop.Repository.csproj" />
   </ItemGroup>
 
 </Project>
