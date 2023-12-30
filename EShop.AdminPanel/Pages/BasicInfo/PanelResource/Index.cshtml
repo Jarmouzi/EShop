@@ -1,0 +1,57 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.PanelResource.IndexModel
+@{
+    ViewData["Title"] = "PanelResource";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="panelresourceForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#panelresourceForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/PanelResource?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');  
+			$('#Confirmed).val(');  
+			$('#Icon).val(');  
+			$('#Method).val(');  
+			$('#Order).val(');  
+			$('#PageAddress).val(');  
+			$('#ParentId).val(');  
+			$('#ShowOnMenu).val(');  
+			$('#Title).val('); 
+            $('#saveBtn').html('?????');
+        }
+
+        Search = (take, skip) => {  
+			var Confirmed = $("input#Confirmed").val(); 
+			var Icon = $("input#Icon").val(); 
+			var Method = $("input#Method").val(); 
+			var Order = $("input#Order").val(); 
+			var PageAddress = $("input#PageAddress").val(); 
+			var ParentId = $("input#ParentId").val(); 
+			var ShowOnMenu = $("input#ShowOnMenu").val(); 
+			var Title = $("input#Title").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&&amp;Confirmed=${Confirmed}&amp;Icon=${Icon}&amp;Method=${Method}&amp;Order=${Order}&amp;PageAddress=${PageAddress}&amp;ParentId=${ParentId}&amp;ShowOnMenu=${ShowOnMenu}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

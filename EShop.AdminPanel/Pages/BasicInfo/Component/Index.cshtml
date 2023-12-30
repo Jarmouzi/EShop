@@ -1,0 +1,55 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Component.IndexModel
+@{
+    ViewData["Title"] = "Component";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="componentForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#componentForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/Component?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');  
+			$('#Action).val(');  
+			$('#CategoryId).val(');  
+			$('#Confirmed).val(');  
+			$('#Controller).val(');  
+			$('#Event).val(');  
+			$('#IsOptional).val(');  
+			$('#Title).val('); 
+            $('#saveBtn').html('?????');
+        }
+
+        Search = (take, skip) => {  
+			var Action = $("input#Action").val(); 
+			var CategoryId = $("input#CategoryId").val(); 
+			var Confirmed = $("input#Confirmed").val(); 
+			var Controller = $("input#Controller").val(); 
+			var Event = $("input#Event").val(); 
+			var IsOptional = $("input#IsOptional").val(); 
+			var Title = $("input#Title").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&&amp;Action=${Action}&amp;CategoryId=${CategoryId}&amp;Confirmed=${Confirmed}&amp;Controller=${Controller}&amp;Event=${Event}&amp;IsOptional=${IsOptional}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

@@ -7,7 +7,7 @@ namespace EShop.Web.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-    //[AuthorizeApi]
+    [AuthorizeApi]
     public class ProductController : ControllerBase
     {
 		private readonly IProductRepository _ProductRepository;
@@ -17,50 +17,50 @@ namespace EShop.Web.API.Controllers
             _ProductRepository = ProductRepository;
         }
 
-        [HttpPost("Add")]
-        public async Task<IActionResult> Insert(ProductViewModel model)
-        {
-            try
-            {
-                var result = await _ProductRepository.AddAsync(model);
-
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
-            }
-            catch (Exception ex)
-            {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
-            }
-        }
-
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update(ProductViewModel model)
-        {
-            try
-            {
-                var result = await _ProductRepository.UpdateAsync(model);
-
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
-            }
-            catch (Exception ex)
-            {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
-            }
-        }
-
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            try
-            {
-                var result = await _ProductRepository.DeleteAsync(id);
-
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
-            }
-            catch (Exception ex)
-            {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
-            }
-        }
+        //[HttpPost("Add")]
+        //public async Task<IActionResult> Insert(ProductViewModel model)
+        //{
+        //    try
+        //    {
+        //        var result = await _ProductRepository.AddAsync(model);
+		//
+        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //    }
+        //}
+		//
+        //[HttpPut("Update")]
+        //public async Task<IActionResult> Update(ProductViewModel model)
+        //{
+        //    try
+        //    {
+        //        var result = await _ProductRepository.UpdateAsync(model);
+		//
+        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //    }
+        //}
+		//
+        //[HttpDelete("Delete")]
+        //public async Task<IActionResult> Delete(Guid id)
+        //{
+        //    try
+        //    {
+        //        var result = await _ProductRepository.DeleteAsync(id);
+		//
+        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //    }
+        //}
 
 
         [HttpGet("Get")]
@@ -108,4 +108,4 @@ namespace EShop.Web.API.Controllers
             }
         }
     }
-} 
+}

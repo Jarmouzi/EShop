@@ -40,9 +40,26 @@ namespace EShop.Infrastructure
             services.AddApplicationServices<EShopContext>(connectionStringConfigName);
             services.AddScoped<DataContext.IUnitOfWork<EShopContext>, DataContext.UnitOfWork<EShopContext>>();
 
+            services.AddScoped<IBannerRepository, BannerRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IComponentRepository, ComponentRepository>();
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
+            services.AddScoped<IFilterRepository, FilterRepository>();
+            services.AddScoped<IItem_Feature_DetailRepository, Item_Feature_DetailRepository>();
+            services.AddScoped<IItem_Feature_DetailsRepository, Item_Feature_DetailsRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
+            services.AddScoped<IPage_Item_FeatureRepository, Page_Item_FeatureRepository>();
+            services.AddScoped<IPage_Item_SupplierRepository, Page_Item_SupplierRepository>();
+            services.AddScoped<IPanelResourceRepository, PanelResourceRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProduct_FeatureRepository, Product_FeatureRepository>();
+            services.AddScoped<IProductInPageRepository, ProductInPageRepository>();
             services.AddScoped<IRegionRepository, RegionRepository>();
+            services.AddScoped<ISaleTypeRepository, SaleTypeRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<ISupplier_ContractRepository, Supplier_ContractRepository>();
 
             return services;
         }
@@ -54,6 +71,27 @@ namespace EShop.Infrastructure
             services.AddScoped<DataContext.IUnitOfWork<EShopPanelContext>, DataContext.UnitOfWork<EShopPanelContext>>();
 
             services.AddScoped<IRepository<PanelResource, PanelResourceViewModel>, Repository<PanelResource, PanelResourceViewModel, EShopPanelContext>>();
+
+            services.AddScoped<IBannerRepository, BannerRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IComponentRepository, ComponentRepository>();
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
+            services.AddScoped<IFilterRepository, FilterRepository>();
+            services.AddScoped<IItem_Feature_DetailRepository, Item_Feature_DetailRepository>();
+            services.AddScoped<IItem_Feature_DetailsRepository, Item_Feature_DetailsRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
+            services.AddScoped<IPage_Item_FeatureRepository, Page_Item_FeatureRepository>();
+            services.AddScoped<IPage_Item_SupplierRepository, Page_Item_SupplierRepository>();
+            services.AddScoped<IPanelResourceRepository, PanelResourceRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProduct_FeatureRepository, Product_FeatureRepository>();
+            services.AddScoped<IProductInPageRepository, ProductInPageRepository>();
+            services.AddScoped<IRegionRepository, RegionRepository>();
+            services.AddScoped<ISaleTypeRepository, SaleTypeRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<ISupplier_ContractRepository, Supplier_ContractRepository>();
 
             return services;
         }

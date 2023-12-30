@@ -1,0 +1,53 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Supplier_Contract.IndexModel
+@{
+    ViewData["Title"] = "Supplier_Contract";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="supplier_contractForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#supplier_contractForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/Supplier_Contract?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');  
+			$('#CategoryId).val(');  
+			$('#Commission).val(');  
+			$('#Confirmed).val(');  
+			$('#SaleTypeId).val(');  
+			$('#SupplierId).val(');  
+			$('#Title).val('); 
+            $('#saveBtn').html('?????');
+        }
+
+        Search = (take, skip) => {  
+			var CategoryId = $("input#CategoryId").val(); 
+			var Commission = $("input#Commission").val(); 
+			var Confirmed = $("input#Confirmed").val(); 
+			var SaleTypeId = $("input#SaleTypeId").val(); 
+			var SupplierId = $("input#SupplierId").val(); 
+			var Title = $("input#Title").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&&amp;CategoryId=${CategoryId}&amp;Commission=${Commission}&amp;Confirmed=${Confirmed}&amp;SaleTypeId=${SaleTypeId}&amp;SupplierId=${SupplierId}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

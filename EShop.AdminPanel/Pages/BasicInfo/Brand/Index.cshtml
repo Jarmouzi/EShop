@@ -1,0 +1,47 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Brand.IndexModel
+@{
+    ViewData["Title"] = "Brand";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="brandForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#brandForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/Brand?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');  
+			$('#Confirmed).val(');  
+			$('#ThemeAndOtherOptions).val(');  
+			$('#Title).val('); 
+            $('#saveBtn').html('?????');
+        }
+
+        Search = (take, skip) => {  
+			var Confirmed = $("input#Confirmed").val(); 
+			var ThemeAndOtherOptions = $("input#ThemeAndOtherOptions").val(); 
+			var Title = $("input#Title").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&&amp;Confirmed=${Confirmed}&amp;ThemeAndOtherOptions=${ThemeAndOtherOptions}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

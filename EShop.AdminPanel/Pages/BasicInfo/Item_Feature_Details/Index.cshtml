@@ -1,0 +1,51 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Item_Feature_Details.IndexModel
+@{
+    ViewData["Title"] = "Item_Feature_Details";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="item_feature_detailsForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#item_feature_detailsForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/Item_Feature_Details?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');  
+			$('#Confirmed).val(');  
+			$('#details).val(');  
+			$('#Image).val(');  
+			$('#Item_FeatureId).val(');  
+			$('#Title).val('); 
+            $('#saveBtn').html('?????');
+        }
+
+        Search = (take, skip) => {  
+			var Confirmed = $("input#Confirmed").val(); 
+			var details = $("input#details").val(); 
+			var Image = $("input#Image").val(); 
+			var Item_FeatureId = $("input#Item_FeatureId").val(); 
+			var Title = $("input#Title").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&&amp;Confirmed=${Confirmed}&amp;details=${details}&amp;Image=${Image}&amp;Item_FeatureId=${Item_FeatureId}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

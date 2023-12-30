@@ -1,0 +1,63 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.ProductInPage.IndexModel
+@{
+    ViewData["Title"] = "ProductInPage";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="productinpageForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#productinpageForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/ProductInPage?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');  
+			$('#BrandId).val(');  
+			$('#Confirmed).val(');  
+			$('#DealId).val(');  
+			$('#Discount).val(');  
+			$('#Item_FeatureId1).val(');  
+			$('#Item_FeatureId2).val(');  
+			$('#Item_FeatureId3).val(');  
+			$('#ItemId).val(');  
+			$('#Price).val(');  
+			$('#SupplierId).val(');  
+			$('#Title).val('); 
+            $('#saveBtn').html('?????');
+        }
+
+        Search = (take, skip) => {  
+			var BrandId = $("input#BrandId").val(); 
+			var Confirmed = $("input#Confirmed").val(); 
+			var DealId = $("input#DealId").val(); 
+			var Discount = $("input#Discount").val(); 
+			var Item_FeatureId1 = $("input#Item_FeatureId1").val(); 
+			var Item_FeatureId2 = $("input#Item_FeatureId2").val(); 
+			var Item_FeatureId3 = $("input#Item_FeatureId3").val(); 
+			var ItemId = $("input#ItemId").val(); 
+			var Price = $("input#Price").val(); 
+			var SupplierId = $("input#SupplierId").val(); 
+			var Title = $("input#Title").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&&amp;BrandId=${BrandId}&amp;Confirmed=${Confirmed}&amp;DealId=${DealId}&amp;Discount=${Discount}&amp;Item_FeatureId1=${Item_FeatureId1}&amp;Item_FeatureId2=${Item_FeatureId2}&amp;Item_FeatureId3=${Item_FeatureId3}&amp;ItemId=${ItemId}&amp;Price=${Price}&amp;SupplierId=${SupplierId}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

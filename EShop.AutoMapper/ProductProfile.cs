@@ -1,11 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EShop.Model;
 using EShop.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EShop.AutoMapper
 {
@@ -13,7 +8,9 @@ namespace EShop.AutoMapper
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductViewModel>();
+            CreateMap<Product, ProductViewModel>()
+				.ForMember(dest => dest.BrandTitle, opt => opt.MapFrom(src => src.Brand.Title))	
+				.ForMember(dest => dest.CategoryTitle, opt => opt.MapFrom(src => src.Category.Title))	;
 
             CreateMap<ProductViewModel, Product>();
         }

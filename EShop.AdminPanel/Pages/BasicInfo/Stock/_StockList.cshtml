@@ -1,0 +1,53 @@
+@using EShop.ViewModel;
+@model PaginatedViewModel<StockViewModel>
+
+<table class="table table-bordered" id="stocks">
+    <thead>
+        <tr>
+            <th>عملیات</th>
+            <th>عنوان</th>
+            <th>کشور</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Data.Any())
+        {
+            @foreach (var m in Model.Data)
+            {
+                <tr>
+                    <td class="d-inline">
+                        <form method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
+                            <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
+                        </form> |
+                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id',stockForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+
+                    </td>
+                    <td>@m.Title</td>
+                    <td>
+                        @if (m.Confirmed == true)
+                        {
+                            <input type="checkbox" checked="checked" disabled="disabled" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" disabled="disabled" />
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                رکوردی یافت نشد
+            </tr>
+
+        }
+    </tbody>
+</table>
+<partial name="_paginationpartial" model="@Model.Pagination" />
+<script>
+    $(document).ready(function () {
+        $("#stockTable").DataTable();
+    });
+</script>
