@@ -38,7 +38,7 @@ namespace EShop.Repository.Implementation
                     totalCount
                 };
 
-                var r = await GetPrecedureAsync<RegionViewModel>("Region_Get", sparam);
+                var r = await GetProcedureAsync<RegionViewModel>("Region_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
                     result.Data = new PaginatedViewModel<RegionViewModel>

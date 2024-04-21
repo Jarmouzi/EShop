@@ -98,7 +98,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _FilterRepository.GetPrecedureAsync("Filter_Json", json);
+                var result = await _FilterRepository.GetProcedureAsync("Filter_Json", json);
 
                 return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }

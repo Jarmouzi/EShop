@@ -29,7 +29,7 @@ namespace EShop.Repository.Implementation
                     totalCount
                 };
 
-                var r = await GetPrecedureAsync<Supplier_ContractViewModel>("Supplier_Contract_Get", sparam);
+                var r = await GetProcedureAsync<Supplier_ContractViewModel>("Supplier_Contract_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
                     result.Data = new PaginatedViewModel<Supplier_ContractViewModel>

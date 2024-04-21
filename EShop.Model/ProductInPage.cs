@@ -24,14 +24,14 @@ namespace EShop.Model
 		[ForeignKey("ItemId")]
         public virtual Product Product { get; set; }
 
-		[ForeignKey("Item_FeatureId3")]
-        public virtual Product_Feature Product_Feature3 { get; set; }
+		//[ForeignKey("Item_FeatureId3")]
+  //      public virtual Product_Feature Product_Feature3 { get; set; }
 
-		[ForeignKey("Item_FeatureId2")]
-        public virtual Product_Feature Product_Feature2 { get; set; }
+		//[ForeignKey("Item_FeatureId2")]
+  //      public virtual Product_Feature Product_Feature2 { get; set; }
 
-		[ForeignKey("Item_FeatureId1")]
-        public virtual Product_Feature Product_Feature1 { get; set; }
+		//[ForeignKey("Item_FeatureId1")]
+  //      public virtual Product_Feature Product_Feature1 { get; set; }
 
 		[ForeignKey("SupplierId")]
         public virtual Supplier Supplier { get; set; }

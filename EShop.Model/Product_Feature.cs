@@ -25,6 +25,6 @@ namespace EShop.Model
         [ForeignKey("ItemId")]
         public virtual Product Product { get; set; }
         public virtual ICollection<Item_Feature_Detail> Item_Feature_Details { get; set; }
-        public virtual ICollection<ProductInPage> ProductInPages { get; set; }
+        //public virtual ICollection<ProductInPage> ProductInPages { get; set; }
     }
 }

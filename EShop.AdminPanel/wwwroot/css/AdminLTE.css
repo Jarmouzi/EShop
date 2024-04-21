@@ -13,6 +13,7 @@
     src: url("../font/Vazir-Bold.ttf");
     src: local('Vazir Bold'), local('Vazir-Bold'), url("../font/Vazir-Bold.ttf") format('truetype');
 }
+--primary-color::after 
 
 html,
 body {

@@ -1,4 +1,4 @@
-﻿@model EShop.ViewModel.RegionViewModel
+﻿ @model EShop.ViewModel.RegionViewModel
 <form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
     @* <input type="hidden" asp-for="CreateDate" /> *@
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>

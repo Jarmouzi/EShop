@@ -98,7 +98,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _BannerRepository.GetPrecedureAsync("Banner_Json", json);
+                var result = await _BannerRepository.GetProcedureAsync("Banner_Json", json);
 
                 return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }

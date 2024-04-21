@@ -99,9 +99,24 @@ namespace EShop.Web.API.Controllers
             try
             {
                 if(json == null) json = "{ \"Level1Id\": null,\"Level2Id\": null, \"Take\": 10, \"Skip\": 0}";
-                var result = await _CategoryRepository.GetPrecedureAsync("Category_Json", json);
+                var result = await _CategoryRepository.GetProcedureAsync("Category_Json", json);
 
                 return Ok( result );
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("GetMenu")]
+        public async Task<IActionResult> GetMenu()
+        {
+            try
+            {
+                var result = await _CategoryRepository.GetProcedureAsync("Menu_Json", null);
+
+                return Ok(result.Data);
             }
             catch (Exception ex)
             {

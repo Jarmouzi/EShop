@@ -29,7 +29,7 @@ namespace EShop.Repository.Implementation
                     totalCount
                 };
 
-                var r = await GetPrecedureAsync<PanelResourceViewModel>("PanelResource_Get", sparam);
+                var r = await GetProcedureAsync<PanelResourceViewModel>("PanelResource_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
                     result.Data = new PaginatedViewModel<PanelResourceViewModel>

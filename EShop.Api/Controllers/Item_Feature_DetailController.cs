@@ -98,7 +98,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _Item_Feature_DetailRepository.GetPrecedureAsync("Item_Feature_Detail_Json", json);
+                var result = await _Item_Feature_DetailRepository.GetProcedureAsync("Item_Feature_Detail_Json", json);
 
                 return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }

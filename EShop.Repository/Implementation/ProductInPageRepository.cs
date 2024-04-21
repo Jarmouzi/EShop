@@ -29,7 +29,7 @@ namespace EShop.Repository.Implementation
                     totalCount
                 };
 
-                var r = await GetPrecedureAsync<ProductInPageViewModel>("ProductInPage_Get", sparam);
+                var r = await GetProcedureAsync<ProductInPageViewModel>("ProductInPage_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
                     result.Data = new PaginatedViewModel<ProductInPageViewModel>

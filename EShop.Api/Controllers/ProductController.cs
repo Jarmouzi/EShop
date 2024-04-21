@@ -1,16 +1,17 @@
 using EShop.IdentityService.Infrastructure.Authorizaion;
+using EShop.Model.TypeSafe;
 using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Web.API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-    [AuthorizeApi]
+    [Route("api/[controller]")]
+    [ApiController]
+    //[AuthorizeApi]
     public class ProductController : ControllerBase
     {
-		private readonly IProductRepository _ProductRepository;
+        private readonly IProductRepository _ProductRepository;
 
         public ProductController(IProductRepository ProductRepository)
         {
@@ -23,7 +24,7 @@ namespace EShop.Web.API.Controllers
         //    try
         //    {
         //        var result = await _ProductRepository.AddAsync(model);
-		//
+        //
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -31,14 +32,14 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-		//
+        //
         //[HttpPut("Update")]
         //public async Task<IActionResult> Update(ProductViewModel model)
         //{
         //    try
         //    {
         //        var result = await _ProductRepository.UpdateAsync(model);
-		//
+        //
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -46,14 +47,14 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-		//
+        //
         //[HttpDelete("Delete")]
         //public async Task<IActionResult> Delete(Guid id)
         //{
         //    try
         //    {
         //        var result = await _ProductRepository.DeleteAsync(id);
-		//
+        //
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -68,13 +69,13 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result =await  _ProductRepository.GetByIdAsync(id);
+                var result = await _ProductRepository.GetByIdAsync(id);
 
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return Ok(new { Message = ex.Message, Status = "server-error" });
             }
         }
 
@@ -85,11 +86,11 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _ProductRepository.GetAllAsync();
 
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return Ok(new { Message = ex.Message, Status = "server-error" });
             }
         }
 
@@ -98,13 +99,31 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _ProductRepository.GetPrecedureAsync("Product_Json", json);
+                var result = await _ProductRepository.GetProcedureAsync("Product_Json", json);
 
                 return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
             {
                 return Ok(new { Message = ex.Message, Status = "server-error" });
+            }
+        }
+
+        [HttpGet("GetCollectionProducts")]
+        public async Task<IActionResult> GetCollectionProducts(string? cn = null)
+        {
+            try
+            {
+                var result = await _ProductRepository.GetProcedureAsync("Product_GetByCollection", cn);
+
+                if (result.Status == TS.Status.Success)
+                    return Ok(result.Data);
+
+                return BadRequest(result.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
             }
         }
     }

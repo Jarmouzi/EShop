@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 
 namespace EShop.Repository.Implementation
 {
@@ -36,7 +37,7 @@ namespace EShop.Repository.Implementation
                 var entity = _mappingEngine.Map<T>(model);
                 entity.Id = Guid.NewGuid();
                 entity.CreateDate = DateTime.Now;
-                
+
                 _service.Add(entity);
                 if (await _unitOfWork.SaveAsync() > 0)
                 {
@@ -60,7 +61,7 @@ namespace EShop.Repository.Implementation
             try
             {
                 result.Data = model;
-                
+
                 var newModel = _service.Find(model.Id);
                 _mappingEngine.Map(model, newModel);
                 newModel.ModifyDate = DateTime.Now;
@@ -158,14 +159,14 @@ namespace EShop.Repository.Implementation
             return result;
         }
 
-        public async Task<Result<IEnumerable<TResult>>> GetPrecedureAsync<TResult>(string procedureName, SqlParameter[] sparams ) where TResult : class
+        public async Task<Result<IEnumerable<TResult>>> GetProcedureAsync<TResult>(string procedureName, SqlParameter[] sparams) where TResult : class
         {
             var result = new Result<IEnumerable<TResult>>();
 
             try
-            {                
+            {
                 string Query = $"exec {procedureName} " +
-                    string.Join(", ", sparams.Select(m => m.ParameterName + (m.Direction == System.Data.ParameterDirection.Output? " OUTPUT" : "")));
+                    string.Join(", ", sparams.Select(m => m.ParameterName + (m.Direction == System.Data.ParameterDirection.Output ? " OUTPUT" : "")));
                 var list = _unitOfWork.ExecWithStoreProcedure<TResult>(Query, sparams).ToList();
 
                 if (list.Any())
@@ -184,16 +185,21 @@ namespace EShop.Repository.Implementation
             }
             return result;
         }
-        public async Task<Result<string>> GetPrecedureAsync(string procedureName, string? jsonparams = null) 
+        public async Task<Result<string>> GetProcedureAsync(string procedureName, string? jsonparams = null)
         {
             var result = new Result<string>();
 
             try
             {
-                string Query = $"exec {procedureName} @JsonParams";
-                var list = _unitOfWork.ExecWithStoreProcedure<string>(Query, new SqlParameter[] { 
-                    new SqlParameter("JsonParams", jsonparams == null ? DBNull.Value : jsonparams)
-                }).FirstOrDefault();
+                var p = "";
+                var sp = new List<SqlParameter>();
+                if (jsonparams != null)
+                {
+                    p = "@JsonParams";
+                    sp.Add( new SqlParameter("JsonParams", jsonparams));
+                }
+                string Query = $"exec {procedureName} {p}";
+                var list = _unitOfWork.ExecWithStoreProcedure<string>(Query, sp.ToArray()).FirstOrDefault();
 
                 if (list != null)
                 {

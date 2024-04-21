@@ -16,9 +16,9 @@ namespace EShop.ViewModel
 		public bool? Confirmed { get; set; }
 		public string? Title { get; set; }
 		public string ProductTitle { get; set; }
-		public string Product_FeatureTitle1 { get; set; }
-		public string Product_FeatureTitle2 { get; set; }
-		public string Product_FeatureTitle3 { get; set; }
+		//public string Product_FeatureTitle1 { get; set; }
+		//public string Product_FeatureTitle2 { get; set; }
+		//public string Product_FeatureTitle3 { get; set; }
 		public string SupplierTitle { get; set; }
 	}
 }
