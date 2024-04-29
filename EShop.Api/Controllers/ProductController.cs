@@ -65,17 +65,20 @@ namespace EShop.Web.API.Controllers
 
 
         [HttpGet("Get")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(string id)
         {
             try
             {
-                var result = await _ProductRepository.GetByIdAsync(id);
+                var result = await _ProductRepository.GetProcedureAsync("Product_GetByHandle", id);
 
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                if (result.Status == TS.Status.Success)
+                    return Ok(result.Data);
+
+                return BadRequest(result.Message);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -86,26 +89,26 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _ProductRepository.GetAllAsync();
 
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result.Data);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
         [HttpGet("GetFiltered")]
-        public async Task<IActionResult> GetAll(string? json = null)
+        public async Task<IActionResult> GetAll(string? variables = null)
         {
             try
             {
-                var result = await _ProductRepository.GetProcedureAsync("Product_Json", json);
+                var result = await _ProductRepository.GetProcedureAsync("Product_Json", variables);
 
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result.Data);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
