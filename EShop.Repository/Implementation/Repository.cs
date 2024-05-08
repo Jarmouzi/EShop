@@ -117,7 +117,7 @@ namespace EShop.Repository.Implementation
 
             try
             {
-                var item = await _service.ToArrayAsync();
+                var item = await _service.Where(m => m.ExpireDate == null).ToArrayAsync();
                 if (item != null)
                 {
                     result.Data = _mappingEngine.Map<IEnumerable<TViewModel>>(item);
@@ -207,8 +207,9 @@ namespace EShop.Repository.Implementation
                     result.Status = TS.Status.Success;
                     return result;
                 }
-                result.Status = TS.Status.Warning;
-                result.Message = Resource.Notifications.NotFound;
+                //result.Status = TS.Status.Warning;
+                //result.Message = Resource.Notifications.NotFound;
+                result.Data = "[]";
             }
             catch (Exception ex)
             {

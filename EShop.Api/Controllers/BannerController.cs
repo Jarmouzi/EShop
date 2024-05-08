@@ -7,7 +7,7 @@ namespace EShop.Web.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-    [AuthorizeApi]
+    //[AuthorizeApi]
     public class BannerController : ControllerBase
     {
 		private readonly IBannerRepository _BannerRepository;
@@ -70,11 +70,11 @@ namespace EShop.Web.API.Controllers
             {
                 var result =await  _BannerRepository.GetByIdAsync(id);
 
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result.Data);
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -83,13 +83,13 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _BannerRepository.GetAllAsync();
+                var result = await _BannerRepository.GetAllAsync(m => m.ExpireDate == null && m.Confirmed == true);
 
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result.Data);
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -100,11 +100,11 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _BannerRepository.GetProcedureAsync("Banner_Json", json);
 
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result.Data);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex.Message);
             }
         }
     }
