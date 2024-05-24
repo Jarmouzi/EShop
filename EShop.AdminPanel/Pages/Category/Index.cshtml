@@ -1,86 +1,45 @@
 ﻿@page
 @model EShop.AdminPanel.Pages.Category.IndexModel
 @{
-    ViewData["Title"] = "مناطق";
+    ViewData["Title"] = "گروه بندی محصولات";
 }
-<section class="content-header">
-    <h1>
-        @ViewData["Title"]
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> داشبورد</a></li>
-        <li><a href="#"><i class="fa fa-archive"></i> اطلاعات پایه</a></li>
-        <li class="active">
-            @ViewData["Title"]
-        </li>
-    </ol>
-</section>
-
+@await Component.InvokeAsync("Breadcrumb")
 <section class="content">
     <div class="row">
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <div id="regionForm" class="row"></div>
+                    <div id="categoryForm" class="row"></div>
                 </div>
                 <div class="box-body">
-                    @*                     <div class="row pull-left" style="padding:20px">
-                    <a onclick="jQueryModalGet('?handler=CreateOrEdit','Create Customer')" class="btn bg-success">
-                    ایجاد
-                    </a>
-                    <a id="reload" class="btn bg-warning">
-                    بارگذاری مجدد
-                    </a>
-                    </div> *@
                     <div class="row">
                         <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
                     </div>
-                    @* <div class="clearfix"></div> *@
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-
 @section Scripts
     {
     <script>
         $(document).ready(function () {
-            $('#regionForm').load('?handler=FormPartial');
-            $('#viewAll').load('?handler=ViewAllPartial&level1Id=&level2Id=&take=10&skip=0');
-
+            $('#categoryForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
         });
 
-        SetCategories = (parentId) => {
-            $("#ParentId").empty();
-            $("#ParentId").append("<option value=''>انتخاب نمایید</option>");
-            $.getJSON(`?handler=SubCategories&parentId=${parentId}`, (data) => {
-                $.each(data, function (i, item) {
-                    $("#ParentId").append(`<option value="${item.id}">${item.title}</option>`);
-                    //set_data_row(item);
-                });
-            });
-        }
-
         clearForm = () => {
-            $('#create-form').attr('action', '/Category?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');
-            $('#GrandParentId').val('');
-            $('#ParentId').val('');
+            $('#create-form').attr('action', '/Category?id=&handler=CreateOrEdit');
+            $('#Title').val('');
+            $('#Country').val('');
             $('#saveBtn').html('ایجاد');
         }
 
         Search = (skip) => {
-            //e.preventDefault();
-            var level1Id = $("select#GrandParentId").val();
-            var level2Id = $("select#ParentId").val();
+            var parentId = $("select#ParentId").val();
             var take = $("select#Take").val();
-
-            //jQuerySearch(`?handler=SearchAsync?title=${title}?country=${country}`);
-
-            //jQueryGet('?handler=ViewAllPartial&title=Model.Title&country=Model.Country', 'viewAll')
-            $('#viewAll').load(`?handler=ViewAllPartial&level1Id=${level1Id}&level2Id=${level2Id}&take=${take}&skip=${skip}`);
+            $('#viewAll').load(`?handler=ViewAllPartial&parentId=${parentId}&take=${take}&skip=${skip}`);
         }
-
     </script>
 }

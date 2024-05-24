@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
                 ViewData = new ViewDataDictionary<PaginatedViewModel<StockViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_StockForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
                     };
                 else
                 {
-                    var stock = await _stockRepository.GetByIdAsync(id);
+                    var stock = await _stockRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_StockForm",
@@ -83,15 +83,15 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
             };
         }
 
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_StockForm", new StockViewModel()) });
                 else
                 {
-                    var thisStock = await _stockRepository.GetByIdAsync(id);
+                    var thisStock = await _stockRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_StockForm", thisStock) });
                 }
 
@@ -102,7 +102,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, StockViewModel stock)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, StockViewModel stock)
         {
             var html = "";
             try
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
                 if (ModelState.IsValid)
                 {
                     stock.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _stockRepository.AddAsync(stock);
                     }
@@ -133,7 +133,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

@@ -1,18 +1,18 @@
-﻿using EShop.AdminPanel.Services;
+using EShop.AdminPanel.Services;
+using EShop.IdentityService.Infrastructure.Authorizaion;
 using EShop.LogService.Repository;
 using EShop.Model;
+using EShop.Model.TypeSafe;
 using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace EShop.AdminPanel.Pages.Category
 {
+    [AuthorizePage]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
@@ -29,143 +29,171 @@ namespace EShop.AdminPanel.Pages.Category
             _categoryRepository = categoryRepository;
             _renderService = renderService;
         }
-
-        public Result<IEnumerable<CategoryViewModel>> Categorys { get; set; }
         public void OnGet()
         {
         }
-        private async Task<SelectList> SetSelectLists(Guid? parentId)
+        public async Task<PartialViewResult> OnGetViewAllPartial(Int64? parentId = null, int take = 10, int skip = 0)
         {
-            var result = await _categoryRepository.GetAllAsync(m => m.Level == 1 && m.Confirmed == true);
+            var result = new PaginatedViewModel<CategoryViewModel>();
+            try
+            {
+                var list = await _categoryRepository.GetPaginatedResult(parentId, take, skip);
 
-            var PrimaryCategories = new SelectList(result.Data, "Id", "Title");
-            PrimaryCategories.Prepend(new SelectListItem("انتخاب نمایید", null));
-
-            return PrimaryCategories;
-        }
-        public async Task<JsonResult> OnGetSubCategories(Guid? parentId)
-        {
-            var result = await _categoryRepository.GetAllAsync(m => m.Confirmed == true && m.ParentId == parentId);
-            return new JsonResult(result.Data);
-        }
-        public async Task<PartialViewResult> OnGetViewAllPartial(Guid? level1Id = null, Guid? level2Id = null, int take = 10, int skip = 0)
-        {
-            var list = await _categoryRepository.GetPaginatedResult(level1Id, level2Id, take, skip);
+                result = list.Data;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Category OnGetViewAllPartial: " + ex.Message, [parentId, take, skip]);
+            }
 
             return new PartialViewResult
             {
                 ViewName = "_CategoryList",
-                ViewData = new ViewDataDictionary<PaginatedViewModel<CategoryViewModel>>(ViewData, list.Data)
+                ViewData = new ViewDataDictionary<PaginatedViewModel<CategoryViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
-            var result = await _categoryRepository.GetAllAsync(m => m.Level == 1 && m.Confirmed == true);
-
-            var PrimaryCategories = new SelectList(result.Data, "Id", "Title");
-            PrimaryCategories.Prepend(new SelectListItem("انتخاب نمایید", null));
-
-            var SecondaryCategories = new SelectList(new List<CategoryViewModel>(), "Id", "Title");
-            SecondaryCategories.Prepend(new SelectListItem("انتخاب نمایید", null));
-
-            if (id == new Guid())
+            try
             {
-                return new PartialViewResult
-                {
-                    ViewName = "_CategoryForm",
-                    ViewData = new ViewDataDictionary<CategoryViewModel>(ViewData, new CategoryViewModel
+                var result = await _categoryRepository.GetAllAsync();
+                var list = result.Data.OrderBy(m => m.ParentOrder + m.DisplayOrder).ToList();
+
+                if (!id.HasValue)
+                    return new PartialViewResult
                     {
-                        PrimaryCategories = PrimaryCategories,
-                    })
-                };
-            }
-            else
-            {
-                var category = await _categoryRepository.GetByIdAsync(id);
-                var level = category.Data.Level;
-
-                switch (level)
+                        ViewName = "_CategoryForm",
+                        ViewData = new ViewDataDictionary<CategoryViewModel>(ViewData, new CategoryViewModel
+                        {
+                            Categories = list,
+                        })
+                    };
+                else
                 {
-                    case 1:
-                        PrimaryCategories.Select(m => m.Value == null);
-                        break;
-                    case 2:
-                        PrimaryCategories.Select(m => m.Value == category.Data.ParentId.ToString());
-                        result = await _categoryRepository.GetAllAsync(m => m.Level == 2 && m.Confirmed == true && m.ParentId == category.Data.ParentId);
-                        SecondaryCategories = new SelectList(result.Data, "Id", "Title");
-                        SecondaryCategories.Prepend(new SelectListItem("انتخاب نمایید", null));
-                        SecondaryCategories.Select(m => level == 1 && m.Value == category.Data.Id.ToString());
-                        break;
-                    case 3:
-                        var grandParentId = result.Data.First().ParentId;
-                        PrimaryCategories.Select(m => m.Value == grandParentId.ToString());
-                        result = await _categoryRepository.GetAllAsync(m => m.Level == 2 && m.Confirmed == true && m.ParentId == grandParentId);
+                    var category = await _categoryRepository.GetByIdAsync(id.Value);
+                    category.Data.Categories = list;
 
-                        SecondaryCategories = new SelectList(result.Data, "Id", "Title");
-                        SecondaryCategories.Prepend(new SelectListItem("انتخاب نمایید", null));
-                        SecondaryCategories.Select(m => level == 1 && m.Value == category.Data.Id.ToString());
-                        break;
+                    return new PartialViewResult
+                    {
+                        ViewName = "_CategoryForm",
+                        ViewData = new ViewDataDictionary<CategoryViewModel>(ViewData, category.Data)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Category OnPostCreateOrEditAsync: " + ex.Message, id);
+            }
 
-                    default:
-                        break;
+            return new PartialViewResult
+            {
+                ViewName = "_CategoryForm",
+                ViewData = new ViewDataDictionary<CategoryViewModel>(ViewData, new CategoryViewModel())
+            };
+        }
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
+        {
+            try
+            {
+                if (!id.HasValue)
+                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_CategoryForm", new CategoryViewModel()) });
+                else
+                {
+                    var thisCategory = await _categoryRepository.GetByIdAsync(id.Value);
+                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_CategoryForm", thisCategory) });
                 }
 
-                category.Data.PrimaryCategories = PrimaryCategories;
-                category.Data.SecondaryCategories = SecondaryCategories;
-                return new PartialViewResult
-                {
-                    ViewName = "_CategoryForm",
-                    ViewData = new ViewDataDictionary<CategoryViewModel>(ViewData, category.Data)
-                };
             }
-        }
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
-        {
-            if (id == new Guid())
-                return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_CategoryForm", new CategoryViewModel()) });
-            else
+            catch (Exception ex)
             {
-                var thisCategory = await _categoryRepository.GetByIdAsync(id);
-                return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_CategoryForm", thisCategory) });
+                _logger.LogError("Category OnPostCreateOrEditAsync: " + ex.Message, id);
             }
+            return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, CategoryViewModel category)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, CategoryViewModel category)
         {
-            if (ModelState.IsValid)
+            var html = "";
+            try
             {
-                category.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-                if (category.ParentId == null && category.GrandParentId != null) 
-                    category.ParentId = category.GrandParentId;
-
-                if (id == null || id == new Guid())
+                ModelState.Remove("Id");
+                byte level = 1;
+                if (category.ParentId.HasValue)
                 {
-                    await _categoryRepository.AddAsync(category);
+                    var parent = await _categoryRepository.GetByIdAsync(category.ParentId.Value);
+
+                    if(parent.Data != null)
+                        level = ++parent.Data.Level;
+                }
+                category.Level = level;
+
+                if (ModelState.IsValid)
+                {
+                    category.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    if (!id.HasValue)
+                    {
+                        await _categoryRepository.AddAsync(category);
+                    }
+                    else
+                    {
+                        await _categoryRepository.UpdateAsync(category);
+                    }
+                    return await GetCategorys();
                 }
                 else
                 {
-                    await _categoryRepository.UpdateAsync(category);
+                    html = await _renderService.ToStringAsync("_CategoryForm", category);
                 }
-                return await GetCategories();
+
             }
-            else
+            catch (Exception ex)
             {
-                var html = await _renderService.ToStringAsync("_CategoryForm", category);
-                return new JsonResult(new { isValid = false, html = html });
+                _logger.LogError("Category OnPostCreateOrEditAsync: " + ex.Message, category);
             }
+            return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
-            await _categoryRepository.DeleteAsync(id);
-            return await GetCategories();
+            try
+            {
+                await _categoryRepository.DeleteAsync(id);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Category OnPostDeleteAsync: " + ex.Message, id);
+            }
+            return await GetCategorys();
+        }
+        public async Task<JsonResult> OnPosChangeOrderAsync(Int64 id, int order)
+        {
+            try
+            {
+                await _categoryRepository.ChangeDisplayOrder(id, order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Category OnPostDeleteAsync: " + ex.Message, id);
+            }
+            return await GetCategorys();
         }
 
-        private async Task<JsonResult> GetCategories(Guid? level1Id = null, Guid? level2Id = null, int take = 10, int skip = 0)
+        private async Task<JsonResult> GetCategorys()
         {
-            var list = await _categoryRepository.GetPaginatedResult(level1Id, level2Id, take, skip);
+            var isValid = false;
+            var html = "";
+            try
+            {
+                var list = await _categoryRepository.GetPaginatedResult(null, 10, 0);
 
-            var html = await _renderService.ToStringAsync("_CategoryList", list.Data);
-            return new JsonResult(new { isValid = true, html = html });
+                isValid = list.Status == TS.Status.Success;
+
+                html = await _renderService.ToStringAsync("_CategoryList", list.Data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Category GetCategorys: " + ex.Message);
+            }
+            return new JsonResult(new { isValid = isValid, html = html });
         }
     }
 }

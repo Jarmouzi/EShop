@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.Region
                 ViewData = new ViewDataDictionary<PaginatedViewModel<RegionViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_RegionForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.Region
                     };
                 else
                 {
-                    var region = await _regionRepository.GetByIdAsync(id);
+                    var region = await _regionRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_RegionForm",
@@ -82,15 +82,15 @@ namespace EShop.AdminPanel.Pages.Region
                 ViewData = new ViewDataDictionary<RegionViewModel>(ViewData, new RegionViewModel())
             };
         }
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_RegionForm", new RegionViewModel()) });
                 else
                 {
-                    var thisRegion = await _regionRepository.GetByIdAsync(id);
+                    var thisRegion = await _regionRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_RegionForm", thisRegion) });
                 }
 
@@ -101,7 +101,7 @@ namespace EShop.AdminPanel.Pages.Region
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, RegionViewModel region)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, RegionViewModel region)
         {
             var html = "";
             try
@@ -110,7 +110,7 @@ namespace EShop.AdminPanel.Pages.Region
                 if (ModelState.IsValid)
                 {
                     region.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _regionRepository.AddAsync(region);
                     }
@@ -132,7 +132,7 @@ namespace EShop.AdminPanel.Pages.Region
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

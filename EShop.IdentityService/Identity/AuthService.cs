@@ -153,25 +153,27 @@ namespace EShop.IdentityService.Identity
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
 
-            //var permissionClaims = new List<Claim>();
+            var permissionClaims = new List<Claim>();
 
 
-            //permissionClaims.AddRange(GetClaimsSeperated(await _userManager.GetClaimsAsync(user)));
-            ////claims.AddRange(GetClaimsSeperated(await _userManager.GetClaimsAsync(user)));
-            //var roles = await _userManager.GetRolesAsync(user);
+            permissionClaims.AddRange(GetClaimsSeperated(await _userManager.GetClaimsAsync(user)));
+            claims.AddRange(GetClaimsSeperated(await _userManager.GetClaimsAsync(user)));
+            var roles = await _userManager.GetRolesAsync(user);
 
-            //foreach (var role in roles)
-            //{
-            //    claims.Add(new Claim(ClaimTypes.Role, role));
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
 
-            //    var identityRole = await _roleManager.FindByNameAsync(role);
-            //    permissionClaims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
-            //    //claims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
-            //}
+                var identityRole = await _roleManager.FindByNameAsync(role);
+                permissionClaims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
+                claims.AddRange(GetClaimsSeperated(await _roleManager.GetClaimsAsync(identityRole)));
+            }
 
-            //claims.AddRange(permissionClaims.OrderBy(t => t.Type));
+            claims.AddRange(permissionClaims.OrderBy(t => t.Type));
             return claims;
         }
+
+
 
 
         private List<Claim> GetClaimsSeperated(IList<Claim> claims)

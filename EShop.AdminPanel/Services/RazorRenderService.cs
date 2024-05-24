@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EShop.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -6,19 +7,27 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
+using System.Security.Claims;
 
 namespace EShop.AdminPanel.Services
 {
     public interface IRazorRenderService
     {
         Task<string> ToStringAsync<T>(string viewName, T model);
+        Task<string> UploadImage(IFormFile uploadedFile);
     }
     public class RazorRenderService : IRazorRenderService
     {
@@ -111,6 +120,45 @@ namespace EShop.AdminPanel.Services
                 Environment.NewLine,
                 new[] { $"Unable to find page '{pageName}'. The following locations were searched:" }.Concat(searchedLocations));
             throw new InvalidOperationException(errorMessage);
+        }
+
+        public async Task<string> UploadImage(IFormFile uploadedFile)
+        {
+            var ServerIP = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("EShopSettings")["StaicsServer"];
+            //+ "Statistics/UploadImage";
+            using (var client = new HttpClient(  new HttpClientHandler() { UseDefaultCredentials = true, PreAuthenticate = true }) )
+            {
+                try
+                {
+                    client.BaseAddress = new Uri(ServerIP);
+                    var user = _httpContext.HttpContext.User;
+
+                    var token = user.FindFirstValue("token");
+
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+                    //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+
+                    var fileContent = new MultipartFormDataContent();
+
+                    var streamContent = new StreamContent(uploadedFile.OpenReadStream());
+                    streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+
+                    fileContent.Add(streamContent, "uploadedFile", uploadedFile.FileName);
+
+                    var response = client.PostAsync("/Statistics/", fileContent).Result;
+
+                    if (!response.IsSuccessStatusCode)
+                        return "\n File Insert To " + ServerIP + " faild: " + response.Content.ReadAsStringAsync().Result;
+
+                    return response.Content.ReadAsStringAsync().Result;
+                }
+                catch (Exception e)
+                {
+                    return "\n Insert To " + ServerIP + " raised error: " + e.Message;
+                }
+            }
         }
     }
 }

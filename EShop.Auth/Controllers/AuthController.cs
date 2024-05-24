@@ -22,7 +22,7 @@ namespace EShop.Auth.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginUser credentials)
+        public async Task<IActionResult> Login([FromForm]LoginUser credentials)
         {
             if (credentials == null)
             {

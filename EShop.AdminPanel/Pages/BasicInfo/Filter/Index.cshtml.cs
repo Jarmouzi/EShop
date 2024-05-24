@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
                 ViewData = new ViewDataDictionary<PaginatedViewModel<FilterViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_FilterForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
                     };
                 else
                 {
-                    var filter = await _filterRepository.GetByIdAsync(id);
+                    var filter = await _filterRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_FilterForm",
@@ -83,15 +83,15 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
             };
         }
 
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_FilterForm", new FilterViewModel()) });
                 else
                 {
-                    var thisFilter = await _filterRepository.GetByIdAsync(id);
+                    var thisFilter = await _filterRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_FilterForm", thisFilter) });
                 }
 
@@ -102,7 +102,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, FilterViewModel filter)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, FilterViewModel filter)
         {
             var html = "";
             try
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
                 if (ModelState.IsValid)
                 {
                     filter.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _filterRepository.AddAsync(filter);
                     }
@@ -133,7 +133,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

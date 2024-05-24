@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -16,19 +17,22 @@ namespace EShop.ViewModel
         public Byte Level { get; set; }
 
         [NotMapped]
-        public Guid? GrandParentId { get; set; }
-        public Guid? ParentId { get; set; }
+        public Int64? GrandParentId { get; set; }
+        public Int64? ParentId { get; set; }
         public int DisplayOrder { get; set; }
+
+        [DisplayName("تایید")]
         public bool Confirmed { get; set; }
 
         [NotMapped]
         public string? ParentTitle { get; set; }
 
         [NotMapped]
-        [ValidateNever]
-        public SelectList PrimaryCategories { get; set; }
+        public int ParentOrder { get; set; }
+
         [NotMapped]
         [ValidateNever]
-        public SelectList SecondaryCategories { get; set; }
+        public List<CategoryViewModel> Categories { get; set; }
+
     }
 }

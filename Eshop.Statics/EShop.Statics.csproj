@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EShop.IdentityService\EShop.IdentityService.csproj" />
     <ProjectReference Include="..\EShop.Utilities\EShop.Utilities.csproj" />
   </ItemGroup>
 

@@ -18,11 +18,15 @@ namespace EShop.Repository.Implementation
 {
     public class CategoryRepository : Repository<Category, CategoryViewModel, EShopContext>, ICategoryRepository
     {
+        private readonly IUnitOfWork<EShopContext> _unitOfWork;
+        private readonly DbSet<Category> _service;
         public CategoryRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
         {
+            _unitOfWork = unitOfWork;
+            _service = _unitOfWork.Set<Category>();
         }
 
-        public async Task<Result<PaginatedViewModel<CategoryViewModel>>> GetPaginatedResult(Guid? Level1Id = null, Guid? Level2Id = null, int take = 10, int skip = 0)
+        public async Task<Result<PaginatedViewModel<CategoryViewModel>>> GetPaginatedResult(Int64? parentId = null, int take = 10, int skip = 0)
         {
             var result = new Result<PaginatedViewModel<CategoryViewModel>> ();
 
@@ -31,8 +35,7 @@ namespace EShop.Repository.Implementation
                 var totalCount = new SqlParameter("@TotalCount", System.Data.SqlDbType.Int);
                 totalCount.Direction = System.Data.ParameterDirection.Output;
                 var sparam = new SqlParameter[] {
-                new SqlParameter("@Level1Id", Level1Id == null ? DBNull.Value : Level1Id),
-                new SqlParameter("@Level2Id", Level2Id == null ? DBNull.Value : Level2Id),
+                new SqlParameter("@ParentId", parentId == null ? DBNull.Value : parentId),
                 new SqlParameter("@Take", take),
                     new SqlParameter("@Skip", skip),
                     totalCount
@@ -56,6 +59,38 @@ namespace EShop.Repository.Implementation
                 }
                 result.Status = TS.Status.Warning;
                 result.Message = Resource.Notifications.NotFound;
+            }
+            catch (Exception ex)
+            {
+                result.Status = TS.Status.ServerError;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<Result<bool>> ChangeDisplayOrder(Int64 id, int order)
+        {
+            var result = new Result<bool>();
+            try
+            {
+                result.Data = false;
+
+                var model = _service.Find(id);
+                model.ModifyDate = DateTime.Now;
+                model.DisplayOrder += order;
+
+                var exchangeModel = await _service.Where(m => m.DisplayOrder == model.DisplayOrder && m.ParentId == model.ParentId).FirstOrDefaultAsync();
+                if (exchangeModel != null)
+                {
+                    exchangeModel.DisplayOrder += order * -1;
+                }
+                if (await _unitOfWork.SaveAsync() > 0)
+                {
+                    result.Data = true;
+                    result.Message = Resource.Notifications.SuccessfulUpdate;
+                    result.Status = TS.Status.Success;
+                    return result;
+                }
             }
             catch (Exception ex)
             {

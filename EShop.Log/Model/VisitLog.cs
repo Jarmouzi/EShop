@@ -8,8 +8,8 @@ namespace EShop.LogService.Model
 {
     public class VisitLog
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public Int64 Id { get; set; }
+        public string Username { get; set; }
         public string IP { get; set; }
         public string DeviceInfo { get; set; }
         public DateTime Date { get; set; }

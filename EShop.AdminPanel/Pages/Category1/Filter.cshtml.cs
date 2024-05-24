@@ -5,8 +5,8 @@ namespace EShop.AdminPanel.Pages.Category
 {
     public class FilterModel : PageModel
     {
-        public Guid Id { get; set; }
-        public void OnGet(Guid id)
+        public Int64 Id { get; set; }
+        public void OnGet(Int64 id)
         {
             Id = id;
         }

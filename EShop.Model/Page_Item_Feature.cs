@@ -11,7 +11,7 @@ namespace EShop.Model
     { 
 		public string? Title { get; set; }
 		public string? ComponentName { get; set; }
-		public Guid? Page_Item_Id { get; set; }
+		public Int64? Page_Item_Id { get; set; }
 		public bool? Confirmed { get; set; }
 				public virtual ICollection<Item_Feature_Details> Item_Feature_Detailss { get; set; }
 	}

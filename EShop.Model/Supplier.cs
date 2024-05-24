@@ -10,7 +10,7 @@ namespace EShop.Model
     public class Supplier: BaseModel
     { 
 		public string? Title { get; set; }
-		public Guid? OwnerId { get; set; }
+		public Int64? OwnerId { get; set; }
 		public string? Address { get; set; }
 		public string? PhoneNumber { get; set; }
 		public string? FaxNumber { get; set; }

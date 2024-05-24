@@ -35,7 +35,7 @@ namespace EShop.LogService.Repository
             }
         }
 
-        public async Task<Guid?> AddVisitLogAsync(VisitLog model)
+        public async Task<Int64?> AddVisitLogAsync(VisitLog model)
         {
             try
             {

@@ -1,5 +1,6 @@
 using EShop.IdentityService.Infrastructure;
 using EShop.Model;
+using Microsoft.AspNetCore.Identity;
 
 namespace EShop.Auth
 {

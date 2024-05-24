@@ -35,7 +35,6 @@ namespace EShop.Repository.Implementation
             try
             {
                 var entity = _mappingEngine.Map<T>(model);
-                entity.Id = Guid.NewGuid();
                 entity.CreateDate = DateTime.Now;
 
                 _service.Add(entity);
@@ -83,9 +82,9 @@ namespace EShop.Repository.Implementation
             return result;
         }
 
-        public async Task<Result<Guid>> DeleteAsync(Guid id)
+        public async Task<Result<Int64>> DeleteAsync(Int64 id)
         {
-            var result = new Result<Guid>();
+            var result = new Result<Int64>();
             result.Data = id;
             try
             {
@@ -243,7 +242,7 @@ namespace EShop.Repository.Implementation
             return result;
         }
 
-        public async Task<Result<TViewModel?>> GetByIdAsync(Guid id)
+        public async Task<Result<TViewModel?>> GetByIdAsync(Int64 id)
         {
             var result = new Result<TViewModel>();
             try

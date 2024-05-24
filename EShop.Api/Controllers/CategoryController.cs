@@ -48,7 +48,7 @@ namespace EShop.Web.API.Controllers
         //}
 
         //[HttpDelete("Delete")]
-        //public async Task<IActionResult> Delete(Guid id)
+        //public async Task<IActionResult> Delete(Int64 id)
         //{
         //    try
         //    {
@@ -64,7 +64,7 @@ namespace EShop.Web.API.Controllers
 
 
         [HttpGet("Get")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(Int64 id)
         {
             try
             {

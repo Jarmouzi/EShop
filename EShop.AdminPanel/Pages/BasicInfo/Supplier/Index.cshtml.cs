@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
                 ViewData = new ViewDataDictionary<PaginatedViewModel<SupplierViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_SupplierForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
                     };
                 else
                 {
-                    var supplier = await _supplierRepository.GetByIdAsync(id);
+                    var supplier = await _supplierRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_SupplierForm",
@@ -83,15 +83,15 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
             };
         }
 
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_SupplierForm", new SupplierViewModel()) });
                 else
                 {
-                    var thisSupplier = await _supplierRepository.GetByIdAsync(id);
+                    var thisSupplier = await _supplierRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_SupplierForm", thisSupplier) });
                 }
 
@@ -102,7 +102,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, SupplierViewModel supplier)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, SupplierViewModel supplier)
         {
             var html = "";
             try
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
                 if (ModelState.IsValid)
                 {
                     supplier.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _supplierRepository.AddAsync(supplier);
                     }
@@ -133,7 +133,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

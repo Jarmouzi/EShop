@@ -10,7 +10,7 @@ namespace EShop.Model
     public class Page_Item_Supplier: BaseModel
     { 
 		public int? RemainedCount { get; set; }
-		public Guid? SupplierId { get; set; }
+		public Int64? SupplierId { get; set; }
 		public long? Price { get; set; }
 		public Int16? Discount { get; set; }
 		public bool? Confirmed { get; set; }

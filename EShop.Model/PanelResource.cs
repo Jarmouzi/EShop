@@ -13,9 +13,9 @@ namespace EShop.Model
 		public string? Method { get; set; }
 		public string Title { get; set; }
 		public string? Icon { get; set; }
-		public int? Order { get; set; }
+		public int? SortOrder { get; set; }
 		public bool ShowOnMenu { get; set; }
-		public Guid? ParentId { get; set; }
-		public bool? Confirmed { get; set; }
+		public Int64? ParentId { get; set; }
+		//public bool? Confirmed { get; set; }
 	}
 }

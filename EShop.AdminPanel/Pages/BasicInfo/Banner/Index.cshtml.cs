@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
                 ViewData = new ViewDataDictionary<PaginatedViewModel<BannerViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_BannerForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
                     };
                 else
                 {
-                    var banner = await _bannerRepository.GetByIdAsync(id);
+                    var banner = await _bannerRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_BannerForm",
@@ -83,15 +83,15 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
             };
         }
 
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_BannerForm", new BannerViewModel()) });
                 else
                 {
-                    var thisBanner = await _bannerRepository.GetByIdAsync(id);
+                    var thisBanner = await _bannerRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_BannerForm", thisBanner) });
                 }
 
@@ -102,7 +102,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, BannerViewModel banner)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, BannerViewModel banner)
         {
             var html = "";
             try
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
                 if (ModelState.IsValid)
                 {
                     banner.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _bannerRepository.AddAsync(banner);
                     }
@@ -133,7 +133,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

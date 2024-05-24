@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using EShop.Utilities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using EShop.IdentityService.Infrastructure.Authorizaion;
 
 namespace Eshop.Statics.Controllers
 {
@@ -45,5 +48,33 @@ namespace Eshop.Statics.Controllers
         //    }
         //    return Task.FromResult(hostedFiles);
         //}
+
+        //[AuthorizeApi]
+        [HttpPost(Name = "Post")]
+        public async Task<IActionResult> UploadImage([FromForm] UploadedFile uploadedFile)
+        {
+            string contentRootPath = _webHostEnvironment.ContentRootPath;
+            var fileName = Guid.NewGuid().ToString() + "." + uploadedFile.uploadedFile.FileName.Split('.')[1];
+            string filePath = Path.Combine(contentRootPath, "images", fileName);
+
+            if (uploadedFile == null || uploadedFile.uploadedFile.Length == 0)
+            {
+                return NotFound();
+            }
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await uploadedFile.uploadedFile.CopyToAsync(stream);
+            }
+
+            return Ok(filePath);
+        }
+
+
+    }
+
+    public class UploadedFile
+    {
+        public IFormFile uploadedFile { get; set; }
     }
 }

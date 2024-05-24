@@ -4,7 +4,7 @@ namespace EShop.ViewModel
 {
     public class ComponentViewModel: BaseViewModel
     { 
-		public Guid? CategoryId { get; set; }
+		public Int64? CategoryId { get; set; }
 		public string? Title { get; set; }
 		public string? Event { get; set; }
 		public string? Controller { get; set; }

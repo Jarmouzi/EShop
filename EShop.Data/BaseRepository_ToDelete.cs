@@ -14,11 +14,11 @@
 //        Task<IEnumerable<T>> GetAllAsync();
 //        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter);
 //        Task<T?> GetAsync(Expression<Func<T, bool>> filter);
-//        Task<T?> GetByIdAsync(Guid id);
+//        Task<T?> GetByIdAsync(Int64 id);
 //        Task AddAsync(T entity);
 //        void Update(T entity);
 //        void Delete(T entity);
-//        Task<bool> ExistsAsync(Guid id);
+//        Task<bool> ExistsAsync(Int64 id);
 //    }
 
 //    public class BaseRepository_ToDelete<T> : IBaseRepository_ToDelete<T> where T : BaseModel
@@ -44,7 +44,7 @@
 //            return await _context.Set<T>().Where(filter).FirstOrDefaultAsync();
 //        }
 
-//        //public virtual async Task<T?> GetByIdAsync(Guid id)
+//        //public virtual async Task<T?> GetByIdAsync(Int64 id)
 //        //{
 //        //    return await _context.Set<T>().FindAsync(id);
 //        //}
@@ -64,7 +64,7 @@
 //            _context.Set<T>().Remove(entity);
 //        }
 
-//        public virtual async Task<bool> ExistsAsync(Guid id)
+//        public virtual async Task<bool> ExistsAsync(Int64 id)
 //        {
 //            return await _context.Set<T>().AnyAsync(x => x.Id == id);
 //        }

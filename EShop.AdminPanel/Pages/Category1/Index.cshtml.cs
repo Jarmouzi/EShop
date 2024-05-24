@@ -23,7 +23,7 @@ namespace EShop.AdminPanel.Pages.Category1
         public CategoryViewModel _Category { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public Guid CategoryId { get; set; }
+        public Int64 CategoryId { get; set; }
         public SelectList PrimaryCategories { get; set; }
         public SelectList SecondaryCategories { get; set; }
 

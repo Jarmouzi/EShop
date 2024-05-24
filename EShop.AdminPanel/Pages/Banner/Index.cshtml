@@ -1,0 +1,62 @@
+﻿@page
+@model EShop.AdminPanel.Pages.Banner.IndexModel
+@{
+    ViewData["Title"] = "بنر";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="bannerForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#bannerForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&take=10&skip=0');
+        });
+
+
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     var fileInput = document.getElementById('UploadedFile');
+        //     if (fileInput) {
+        //         fileInput.setAttribute('lang', 'fa');
+        //         fileInput.setAttribute('title', 'انتخاب تصویر');
+        //         fileInput.setAttribute('class', 'btn btn-info');
+        //         // If you also want to change the button text
+        //         fileInput.addEventListener('change', function () {
+        //             var label = this.nextElementSibling;
+        //             if (label) {
+        //                 label.innerHTML = this.files[0].name; // Change the button text to the selected file name
+        //             }
+        //         });
+        //     }
+        // }
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/Banner?id=&handler=CreateOrEdit');
+            $('#Title').val('');
+            $('#Country').val('');
+            $('#saveBtn').html('ایجاد');
+        }
+
+        Search = (take, skip) => {
+            var title = $("input#Title").val();
+            var country = $("input#Country").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&title=${title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

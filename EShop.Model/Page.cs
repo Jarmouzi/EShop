@@ -12,7 +12,7 @@ namespace EShop.Model
 		public string Title { get; set; }
 		public string? ThemeAndOtherOptions { get; set; }
 		public int? CategoryId { get; set; }
-		public Guid? BrandId { get; set; }
+		public Int64? BrandId { get; set; }
 		public bool? Confirmed { get; set; }
 	}
 }

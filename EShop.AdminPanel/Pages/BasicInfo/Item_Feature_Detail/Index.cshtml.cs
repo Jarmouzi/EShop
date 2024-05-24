@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Item_Feature_Detail
                 ViewData = new ViewDataDictionary<PaginatedViewModel<Item_Feature_DetailViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_Item_Feature_DetailForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Item_Feature_Detail
                     };
                 else
                 {
-                    var item_feature_detail = await _item_feature_detailRepository.GetByIdAsync(id);
+                    var item_feature_detail = await _item_feature_detailRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_Item_Feature_DetailForm",
@@ -83,15 +83,15 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Item_Feature_Detail
             };
         }
 
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_Item_Feature_DetailForm", new Item_Feature_DetailViewModel()) });
                 else
                 {
-                    var thisItem_Feature_Detail = await _item_feature_detailRepository.GetByIdAsync(id);
+                    var thisItem_Feature_Detail = await _item_feature_detailRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_Item_Feature_DetailForm", thisItem_Feature_Detail) });
                 }
 
@@ -102,7 +102,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Item_Feature_Detail
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, Item_Feature_DetailViewModel item_feature_detail)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, Item_Feature_DetailViewModel item_feature_detail)
         {
             var html = "";
             try
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Item_Feature_Detail
                 if (ModelState.IsValid)
                 {
                     item_feature_detail.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _item_feature_detailRepository.AddAsync(item_feature_detail);
                     }
@@ -133,7 +133,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Item_Feature_Detail
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

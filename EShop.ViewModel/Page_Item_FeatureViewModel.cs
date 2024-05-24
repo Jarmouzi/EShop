@@ -6,7 +6,7 @@ namespace EShop.ViewModel
     { 
 		public string? Title { get; set; }
 		public string? ComponentName { get; set; }
-		public Guid? Page_Item_Id { get; set; }
+		public Int64? Page_Item_Id { get; set; }
 		public bool? Confirmed { get; set; }
 	}
 }

@@ -10,13 +10,13 @@ namespace EShop.Repository.Interface
     {
         Task<Result<TViewModel>> AddAsync(TViewModel model);
         Task<Result<TViewModel>> UpdateAsync(TViewModel model);
-        Task<Result<Guid>> DeleteAsync(Guid id);
+        Task<Result<Int64>> DeleteAsync(Int64 id);
         Task<Result<IEnumerable<TViewModel>>> GetAllAsync();
         Task<Result<IEnumerable<TViewModel>>> GetAllAsync(Expression<Func<T, bool>> filter);
         Task<Result<IEnumerable<TResult>>> GetProcedureAsync<TResult>(string procedureName, SqlParameter[] sparams) where TResult : class;
         Task<Result<string>> GetProcedureAsync(string procedureName, string? jsonparams = null);
         Task<Result<TViewModel?>> GetAsync(Expression<Func<T, bool>> filter);
-        Task<Result<TViewModel?>> GetByIdAsync(Guid id);
-        //Task<Result<bool>> ExistsAsync(Guid id);
+        Task<Result<TViewModel?>> GetByIdAsync(Int64 id);
+        //Task<Result<bool>> ExistsAsync(Int64 id);
     }
 }

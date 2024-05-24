@@ -9,9 +9,9 @@ namespace EShop.Model
 {
     public class Product_Feature : BaseModel
     {
-        public Guid? featureId { get; set; }
+        public Int64? featureId { get; set; }
         public string? Value { get; set; }
-        public Guid? ItemId { get; set; }
+        public Int64? ItemId { get; set; }
         public bool? Active { get; set; }
         public bool? IsMain { get; set; }
         public string? ComponentName { get; set; }

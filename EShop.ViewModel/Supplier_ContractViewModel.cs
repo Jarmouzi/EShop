@@ -4,9 +4,9 @@ namespace EShop.ViewModel
 {
     public class Supplier_ContractViewModel: BaseViewModel
     { 
-		public Guid? SupplierId { get; set; }
-		public Guid? CategoryId { get; set; }
-		public Guid? SaleTypeId { get; set; }
+		public Int64? SupplierId { get; set; }
+		public Int64? CategoryId { get; set; }
+		public Int64? SaleTypeId { get; set; }
 		public int? Commission { get; set; }
 		public bool? Confirmed { get; set; }
 		public string? Title { get; set; }

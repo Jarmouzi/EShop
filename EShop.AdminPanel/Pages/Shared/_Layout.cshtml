@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 
-    <title>پنل مدیریت فروشگاه اتما | @ViewData["Title"] </title>
+    <title>کاسب یار | @ViewData["Title"] </title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/EShop.AdminPanel.styles.css" asp-append-version="true" />
@@ -22,15 +22,15 @@
     <div class="wrapper">
         <header class="main-header">
             <a class="logo" asp-area="" asp-page="/Index">
-                <img src="~/etma-logo-min.png" class="brand-image img-circle elevation-3" width="40px" height="40px" />
-                <span><b>پنل مدیریت فروشگاه اتما</b></span>
+                <img src="~/logo-min.png" class="brand-image img-circle elevation-3" width="40px" height="40px" />
+                <span><b>کاسب یار</b></span>
             </a>
 
             <partial name="_LoginPartial"></partial>
         </header>
 
 
-        @await  Component.InvokeAsync("Sidebar")
+        @await Component.InvokeAsync("Sidebar")
 
         <div class="content-wrapper">
             @RenderBody()
@@ -52,7 +52,7 @@
         </div>
         <footer class="main-footer">
             <strong>
-                &copy; 2023 -پنل مدیریت فروشگاه اتما - <a asp-area="" asp-page="/Privacy">حقوق</a>
+                &copy; 2023 -کاسب یار - <a asp-area="" asp-page="/Privacy">حقوق</a>
             </strong>
         </footer>
     </div>

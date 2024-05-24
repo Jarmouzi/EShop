@@ -9,8 +9,8 @@ namespace EShop.Model
 {
     public class Filter: BaseModel
     { 
-		public Guid? FeatureId { get; set; }
-		public Guid? CategoryId { get; set; }
+		public Int64? FeatureId { get; set; }
+		public Int64? CategoryId { get; set; }
 		public string? ComponentName { get; set; }
 		public bool? Confirmed { get; set; }
 		public string? Title { get; set; }

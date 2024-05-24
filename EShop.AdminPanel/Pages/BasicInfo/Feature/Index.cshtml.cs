@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
                 ViewData = new ViewDataDictionary<PaginatedViewModel<FeatureViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_FeatureForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
                     };
                 else
                 {
-                    var feature = await _featureRepository.GetByIdAsync(id);
+                    var feature = await _featureRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_FeatureForm",
@@ -83,15 +83,15 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
             };
         }
 
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_FeatureForm", new FeatureViewModel()) });
                 else
                 {
-                    var thisFeature = await _featureRepository.GetByIdAsync(id);
+                    var thisFeature = await _featureRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_FeatureForm", thisFeature) });
                 }
 
@@ -102,7 +102,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, FeatureViewModel feature)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, FeatureViewModel feature)
         {
             var html = "";
             try
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
                 if (ModelState.IsValid)
                 {
                     feature.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _featureRepository.AddAsync(feature);
                     }
@@ -133,7 +133,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

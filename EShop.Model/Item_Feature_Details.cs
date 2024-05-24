@@ -9,7 +9,7 @@ namespace EShop.Model
 {
     public class Item_Feature_Details: BaseModel
     { 
-		public Guid? Item_FeatureId { get; set; }
+		public Int64? Item_FeatureId { get; set; }
 		public string? Title { get; set; }
 		public string? Image { get; set; }
 		public string? details { get; set; }

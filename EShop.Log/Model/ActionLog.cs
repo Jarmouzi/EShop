@@ -12,9 +12,9 @@ namespace EShop.LogService.Model
         {
             Date = DateTime.Now;
         }
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
-        public Guid VisitLogId { get; set; }
+        public Int64 Id { get; set; }
+        public string Username { get; set; }
+        public Int64 VisitLogId { get; set; }
         public DateTime Date { get; set; }
         public string Page { get; set; }
         public string Action { get; set; }

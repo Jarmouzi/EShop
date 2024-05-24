@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PanelResource
                 ViewData = new ViewDataDictionary<PaginatedViewModel<PanelResourceViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_PanelResourceForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PanelResource
                     };
                 else
                 {
-                    var panelresource = await _panelresourceRepository.GetByIdAsync(id);
+                    var panelresource = await _panelresourceRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_PanelResourceForm",
@@ -83,15 +83,15 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PanelResource
             };
         }
 
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_PanelResourceForm", new PanelResourceViewModel()) });
                 else
                 {
-                    var thisPanelResource = await _panelresourceRepository.GetByIdAsync(id);
+                    var thisPanelResource = await _panelresourceRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_PanelResourceForm", thisPanelResource) });
                 }
 
@@ -102,7 +102,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PanelResource
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, PanelResourceViewModel panelresource)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, PanelResourceViewModel panelresource)
         {
             var html = "";
             try
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PanelResource
                 if (ModelState.IsValid)
                 {
                     panelresource.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _panelresourceRepository.AddAsync(panelresource);
                     }
@@ -133,7 +133,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PanelResource
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

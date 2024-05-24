@@ -51,11 +51,11 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Brand
                 ViewData = new ViewDataDictionary<PaginatedViewModel<BrandViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Guid id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new PartialViewResult
                     {
                         ViewName = "_BrandForm",
@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Brand
                     };
                 else
                 {
-                    var brand = await _brandRepository.GetByIdAsync(id);
+                    var brand = await _brandRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_BrandForm",
@@ -83,15 +83,15 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Brand
             };
         }
 
-        public async Task<JsonResult> OnGetCreateOrEditAsync(Guid id)
+        public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
             try
             {
-                if (id == new Guid())
+                if (!id.HasValue)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_BrandForm", new BrandViewModel()) });
                 else
                 {
-                    var thisBrand = await _brandRepository.GetByIdAsync(id);
+                    var thisBrand = await _brandRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_BrandForm", thisBrand) });
                 }
 
@@ -102,7 +102,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Brand
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Guid? id, BrandViewModel brand)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, BrandViewModel brand)
         {
             var html = "";
             try
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Brand
                 if (ModelState.IsValid)
                 {
                     brand.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Guid())
+                    if (!id.HasValue)
                     {
                         await _brandRepository.AddAsync(brand);
                     }
@@ -133,7 +133,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Brand
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Guid id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
         {
             try
             {

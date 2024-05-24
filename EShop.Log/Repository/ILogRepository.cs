@@ -9,7 +9,7 @@ namespace EShop.LogService.Repository
 {
     public interface ILogRepository
     {
-        Task<Guid?> AddVisitLogAsync(VisitLog model);
+        Task<Int64?> AddVisitLogAsync(VisitLog model);
         Task<VisitLog> GetLastVisitLogAsync(VisitLog model);
         Task<int> AddActionLogAsync(ActionLog model);
         Task<IEnumerable<ActionLog>> GetActionLogListAsync(ActionLog model, int take, int skip);

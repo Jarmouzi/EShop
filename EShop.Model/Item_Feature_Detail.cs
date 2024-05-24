@@ -12,7 +12,7 @@ namespace EShop.Model
 		public string? Title { get; set; }
 		public string? Detail { get; set; }
 		public string? Image { get; set; }
-		public Guid? Item_FeatureId { get; set; }
+		public Int64? Item_FeatureId { get; set; }
 		public bool? Confirmed { get; set; }
 
 		[ForeignKey("Item_FeatureId")]

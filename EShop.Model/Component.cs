@@ -9,7 +9,7 @@ namespace EShop.Model
 {
     public class Component: BaseModel
     { 
-		public Guid? CategoryId { get; set; }
+		public Int64? CategoryId { get; set; }
 		public string? Title { get; set; }
 		public string? Event { get; set; }
 		public string? Controller { get; set; }
