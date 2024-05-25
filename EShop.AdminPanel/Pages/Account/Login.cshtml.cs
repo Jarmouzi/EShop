@@ -106,7 +106,7 @@ namespace EShop.AdminPanel.Pages.Account
                         }
 
                         await _authService.GenerateCookieAuthentication(UserCredential.Username);
-                        return RedirectToPage("/Index");
+                        return RedirectToPage("/Dashboard/Index");
                     }
                 }
                 catch (Exception e)

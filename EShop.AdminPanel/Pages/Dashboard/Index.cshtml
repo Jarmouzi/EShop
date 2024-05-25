@@ -1,0 +1,486 @@
+﻿@page
+@model EShop.AdminPanel.Pages.Dashboard.IndexModel
+@{
+    ViewData["Title"] = "داشبورد";
+}
+
+<!-- Content Header (Page header) -->
+@*<section class="content-header">
+        <h1>
+            داشبورد
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>*@
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">مبلغ دریافتی</span>
+                    <span class="info-box-number">90<small></small></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="ion ion-ios-people-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">میزان فروش</span>
+                    <span class="info-box-number">41,410</span>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-people-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">تعداد فروش</span>
+                    <span class="info-box-number">760</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">تعداد محصولات</span>
+                    <span class="info-box-number">2,000</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">گزارش فروش در ماه گذشته</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="text-center">
+                                <strong>ماه آبان</strong>
+                            </p>
+                            <div class="chart">
+                                <canvas id="salesChart" style="height: 180px;"></canvas>
+                            </div>
+                        </div>
+                        @*<div class="col-md-4">
+                        <p class="text-center">
+                        <strong>Goal Completion</strong>
+                        </p>
+
+                        <div class="progress-group">
+                        <span class="progress-text">Add Products to Cart</span>
+                        <span class="progress-number"><b>160</b>/200</span>
+
+                        <div class="progress sm">
+                        <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
+                        </div>
+                        </div>
+                        <div class="progress-group">
+                        <span class="progress-text">Complete Purchase</span>
+                        <span class="progress-number"><b>310</b>/400</span>
+
+                        <div class="progress sm">
+                        <div class="progress-bar progress-bar-red" style="width: 80%"></div>
+                        </div>
+                        </div>
+                        <div class="progress-group">
+                        <span class="progress-text">Visit Premium Page</span>
+                        <span class="progress-number"><b>480</b>/800</span>
+
+                        <div class="progress sm">
+                        <div class="progress-bar progress-bar-green" style="width: 80%"></div>
+                        </div>
+                        </div>
+                        <div class="progress-group">
+                        <span class="progress-text">Send Inquiries</span>
+                        <span class="progress-number"><b>250</b>/500</span>
+
+                        <div class="progress sm">
+                        <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
+                        </div>
+                        </div>
+                        </div>*@
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block">
+                                <span class="description-percentage text-red"><i class="fa fa-caret-up"></i> 18%</span>
+                                <h5 class="description-header">800</h5>
+                                <span class="description-text">تعداد پرونده های  بدون وصول</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                                <h5 class="description-header">4,813</h5>
+                                <span class="description-text">تعداد پرونده های فعال</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                                <h5 class="description-header">12,390,900</h5>
+                                <span class="description-text">هزینه های انجام شده</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                                <h5 class="description-header">350,210,000</h5>
+                                <span class="description-text">میزان وصول مطالبات</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-5">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">پرونده در استان</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="chart-responsive">
+                                <canvas id="pieChart" height="360"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="chart-legend clearfix">
+                                <li><i class="fa fa-circle-o text-red"></i> تهران</li>
+                                <li><i class="fa fa-circle-o text-green"></i> فارس</li>
+                                <li><i class="fa fa-circle-o text-yellow"></i> آذربایجان</li>
+                                <li><i class="fa fa-circle-o text-aqua"></i> قم</li>
+                                <li><i class="fa fa-circle-o text-light-blue"></i> گیلان</li>
+                                <li><i class="fa fa-circle-o text-gray"></i> خراسان رضوی</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">وضعیت پرونده های امروز به تفکیک استان</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin" style="text-align:center">
+                            <thead>
+                                <tr>
+                                    <th>استان</th>
+                                    <th>پیامک</th>
+                                    <th>تماس</th>
+                                    <th>اظهارنامه</th>
+                                    <th>تعداد</th>
+                                    <th>وضعیت</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>تهران</td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>70</span></td>
+                                    <td><span>83</span></td>
+
+                                    <td>
+                                        <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,70,83</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>فارس</td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>90</span></td>
+                                    <td><span>70</span></td>
+                                    <td>
+                                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>آذربایجان شرقی </td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>90</span></td>
+                                    <td><span>70</span></td>
+                                    <td>
+                                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>آذربایجان غربی </td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>90</span></td>
+                                    <td><span>70</span></td>
+                                    <td>
+                                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>زنجان </td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>90</span></td>
+                                    <td><span>70</span></td>
+                                    <td>
+                                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>قم</td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>90</span></td>
+                                    <td><span>70</span></td>
+                                    <td>
+                                        <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>قم</td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>90</span></td>
+                                    <td><span>70</span></td>
+
+                                    <td>
+                                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>گیلان</td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>90</span></td>
+                                    <td><span>70</span></td>
+
+                                    <td>
+                                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>خراسان رضوی</td>
+                                    <td><span>90</span></td>
+                                    <td><span>80</span></td>
+                                    <td><span>90</span></td>
+                                    <td><span>70</span></td>
+
+                                    <td>
+                                        <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @*<div class="box-footer clearfix">
+                <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
+                <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+                </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">فعالیت های امروز</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+                        <li class="item">
+                            <div class="product-img">
+                                <img src="/dist/img/default-50x50.gif" alt="Product Image">
+                            </div>
+                            <div class="product-info">
+                                <span class="product-title text-blue">
+                                    ارسال پیامک :3500
+                                </span>
+                                <span class="product-description">
+                                    204 شماره نامعتبر
+                                </span>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <div class="product-img">
+                                <img src="/dist/img/default-50x50.gif" alt="Product Image">
+                            </div>
+                            <div class="product-info">
+                                <span class="product-title text-blue">
+                                    تماس با مشتری :1500
+                                </span>
+                                <span class="product-description">
+                                    24 شماره نامعتبر
+                                </span>
+                                <span class="product-description">
+                                    6 مورد عدم تماس موفق
+                                </span>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <div class="product-img">
+                                <img src="/dist/img/default-50x50.gif" alt="Product Image">
+                            </div>
+                            <div class="product-info">
+                                <span class="product-title text-blue">
+                                    ارسال اظهارنامه  :500
+                                </span>
+                                <span class="product-description">
+                                    آدرس نامعتبر:10
+                                </span>
+                            </div>
+                        </li>
+                        <li class="item">
+                            <div class="product-img">
+                                <span><i class="ion-ios-chatbubble-outline"></i></span>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-title text-blue">
+                                    ارسال اظهارنامه به ضامنین :500
+                                </span>
+                                <span class="product-description">
+                                    آدرس نامعتبر:10
+                                </span>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="box-footer text-center">
+                    <a href="javascript:void(0)" class="uppercase">مشاهده همه فعالیت ها</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="/dist/js/pages/dashboard2.js"></script>
+    <script src="/dist/js/demo.js"></script>
+    <script>
+        $(function () {
+
+
+
+            var areaChartData = {
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
+                datasets: [
+                    {
+                        label: 'ارسال پیامک',
+                        fillColor: 'rgba(210, 214, 222, 1)',
+                        strokeColor: 'rgba(210, 214, 222, 1)',
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [72564146, 3206552, 37638334, 69846999, 42544234, 52638851, 42856001, 34369970, 16437568, 29389135, 83478116, 96164465, 37277123, 8393295, 9261389, 49211903, 32472266, 7227285, 70860120, 93176461, 47564040, 36120713, 52939233, 57489875, 29776343, 40898655, 68841440, 91692744, 9854423, 63133179]
+                    },
+                    {
+                        label: 'تماس تلفنی',
+                        fillColor: 'rgba(60,141,188,0.9)',
+                        strokeColor: 'rgba(60,141,188,0.8)',
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: [25594114, 74879257, 64007240, 79252381, 21667778, 31842371, 43400803, 36940489, 44987681, 87940501, 88059042, 41782473, 95108131, 17138335, 9820825, 78588726, 5313148, 83144264, 55700949, 3703275, 58113236, 49971960, 31379256, 54926573, 94220184, 50219114, 38954830, 30313496, 20946313, 56795684]
+                    },
+                    {
+                        label: 'ارسال اظهارنامه',
+                        fillColor: 'rgba(60,141,188,0.9)',
+                        strokeColor: 'rgba(60,141,188,0.8)',
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: [56268552, 99369312, 78584109, 45396087, 61741779, 2347147, 64478764, 76995950, 93211625, 92597136, 41405593, 91771745, 28959800, 44962458, 24630305, 88602630, 93812525, 8814207, 32312984, 59638573, 21143337, 77056092, 8032216, 41344684, 64398420, 63636204, 32977133, 68225877, 55545408, 60900906]
+                    }
+                ]
+            }
+
+            //-------------
+            //- BAR CHART -
+            //-------------
+            var barChartCanvas = $('#salesChart').get(0).getContext('2d')
+            var barChart = new Chart(barChartCanvas)
+            var barChartData = areaChartData
+            barChartData.datasets[1].fillColor = '#00a65a'
+            barChartData.datasets[1].strokeColor = '#00a65a'
+            barChartData.datasets[1].pointColor = '#00a65a'
+            var barChartOptions = {
+                scaleBeginAtZero: true,
+                scaleShowGridLines: true,
+                scaleGridLineColor: 'rgba(0,0,0,.05)',
+                scaleGridLineWidth: 1,
+                scaleShowHorizontalLines: true,
+                scaleShowVerticalLines: true,
+                barShowStroke: true,
+                barStrokeWidth: 2,
+                barValueSpacing: 5,
+                barDatasetSpacing: 1,
+                legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
+                responsive: true,
+                maintainAspectRatio: true
+            }
+
+            barChartOptions.datasetFill = false
+            barChart.Bar(barChartData, barChartOptions)
+        })</script>
+}
+
+

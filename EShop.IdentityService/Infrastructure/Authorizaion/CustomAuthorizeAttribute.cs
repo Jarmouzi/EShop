@@ -1,4 +1,5 @@
 ﻿using EShop.Model.TypeSafe;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
@@ -20,7 +21,7 @@ namespace EShop.IdentityService.Infrastructure.Authorizaion
             {
                 return;
             }
-            context.Result = new UnauthorizedObjectResult("شما به این سرویس دسترسی ندارید.");
+            context.Result = new  UnauthorizedObjectResult("شما به این سرویس دسترسی ندارید.");
         }
     }
     public class AuthorizePageAttribute : Attribute, IAsyncAuthorizationFilter
