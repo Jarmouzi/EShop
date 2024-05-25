@@ -55,7 +55,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_StockForm",
@@ -87,7 +87,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_StockForm", new StockViewModel()) });
                 else
                 {
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
                 if (ModelState.IsValid)
                 {
                     stock.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (!id.HasValue)
+                    if (!id.HasValue || id == 0)
                     {
                         await _stockRepository.AddAsync(stock);
                     }

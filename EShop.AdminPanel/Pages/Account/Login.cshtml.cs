@@ -84,7 +84,9 @@ namespace EShop.AdminPanel.Pages.Account
                     {
                         var auth_result = result.Content.ReadAsStringAsync().Result;
                         var jsonObject = (JObject)JsonConvert.DeserializeObject(auth_result);
-                        await _authService.AddUpdateClaim(UserCredential.Username, new Claim("token", jsonObject["token"].ToString()));
+                        //await _authService.AddUpdateClaim(UserCredential.Username, new Claim("token", jsonObject["token"].ToString()));
+
+                        HttpContext.Session.SetString("_Token", jsonObject["token"]?.ToString()?? "");
 
                         var visitLogId = await _logRepository.AddVisitLogAsync(new LogService.Model.VisitLog
                         {

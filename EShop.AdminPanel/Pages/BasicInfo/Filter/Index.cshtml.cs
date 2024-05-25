@@ -55,7 +55,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_FilterForm",
@@ -87,7 +87,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_FilterForm", new FilterViewModel()) });
                 else
                 {
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
                 if (ModelState.IsValid)
                 {
                     filter.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (!id.HasValue)
+                    if (!id.HasValue || id == 0)
                     {
                         await _filterRepository.AddAsync(filter);
                     }

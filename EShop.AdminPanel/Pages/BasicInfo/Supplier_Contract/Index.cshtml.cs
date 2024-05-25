@@ -55,7 +55,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Contract
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_Supplier_ContractForm",
@@ -87,7 +87,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Contract
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_Supplier_ContractForm", new Supplier_ContractViewModel()) });
                 else
                 {
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Contract
                 if (ModelState.IsValid)
                 {
                     supplier_contract.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (!id.HasValue)
+                    if (!id.HasValue || id == 0)
                     {
                         await _supplier_contractRepository.AddAsync(supplier_contract);
                     }

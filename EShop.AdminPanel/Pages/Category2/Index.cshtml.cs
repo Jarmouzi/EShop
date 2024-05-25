@@ -66,7 +66,7 @@ namespace EShop.AdminPanel.Pages.Category2
             var result = await _categoryRepository.GetAllAsync();
             var list = result.Data.OrderBy(m => m.ParentOrder + m.DisplayOrder).ToList();
 
-            if (!id.HasValue)
+            if (!id.HasValue || id == 0)
             {
                 return new PartialViewResult
                 {
@@ -91,7 +91,7 @@ namespace EShop.AdminPanel.Pages.Category2
         }
         public async Task<JsonResult> OnGetCreateOrEditAsync(Int64? id)
         {
-            if (!id.HasValue)
+            if (!id.HasValue || id == 0)
                 return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_CategoryForm", new CategoryViewModel()) });
             else
             {

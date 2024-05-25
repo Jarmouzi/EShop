@@ -16,5 +16,6 @@ namespace EShop.LogService.DataContext
 
         public DbSet<VisitLog> VisitLog { get; set; }
         public DbSet<ActionLog> ActionLog { get; set; }
+        public DbSet<ErrorLog> ErrorLog { get; set; }
     }
 }

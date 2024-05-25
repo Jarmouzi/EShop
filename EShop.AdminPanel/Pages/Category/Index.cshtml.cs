@@ -59,7 +59,7 @@ namespace EShop.AdminPanel.Pages.Category
                 var result = await _categoryRepository.GetAllAsync();
                 var list = result.Data.OrderBy(m => m.ParentOrder + m.DisplayOrder).ToList();
 
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_CategoryForm",
@@ -95,7 +95,7 @@ namespace EShop.AdminPanel.Pages.Category
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_CategoryForm", new CategoryViewModel()) });
                 else
                 {
@@ -129,7 +129,7 @@ namespace EShop.AdminPanel.Pages.Category
                 if (ModelState.IsValid)
                 {
                     category.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (!id.HasValue)
+                    if (!id.HasValue || id == 0)
                     {
                         await _categoryRepository.AddAsync(category);
                     }

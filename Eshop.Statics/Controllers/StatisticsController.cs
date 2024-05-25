@@ -67,7 +67,7 @@ namespace Eshop.Statics.Controllers
                 await uploadedFile.uploadedFile.CopyToAsync(stream);
             }
 
-            return Ok(filePath);
+            return Ok(fileName);
         }
 
 

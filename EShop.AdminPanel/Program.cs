@@ -42,6 +42,13 @@ namespace EShop.AdminPanel
             builder.Services.AddScoped<IRazorRenderService, RazorRenderService>();
             builder.Services.AddRazorPages();
 
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = ".EShopAdminPanel.Session";
+                options.IdleTimeout = TimeSpan.FromHours(1);
+                options.Cookie.IsEssential = true;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -58,6 +65,8 @@ namespace EShop.AdminPanel
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapRazorPages();
 

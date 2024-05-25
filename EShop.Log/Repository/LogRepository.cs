@@ -14,6 +14,7 @@ namespace EShop.LogService.Repository
         private readonly IUnitOfWork _unitOfWork;
         private readonly DbSet<VisitLog> _visitService;
         private readonly DbSet<ActionLog> _actionService;
+        private readonly DbSet<ErrorLog> _errorService;
         public LogRepository(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -21,12 +22,25 @@ namespace EShop.LogService.Repository
             _visitService = _unitOfWork.Set<VisitLog>();
 
             _actionService = _unitOfWork.Set<ActionLog>();
+            _errorService = _unitOfWork.Set<ErrorLog>();
         }
         public async Task<int> AddActionLogAsync(ActionLog model)
         {
             try
             {
                 _actionService.Add(model);
+                return await _unitOfWork.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+        public async Task<int> AddErrorLogAsync(ErrorLog model)
+        {
+            try
+            {
+                _errorService.Add(model);
                 return await _unitOfWork.SaveAsync();
             }
             catch (Exception ex)

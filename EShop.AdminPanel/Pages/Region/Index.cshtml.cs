@@ -55,7 +55,7 @@ namespace EShop.AdminPanel.Pages.Region
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_RegionForm",
@@ -86,7 +86,7 @@ namespace EShop.AdminPanel.Pages.Region
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_RegionForm", new RegionViewModel()) });
                 else
                 {
@@ -110,7 +110,7 @@ namespace EShop.AdminPanel.Pages.Region
                 if (ModelState.IsValid)
                 {
                     region.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (!id.HasValue)
+                    if (!id.HasValue || id == 0)
                     {
                         await _regionRepository.AddAsync(region);
                     }

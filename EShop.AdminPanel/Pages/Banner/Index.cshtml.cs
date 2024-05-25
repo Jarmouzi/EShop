@@ -66,7 +66,7 @@ namespace EShop.AdminPanel.Pages.Banner
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_BannerForm",
@@ -97,7 +97,7 @@ namespace EShop.AdminPanel.Pages.Banner
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_BannerForm", new BannerViewModel()) });
                 else
                 {
@@ -117,28 +117,37 @@ namespace EShop.AdminPanel.Pages.Banner
             var html = "";
             try
             {
-                if (banner.UploadedFile == null || banner.UploadedFile.Length == 0)
+                if ( banner.UploadedFile == null || banner.UploadedFile.Length == 0)
                 {
-                    ModelState.AddModelError("UploadedFile", "لطفا تصویر بنر را انتخاب نمایید");
-                    html = await _renderService.ToStringAsync("_BannerForm", banner);
-                    return new JsonResult(new { isValid = false, html = html });
+                    if (!id.HasValue || id == 0)
+                    {
+                        ModelState.AddModelError("UploadedFile", "لطفا تصویر بنر را انتخاب نمایید");
+                        html = await _renderService.ToStringAsync("_BannerForm", banner);
+                        return new JsonResult(new { isValid = false, html = html });
+                    }
+                    else
+                    {
+                        ModelState.Remove("UploadedFile");
+                    }
                 }
 
                 ModelState.Remove("Id");
                 if (ModelState.IsValid)
                 {
-                    var imageUrl = await _renderService.UploadImage(banner.UploadedFile);
-                    if (imageUrl == null || imageUrl.Contains("error"))
+                    if (banner.UploadedFile != null && banner.UploadedFile.Length > 0)
                     {
-                        _logger.LogError("Banner OnPostCreateOrEditAsync: " + imageUrl, banner);
+                        var imageUrl = await _renderService.UploadImage(banner.UploadedFile);
+                        if (imageUrl == null)
+                        {
+                            _logger.LogError("Banner OnPostCreateOrEditAsync: " + imageUrl, banner);
 
-                        ModelState.AddModelError("UploadedFile", "امکان ثبت تصویر بنر وجود ندارد. خواهشمند است مجددا تلاش نمایید");
-                        html = await _renderService.ToStringAsync("_BannerForm", banner);
-                        return new JsonResult(new { isValid = false, html = html });
+                            ModelState.AddModelError("UploadedFile", "امکان ثبت تصویر بنر وجود ندارد. خواهشمند است مجددا تلاش نمایید");
+                            html = await _renderService.ToStringAsync("_BannerForm", banner);
+                            return new JsonResult(new { isValid = false, html = html });
+                        }
+
+                        banner.Image = imageUrl;
                     }
-
-                    banner.Image = imageUrl;
-
                     //var Api = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("EShopSettings")["StaicsServer"]
                     //    + "Statistics/UploadImage" ;
                     //string filePath = Path.Combine(contentRootPath, "images", new Guid().ToString(), banner.UploadedFile.ContentType);
@@ -150,7 +159,7 @@ namespace EShop.AdminPanel.Pages.Banner
 
                     banner.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-                    if (!id.HasValue)
+                    if (!id.HasValue || id == 0)
                     {
                         await _bannerRepository.AddAsync(banner);
                     }

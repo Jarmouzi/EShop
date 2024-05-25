@@ -55,7 +55,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Page_Item_Feature
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_Page_Item_FeatureForm",
@@ -87,7 +87,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Page_Item_Feature
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_Page_Item_FeatureForm", new Page_Item_FeatureViewModel()) });
                 else
                 {
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Page_Item_Feature
                 if (ModelState.IsValid)
                 {
                     page_item_feature.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (!id.HasValue)
+                    if (!id.HasValue || id == 0)
                     {
                         await _page_item_featureRepository.AddAsync(page_item_feature);
                     }

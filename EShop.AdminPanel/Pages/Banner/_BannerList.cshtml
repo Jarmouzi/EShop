@@ -12,19 +12,29 @@
     <tbody>
         @if (Model.Data.Any())
         {
-            @foreach (var r in Model.Data)
+            @foreach (var m in Model.Data)
             {
                 <tr>
                     <td class="d-inline">
-                        <form method="post" asp-page="Index" asp-route-id="@r.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
+                        <form method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
                             <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
                         </form> |
-                        <a onclick="jQueryGet('?handler=FormPartial&id=@r.Id','bannerForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id','bannerForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
 
                     </td>
-                    <td><a alt="@r.Title" href="@r.Path">@r.Title</a></td>
+                    <td><a alt="@m.Title" href="@m.Path" target="_blank">@m.Title</a></td>
                     <td>
-                       <a alt="" href="@r.Image"> <i class="fa fa-image"></i> </a>
+                       <a alt="مشاهده تصویر" href="@m.Image" target="_blank"> <i class="fa fa-image"></i> </a>
+                    </td>
+                    <td>
+                        @if (m.Confirmed)
+                        {
+                            <input type="checkbox" checked="checked" disabled="disabled" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" disabled="disabled" />
+                        }
                     </td>
                 </tr>
             }

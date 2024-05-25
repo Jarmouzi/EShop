@@ -49,7 +49,11 @@
         clearForm = () => {
             $('#create-form').attr('action', '/Banner?id=&handler=CreateOrEdit');
             $('#Title').val('');
-            $('#Country').val('');
+            $('#UploadedFile').val('');
+            $('#Path').val('');
+            $('#Confirmed').val('');
+            $(".validation-summary-errors").val('');
+            $("field-validation-error").val('');
             $('#saveBtn').html('ایجاد');
         }
 

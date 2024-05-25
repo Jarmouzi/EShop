@@ -1,26 +1,16 @@
-﻿using EShop.ViewModel;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Routing;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol;
 using System.Security.Claims;
+using EShop.LogService.Repository;
+using EShop.LogService.Model;
+using Azure;
 
 namespace EShop.AdminPanel.Services
 {
@@ -37,12 +27,14 @@ namespace EShop.AdminPanel.Services
         private readonly IHttpContextAccessor _httpContext;
         private readonly IActionContextAccessor _actionContext;
         private readonly IRazorPageActivator _activator;
+        private readonly ILogRepository _logRepository;
         public RazorRenderService(IRazorViewEngine razorViewEngine,
             ITempDataProvider tempDataProvider,
             IServiceProvider serviceProvider,
             IHttpContextAccessor httpContext,
             IRazorPageActivator activator,
-            IActionContextAccessor actionContext)
+            IActionContextAccessor actionContext,
+            ILogRepository logRepository)
         {
             _razorViewEngine = razorViewEngine;
             _tempDataProvider = tempDataProvider;
@@ -51,7 +43,7 @@ namespace EShop.AdminPanel.Services
             _httpContext = httpContext;
             _actionContext = actionContext;
             _activator = activator;
-
+            _logRepository = logRepository;
         }
         public async Task<string> ToStringAsync<T>(string pageName, T model)
         {
@@ -122,18 +114,20 @@ namespace EShop.AdminPanel.Services
             throw new InvalidOperationException(errorMessage);
         }
 
-        public async Task<string> UploadImage(IFormFile uploadedFile)
+        public async Task<string?> UploadImage(IFormFile uploadedFile)
         {
             var ServerIP = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("EShopSettings")["StaicsServer"];
-            //+ "Statistics/UploadImage";
-            using (var client = new HttpClient(  new HttpClientHandler() { UseDefaultCredentials = true, PreAuthenticate = true }) )
+
+            var user = _httpContext.HttpContext.User;
+
+            using (var client = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true, PreAuthenticate = true }))
             {
                 try
                 {
                     client.BaseAddress = new Uri(ServerIP);
-                    var user = _httpContext.HttpContext.User;
 
-                    var token = user.FindFirstValue("token");
+                    //var token = user.FindFirstValue("token");
+                    var token = _httpContext.HttpContext.Session.GetString("_Token");
 
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
                     //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
@@ -150,13 +144,32 @@ namespace EShop.AdminPanel.Services
                     var response = client.PostAsync("/Statistics/", fileContent).Result;
 
                     if (!response.IsSuccessStatusCode)
-                        return "\n File Insert To " + ServerIP + " faild: " + response.Content.ReadAsStringAsync().Result;
+                    {
+                        await _logRepository.AddErrorLogAsync(new ErrorLog
+                        {
+                            Action = "UploadImage",
+                            Error = "\n File Insert To " + ServerIP + " faild: " + response.Content.ReadAsStringAsync().Result,
+                            Username = user.Identity?.Name ?? ""
+                        });
 
-                    return response.Content.ReadAsStringAsync().Result;
+
+                        return null;
+                    }
+
+                    var result = $"{ServerIP}/Statistics?path={response.Content.ReadAsStringAsync().Result}";
+
+                    return result;
                 }
                 catch (Exception e)
                 {
-                    return "\n Insert To " + ServerIP + " raised error: " + e.Message;
+                    await _logRepository.AddErrorLogAsync(new ErrorLog
+                    {
+                        Action = "UploadImage",
+                        Error = "\n File Insert To " + ServerIP + " raised error: " + e.Message,
+                        Username = user.Identity?.Name ?? ""
+                    });
+
+                    return null;
                 }
             }
         }

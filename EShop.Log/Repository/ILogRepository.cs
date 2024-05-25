@@ -12,6 +12,7 @@ namespace EShop.LogService.Repository
         Task<Int64?> AddVisitLogAsync(VisitLog model);
         Task<VisitLog> GetLastVisitLogAsync(VisitLog model);
         Task<int> AddActionLogAsync(ActionLog model);
+        Task<int> AddErrorLogAsync(ErrorLog model);
         Task<IEnumerable<ActionLog>> GetActionLogListAsync(ActionLog model, int take, int skip);
     }
 }

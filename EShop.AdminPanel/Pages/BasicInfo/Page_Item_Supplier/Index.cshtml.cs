@@ -55,7 +55,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Page_Item_Supplier
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_Page_Item_SupplierForm",
@@ -87,7 +87,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Page_Item_Supplier
         {
             try
             {
-                if (!id.HasValue)
+                if (!id.HasValue || id == 0)
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_Page_Item_SupplierForm", new Page_Item_SupplierViewModel()) });
                 else
                 {
@@ -111,7 +111,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Page_Item_Supplier
                 if (ModelState.IsValid)
                 {
                     page_item_supplier.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (!id.HasValue)
+                    if (!id.HasValue || id == 0)
                     {
                         await _page_item_supplierRepository.AddAsync(page_item_supplier);
                     }

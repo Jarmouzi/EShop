@@ -1,7 +1,7 @@
 ﻿ @model EShop.ViewModel.BannerViewModel
 
 <form id="create-form" enctype="multipart/form-data" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
-    @* <input type="hidden" asp-for="CreateDate" /> *@
+    <input type="hidden" asp-for="Image" />
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <div class="form-group col-md-6">
         <label class="control-label">عنوان بنر</label>

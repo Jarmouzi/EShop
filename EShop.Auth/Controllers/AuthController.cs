@@ -48,7 +48,8 @@ namespace EShop.Auth.Controllers
                     new
                     {
                         token = await _authService.GenerateTokenString(credentials.Username, _config)
-                    });
+                    }
+                );
             }
 
             return BadRequest();
