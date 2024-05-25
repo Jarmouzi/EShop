@@ -1,0 +1,45 @@
+﻿@page
+@model EShop.AdminPanel.Pages.Product.IndexModel
+@{
+    ViewData["Title"] = "گروه بندی محصولات";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="productForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#productForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/Product?id=&handler=CreateOrEdit');
+            $('#Title').val('');
+            $('#Country').val('');
+            $('#saveBtn').html('ایجاد');
+        }
+
+        Search = (skip) => {
+            var parentId = $("select#ParentId").val();
+            var take = $("select#Take").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&parentId=${parentId}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

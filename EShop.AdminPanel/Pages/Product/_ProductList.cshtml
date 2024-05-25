@@ -1,0 +1,85 @@
+﻿@using EShop.ViewModel;
+@model PaginatedViewModel<ProductViewModel>
+
+<table class="table table-bordered" id="products">
+    <thead>
+        <tr>
+            <th>عملیات</th>
+            <th>عنوان سرگروه محصول</th>
+            <th>عنوان گروه محصول</th>
+            <th>تایید</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Data.Any())
+        {
+            int i = 1;
+            @foreach (var c in Model.Data)
+            {
+                <tr>
+                    <td class="d-inline">
+                        <span style="padding-left: 3px;">@(i++)</span>
+                        <form method="post" asp-page="Index" asp-route-id="@c.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
+                            <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
+                        </form> 
+                        <a onclick="jQueryGet('?handler=FormPartial&id=@c.Id','productForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+                        <form method="post" asp-page="Index" asp-route-id="@c.Id" asp-route-order="-1" asp-page-handler="ChangeOrder" onsubmit="return changeDisplayOrder(this)">
+                            <button type="submit" data-toggle="tooltip" data-placement="top" title="بالا" class="d-link"> <i class="fa fa-chevron-up"></i></button>
+                        </form>
+                        <form method="post" asp-page="Index" asp-route-id="@c.Id" asp-route-order="1" asp-page-handler="ChangeOrder" onsubmit="return changeDisplayOrder(this)">
+                            <button type="submit" data-toggle="tooltip" data-placement="top" title="پایین" class="d-link"> <i class="fa fa-chevron-down"></i></button>
+                        </form>
+                    </td>
+                    <td>@c.ParentTitle</td>
+                    <td>@c.Title</td>
+                    <td>
+                        @if (c.Confirmed)
+                        {
+                            <input type="checkbox" checked="checked" disabled="disabled" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" disabled="disabled" />
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                رکوردی یافت نشد
+            </tr>
+
+        }
+    </tbody>
+</table>
+<partial name="_paginationpartial" model="@Model.Pagination" />
+<script>
+    $(document).ready(function () {
+        $("#productTable").DataTable();
+
+        changeDisplayOrder = form => {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: form.action,
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        $('#viewAll').html(res.html);
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+            } catch (ex) {
+                console.log(ex)
+            }
+
+            //prevent default form submit event
+            return false;
+        }
+    });
+</script>

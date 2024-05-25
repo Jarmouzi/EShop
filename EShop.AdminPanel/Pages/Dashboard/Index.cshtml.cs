@@ -1,3 +1,4 @@
+using EShop.IdentityService.Infrastructure.Authorizaion;
 using EShop.LogService.Repository;
 using EShop.Model;
 using EShop.Model.TypeSafe;
@@ -10,6 +11,7 @@ using System.Security.Claims;
 
 namespace EShop.AdminPanel.Pages.Dashboard
 {
+    [AuthorizePage]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;

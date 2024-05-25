@@ -29,31 +29,14 @@
             $('#viewAll').load('?handler=ViewAllPartial&title=&take=10&skip=0');
         });
 
-
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     var fileInput = document.getElementById('UploadedFile');
-        //     if (fileInput) {
-        //         fileInput.setAttribute('lang', 'fa');
-        //         fileInput.setAttribute('title', 'انتخاب تصویر');
-        //         fileInput.setAttribute('class', 'btn btn-info');
-        //         // If you also want to change the button text
-        //         fileInput.addEventListener('change', function () {
-        //             var label = this.nextElementSibling;
-        //             if (label) {
-        //                 label.innerHTML = this.files[0].name; // Change the button text to the selected file name
-        //             }
-        //         });
-        //     }
-        // }
-
         clearForm = () => {
             $('#create-form').attr('action', '/Banner?id=&handler=CreateOrEdit');
             $('#Title').val('');
             $('#UploadedFile').val('');
             $('#Path').val('');
             $('#Confirmed').val('');
-            $(".validation-summary-errors").val('');
-            $("field-validation-error").val('');
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");
             $('#saveBtn').html('ایجاد');
         }
 

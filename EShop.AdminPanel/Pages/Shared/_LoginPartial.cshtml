@@ -8,10 +8,9 @@
     <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
             <li class="dropdown user user-menu">
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity?.IsAuthenticated == true)
                 {
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="~/img/user.png" class="user-image" alt="User Image">
                         <span class="hidden-xs"> @User.Identity.Name</span>
                     </a>
                     <ul class="dropdown-menu">
@@ -22,10 +21,14 @@
                                 <small> role</small>
                             </p>
                         </li>
-                        <li class="user-footer">
-
+                        <li class="user-body">
                             <div class="pull-right">
-                                <a href="/Account/Logout" class="btn btn-default btn-flat">خروج</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Dashboard">داشبورد</a>
+                            </div>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="/Account/Logout" class="btn btn-primary btn-flat">خروج</a>
                             </div>
                         </li>
                     </ul>
@@ -33,19 +36,10 @@
                 else
                 {
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="~/img/user.png" class="user-image" alt="User Image">
-                        <span class="hidden-xs"> خوش آمدید</span>
+                        <span class="hidden-xs"> ورود</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="user-header">
-                            <img src="~/img/user.png" class="img-circle" alt="User Image" />
-                            <p>
-                                کاربر مهمان
-
-                            </p>
-                        </li>
                         <li class="user-footer">
-
                             <div class="pull-right">
                                 <a href="/Account/Login" class="btn btn-default btn-flat">ورود</a>
                             </div>
