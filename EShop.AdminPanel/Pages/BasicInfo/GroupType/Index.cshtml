@@ -1,0 +1,51 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.GroupType.IndexModel
+@{
+    ViewData["Title"] = "GroupType";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="grouptypeForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#grouptypeForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/GroupType?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$('#Confirmed).val(');  
+			$('#Image).val(');  
+			$('#MaxCount).val(');  
+			$('#Title).val('); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Confirmed = $("input#Confirmed").val(); 
+			var Image = $("input#Image").val(); 
+			var MaxCount = $("input#MaxCount").val(); 
+			var Title = $("input#Title").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Confirmed=${Confirmed}&amp;Image=${Image}&amp;MaxCount=${MaxCount}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

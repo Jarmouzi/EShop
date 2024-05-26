@@ -1,0 +1,49 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.OptionValue.IndexModel
+@{
+    ViewData["Title"] = "OptionValue";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="optionvalueForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#optionvalueForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/OptionValue?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$('#Color).val(');  
+			$('#ImageId).val(');  
+			$('#Title).val('); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Color = $("input#Color").val(); 
+			var ImageId = $("input#ImageId").val(); 
+			var Title = $("input#Title").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Color=${Color}&amp;ImageId=${ImageId}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

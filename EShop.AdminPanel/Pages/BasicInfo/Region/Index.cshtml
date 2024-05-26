@@ -1,0 +1,45 @@
+﻿@page
+@model EShop.AdminPanel.Pages.BasicInfo.Region.IndexModel
+@{
+    ViewData["Title"] = "مناطق";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="regionForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#regionForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/Region?id=&handler=CreateOrEdit');
+            $('#Title').val('');
+            $('#Country').val('');
+            $('#saveBtn').html('ایجاد');
+        }
+
+        Search = (take, skip) => {
+            var title = $("input#Title").val();
+            var country = $("input#Country").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&title=${title}&country=${country}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

@@ -202,7 +202,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\BasicInfo\" />
     <Folder Include="Pages\Supplier\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\lib\adminlte\dist\css\alt\" />

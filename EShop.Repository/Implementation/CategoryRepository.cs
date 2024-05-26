@@ -100,5 +100,32 @@ namespace EShop.Repository.Implementation
             return result;
         }
 
+        public async Task<Result<IEnumerable<CategoryViewModel>>> GetGroupedChildren()
+        {
+            var result = new Result<IEnumerable<CategoryViewModel>>();
+
+            try
+            {
+                var sparam = new SqlParameter[] {};
+
+                var r = await GetProcedureAsync<CategoryViewModel>("Category_GroupedChildren", sparam);
+
+                if (r.Status == TS.Status.Success)
+                {
+                    result.Data =  r.Data;
+                    result.Status = TS.Status.Success;
+                    return result;
+                }
+                result.Status = TS.Status.Warning;
+                result.Message = Resource.Notifications.NotFound;
+            }
+            catch (Exception ex)
+            {
+                result.Status = TS.Status.ServerError;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
     }
 }

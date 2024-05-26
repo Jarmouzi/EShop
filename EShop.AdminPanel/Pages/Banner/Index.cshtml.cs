@@ -150,7 +150,7 @@ namespace EShop.AdminPanel.Pages.Banner
                     }
                     //var Api = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("EShopSettings")["StaicsServer"]
                     //    + "Statistics/UploadImage" ;
-                    //string filePath = Path.Combine(contentRootPath, "images", new Guid().ToString(), banner.UploadedFile.ContentType);
+                    //string filePath = Path.Combine(contentRootPath, "images", new Int64().ToString(), banner.UploadedFile.ContentType);
 
                     //using (var stream = new FileStream(filePath, FileMode.Create))
                     //{

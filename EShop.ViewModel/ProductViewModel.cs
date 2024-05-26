@@ -16,7 +16,7 @@ namespace EShop.ViewModel
 		public Int64? BrandId { get; set; }
         public bool? AvailableForSale { get; set; }
         public string? tags { get; set; }
-        public bool? Confirmed { get; set; }
+        public bool Confirmed { get; set; }
 
         [NotMapped]
         [ValidateNever]

@@ -1,0 +1,55 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Collection.IndexModel
+@{
+    ViewData["Title"] = "Collection";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="collectionForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#collectionForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/Collection?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$('#CN).val(');  
+			$('#Count).val(');  
+			$('#Description).val(');  
+			$('#IsMain).val(');  
+			$('#Search).val(');  
+			$('#Title).val('); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var CN = $("input#CN").val(); 
+			var Count = $("input#Count").val(); 
+			var Description = $("input#Description").val(); 
+			var IsMain = $("input#IsMain").val(); 
+			var Search = $("input#Search").val(); 
+			var Title = $("input#Title").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;CN=${CN}&amp;Count=${Count}&amp;Description=${Description}&amp;IsMain=${IsMain}&amp;Search=${Search}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

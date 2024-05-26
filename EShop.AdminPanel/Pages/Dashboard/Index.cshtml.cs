@@ -44,7 +44,7 @@ namespace EShop.AdminPanel.Pages.Dashboard
                 //    Page = "Home",
                 //    Action = "LoadModel",
                 //    UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                //    VisitLogId = Guid.Parse(User.FindFirstValue("VLI"))
+                //    VisitLogId = Int64.Parse(User.FindFirstValue("VLI"))
                 //});
 
             }

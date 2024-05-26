@@ -1,0 +1,53 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Image.IndexModel
+@{
+    ViewData["Title"] = "Image";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="imageForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#imageForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/Image?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$('#AltText).val(');  
+			$('#Confirmed).val(');  
+			$('#Height).val(');  
+			$('#Url).val(');  
+			$('#Width).val('); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var AltText = $("input#AltText").val(); 
+			var Confirmed = $("input#Confirmed").val(); 
+			var Height = $("input#Height").val(); 
+			var Url = $("input#Url").val(); 
+			var Width = $("input#Width").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;AltText=${AltText}&amp;Confirmed=${Confirmed}&amp;Height=${Height}&amp;Url=${Url}&amp;Width=${Width}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

@@ -24,7 +24,7 @@ namespace EShop.Model
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
         public virtual ICollection<Product_Feature> Product_Features { get; set; }
-        public virtual ICollection<ProductImage> ProductImages { get; set; }
-        public virtual ICollection<ProductVariant> ProductImages { get; set; }
+        public virtual ICollection<Product_Image> ProductImages { get; set; }
+        public virtual ICollection<ProductVariant> ProductVariants { get; set; }
     }
 }
