@@ -5,8 +5,10 @@
     <thead>
         <tr>
             <th>عملیات</th>
-            <th>عنوان</th>
-            <th>کشور</th>
+            <th>گروه محصول</th>
+            <th>گروه مشخصات</th>
+            <th>نام مشخصه</th>
+            <th>تایید</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +24,8 @@
                         <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id',featureForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
 
                     </td>
+                    <td>@m.CategoryTitle</td>
+                    <td>@m.ParentTitle</td>
                     <td>@m.Title</td>
                     <td>
                         @if (m.Confirmed == true)

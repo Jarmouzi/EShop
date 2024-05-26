@@ -14,9 +14,9 @@ namespace EShop.Model
         public string? Description { get; set; }
         public Int64? CategoryId { get; set; }
         public Int64? BrandId { get; set; }
-        public bool? AvailableForSale { get; set; }
+        public bool AvailableForSale { get; set; }
         public string? tags { get; set; }
-        public bool? Confirmed { get; set; }
+        public bool Confirmed { get; set; }
 
         [ForeignKey("BrandId")]
         public virtual Brand Brand { get; set; }

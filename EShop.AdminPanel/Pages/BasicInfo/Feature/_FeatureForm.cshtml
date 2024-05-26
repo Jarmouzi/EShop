@@ -1,16 +1,29 @@
 @model EShop.ViewModel.FeatureViewModel
 <form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
     <div class="form-group col-md-6">
-        <label class="control-label">عنوان</label>
-        <input type="text" autocomplete="off" asp-for="Title" name="Title" class="form-control">
+        @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label" })
+        <div class="row-fluid">
+            @Html.DropDownListFor(c => c.CategoryId, Model.Categories, null, new { @class = "selectpicker form-control", data_live_search = "true" })
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = "control-label" })
+        <div class="row-fluid">
+            @Html.DropDownListFor(c => c.ParentId, Model.Parents, null, new { @class = "selectpicker form-control", data_live_search = "true" })
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Title, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
         <span asp-validation-for="Title" class="text-danger"></span>
 
     </div>
     <div class="form-group col-md-6">
-        <label class="control-label">تایید</label>
-        <input type="checkbox" autocomplete="off" asp-for="Confirmed" name="Confirm" class="form-control">
-        <span asp-validation-for="Confirmed" class="text-danger"></span>
+        @Html.LabelFor(model => model.Confirmed, htmlAttributes: new { @class = "control-label" })
+        @Html.CheckBoxFor(m => m.Confirmed, htmlAttributes: new { @class = "form-control" })
     </div>
     <div class="form-group col-md-12 pull-left">        
         <div class="pull-left">

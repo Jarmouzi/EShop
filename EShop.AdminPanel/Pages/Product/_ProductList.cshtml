@@ -5,8 +5,10 @@
     <thead>
         <tr>
             <th>عملیات</th>
-            <th>عنوان سرگروه محصول</th>
-            <th>عنوان گروه محصول</th>
+            <th>گروه محصول</th>
+            <th>برند</th>
+            <th>نام محصول</th>
+            <th>موجود</th>
             <th>تایید</th>
         </tr>
     </thead>
@@ -21,17 +23,23 @@
                         <span style="padding-left: 3px;">@(i++)</span>
                         <form method="post" asp-page="Index" asp-route-id="@c.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
                             <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
-                        </form> 
+                        </form>
                         <a onclick="jQueryGet('?handler=FormPartial&id=@c.Id','productForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
-                        <form method="post" asp-page="Index" asp-route-id="@c.Id" asp-route-order="-1" asp-page-handler="ChangeOrder" onsubmit="return changeDisplayOrder(this)">
-                            <button type="submit" data-toggle="tooltip" data-placement="top" title="بالا" class="d-link"> <i class="fa fa-chevron-up"></i></button>
-                        </form>
-                        <form method="post" asp-page="Index" asp-route-id="@c.Id" asp-route-order="1" asp-page-handler="ChangeOrder" onsubmit="return changeDisplayOrder(this)">
-                            <button type="submit" data-toggle="tooltip" data-placement="top" title="پایین" class="d-link"> <i class="fa fa-chevron-down"></i></button>
-                        </form>
+                        <a onclick="/Product/Product_Feature؟id=@c.Id" data-toggle="tooltip" data-placement="top" title="ویژگی های محصول"> <i class="fa-regular fa-rectangle-list"></i> </a>
                     </td>
                     <td>@c.CategoryTitle</td>
+                    <td>@c.BrandTitle</td>
                     <td>@c.Title</td>
+                    <td>
+                        @if (c.AvailableForSale)
+                        {
+                            <input type="checkbox" checked="checked" disabled="disabled" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" disabled="disabled" />
+                        }
+                    </td>
                     <td>
                         @if (c.Confirmed)
                         {

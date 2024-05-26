@@ -1,7 +1,7 @@
 ﻿@page
 @model EShop.AdminPanel.Pages.Product.IndexModel
 @{
-    ViewData["Title"] = "گروه بندی محصولات";
+    ViewData["Title"] = "تعریف محصول";
 }
 @await Component.InvokeAsync("Breadcrumb")
 <section class="content">
@@ -26,20 +26,27 @@
     <script>
         $(document).ready(function () {
             $('#productForm').load('?handler=FormPartial');
-            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+            $('#viewAll').load('?handler=ViewAllPartial&categoryId=&brandId=&titl=&take=10&skip=0');
         });
 
         clearForm = () => {
             $('#create-form').attr('action', '/Product?id=&handler=CreateOrEdit');
+            $("select#CategoryId").val('');
+            $("select#BrandId").val('');
             $('#Title').val('');
-            $('#Country').val('');
+            $('#AvailableForSale').val('');
+            $('#Confirmed').val('');
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");
             $('#saveBtn').html('ایجاد');
         }
 
         Search = (skip) => {
-            var parentId = $("select#ParentId").val();
+            var categoryId = $("select#CategoryId").val();
+            var brandId = $("select#BrandId").val();
+            var title = $("input#Title").val();
             var take = $("select#Take").val();
-            $('#viewAll').load(`?handler=ViewAllPartial&parentId=${parentId}&take=${take}&skip=${skip}`);
+            $('#viewAll').load(`?handler=ViewAllPartial&categoryId=${categoryId}&brandId=${brandId}&titl=${title}&take=${take}&skip=${skip}`);
         }
     </script>
 }

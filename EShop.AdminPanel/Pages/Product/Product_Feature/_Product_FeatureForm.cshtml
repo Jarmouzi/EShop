@@ -1,10 +1,11 @@
 @model EShop.ViewModel.Product_FeatureViewModel
 <form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <input type="hidden" asp-for="ProductId" />
     <div class="form-group col-md-6">
         <label class="control-label">عنوان</label>
-        <input type="text" autocomplete="off" asp-for="Title" name="Title" class="form-control">
-        <span asp-validation-for="Title" class="text-danger"></span>
+        <input type="text" autocomplete="off" asp-for="FeatureTitle" name="Title" class="form-control">
+        <span asp-validation-for="FeatureTitle" class="text-danger"></span>
 
     </div>
     <div class="form-group col-md-6">

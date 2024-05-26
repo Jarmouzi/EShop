@@ -20,38 +20,31 @@ namespace EShop.AdminPanel.Pages.Product
         private readonly ILogRepository _dbLog;
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IBrandRepository _brandRepository;
         private readonly IRazorRenderService _renderService;
         public IndexModel(ILogger<IndexModel> logger
             , ILogRepository dbLog
             , IProductRepository productRepository
             , ICategoryRepository categoryRepository
+            , IBrandRepository brandRepository
             , IRazorRenderService renderService)
         {
             _logger = logger;
             _dbLog = dbLog;
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
+            _brandRepository = brandRepository;
             _renderService = renderService;
         }
         public void OnGet()
         {
         }
-        private async Task<SelectList> SetSelectLists(Int64? categoryId, Int64? brandId)
-        {
-            var result = await _categoryRepository.GetGroupedChildren();
-
-            var PrimaryCategories = new SelectList(result.Data, "Id", "Title", null, "ParentTitle");
-
-            PrimaryCategories.Prepend(new SelectListItem("انتخاب نمایید", null));
-
-            return PrimaryCategories;
-        }
-        public async Task<PartialViewResult> OnGetViewAllPartial(Int64? categoryId = null, string? title = null, int take = 10, int skip = 0)
+        public async Task<PartialViewResult> OnGetViewAllPartial(Int64? categoryId = null, Int64? brandId = null, string? title = null, int take = 10, int skip = 0)
         {
             var result = new PaginatedViewModel<ProductViewModel>();
             try
             {
-                var list = await _productRepository.GetPaginatedResult(categoryId, title, take, skip);
+                var list = await _productRepository.GetPaginatedResult(categoryId, brandId, title, take, skip);
 
                 result = list.Data;
             }
@@ -70,8 +63,9 @@ namespace EShop.AdminPanel.Pages.Product
         {
             try
             {
-                var result = await _categoryRepository.GetAllAsync();
-                var list = result.Data.ToList();
+                var result = await _categoryRepository.GetGroupedChildren();
+
+                var bResult = await _brandRepository.GetAllAsync();
 
                 if (!id.HasValue || id == 0)
                     return new PartialViewResult
@@ -79,13 +73,15 @@ namespace EShop.AdminPanel.Pages.Product
                         ViewName = "_ProductForm",
                         ViewData = new ViewDataDictionary<ProductViewModel>(ViewData, new ProductViewModel
                         {
-                            Categories = list,
+                            Categories = new SelectList(result.Data, "Id", "Title", null, "ParentTitle"),
+                            Brands = new SelectList(bResult.Data, "Id", "Title", null)
                         })
                     };
                 else
                 {
                     var product = await _productRepository.GetByIdAsync(id.Value);
-                    product.Data.Categories = list;
+                    product.Data.Categories = new SelectList(result.Data, "Id", "Title", product.Data.CategoryId, "ParentTitle");
+                    product.Data.Brands = new SelectList(bResult.Data, "Id", "Title", product.Data.BrandId);
 
                     return new PartialViewResult
                     {
@@ -176,7 +172,7 @@ namespace EShop.AdminPanel.Pages.Product
             var html = "";
             try
             {
-                var list = await _productRepository.GetPaginatedResult(null, null, 10, 0);
+                var list = await _productRepository.GetPaginatedResult(null, null, null, 10, 0);
 
                 isValid = list.Status == TS.Status.Success;
 

@@ -1,7 +1,7 @@
-@page
+﻿@page
 @model EShop.AdminPanel.Pages.BasicInfo.Feature.IndexModel
 @{
-    ViewData["Title"] = "Feature";
+    ViewData["Title"] = "مشخصات گروه محصول";
 }
 @await Component.InvokeAsync("Breadcrumb")
 <section class="content">
@@ -30,18 +30,18 @@
         });
 
         clearForm = () => {
-            $('#create-form').attr('action', '/Feature?id=00000000-0000-0000-0000-000000000000&handler=CreateOrEdit');  
-			$('#Confirmed).val(');  
-			$('#Icon).val(');  
-			$('#Title).val('); 
-            $('#saveBtn').html('?????');
+            $('#create-form').attr('action', '/Feature?id=&handler=CreateOrEdit');  
+			$('#Confirmed').val('');  
+			$('#Icon').val('');  
+			$('#Title').val(''); 
+            $('#saveBtn').html('ایجاد');
         }
 
         Search = (take, skip) => {  
 			var Confirmed = $("input#Confirmed").val(); 
 			var Icon = $("input#Icon").val(); 
 			var Title = $("input#Title").val();
-            $('#viewAll').load(`?handler=ViewAllPartial&&amp;Confirmed=${Confirmed}&amp;Icon=${Icon}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+            $('#viewAll').load(`?handler=ViewAllPartial&Confirmed=${Confirmed}&Icon=${Icon}&Title=${Title}&take=${take}&skip=${skip}`);
         }
     </script>
 }

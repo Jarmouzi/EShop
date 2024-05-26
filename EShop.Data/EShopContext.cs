@@ -30,7 +30,6 @@ namespace EShop.DataContext
 				public DbSet<ProductSeo> ProductSeo { get; set; }
 				public DbSet<Region> Region { get; set; }
 				public DbSet<ProductVariant_Option> ProductVariant_Option { get; set; }
-				public DbSet<Product_Feature_Detail> Product_Feature_Detail { get; set; }
 				public DbSet<OptionValue> OptionValue { get; set; }
 				public DbSet<Stock> Stock { get; set; }
 				public DbSet<Banner> Banner { get; set; }

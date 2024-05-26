@@ -14,7 +14,7 @@ namespace EShop.Repository.Implementation
         {
         }
 
-        public async Task<Result<PaginatedViewModel<ProductViewModel>>> GetPaginatedResult(Int64? categoryId = null, string? title = null, int take = 10, int skip = 0)
+        public async Task<Result<PaginatedViewModel<ProductViewModel>>> GetPaginatedResult(Int64? categoryId = null, Int64? brandId = null, string? title = null, int take = 10, int skip = 0)
         {
             var result = new Result<PaginatedViewModel<ProductViewModel>> ();
 
@@ -24,6 +24,7 @@ namespace EShop.Repository.Implementation
                 totalCount.Direction = System.Data.ParameterDirection.Output;
                 var sparam = new SqlParameter[] {
                     new SqlParameter("@CategoryId", categoryId == null ? DBNull.Value : categoryId),
+                    new SqlParameter("@BrandId", brandId == null ? DBNull.Value : brandId),
                     new SqlParameter("@Title", title == null ? DBNull.Value : title),
                     new SqlParameter("@Take", take),
                     new SqlParameter("@Skip", skip),

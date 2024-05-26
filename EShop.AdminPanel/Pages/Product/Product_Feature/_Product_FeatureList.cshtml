@@ -1,7 +1,7 @@
 @using EShop.ViewModel;
-@model PaginatedViewModel<Product_Feature_DetailViewModel>
+@model PaginatedViewModel<Product_FeatureViewModel>
 
-<table class="table table-bordered" id="product_feature_details">
+<table class="table table-bordered" id="product_features">
     <thead>
         <tr>
             <th>عملیات</th>
@@ -19,10 +19,10 @@
                         <form method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
                             <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
                         </form> |
-                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id',product_feature_detailForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id',product_featureForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
 
                     </td>
-                    <td>@m.Title</td>
+                    <td>@m.ProductTitle</td>
                     <td>
                         @if (m.Confirmed == true)
                         {
@@ -48,6 +48,6 @@
 <partial name="_paginationpartial" model="@Model.Pagination" />
 <script>
     $(document).ready(function () {
-        $("#product_feature_detailTable").DataTable();
+        $("#product_featureTable").DataTable();
     });
 </script>

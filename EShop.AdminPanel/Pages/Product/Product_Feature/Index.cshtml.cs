@@ -28,7 +28,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Product_Feature
             _product_featureRepository = product_featureRepository;
             _renderService = renderService;
         }
-        public void OnGet()
+        public void OnGet(Int64? id)
         {
         }
         public async Task<PartialViewResult> OnGetViewAllPartial(string? title = null, int take = 10, int skip = 0)

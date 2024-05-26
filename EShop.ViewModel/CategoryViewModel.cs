@@ -15,19 +15,14 @@ namespace EShop.ViewModel
         public string Title { get; set; }
         public string? Path { get; set; }
         public Byte Level { get; set; }
-
-        [NotMapped]
-        public Int64? GrandParentId { get; set; }
         public Int64? ParentId { get; set; }
         public int DisplayOrder { get; set; }
 
         [DisplayName("تایید")]
         public bool Confirmed { get; set; }
 
-        [NotMapped]
         public string? ParentTitle { get; set; }
 
-        [NotMapped]
         public int ParentOrder { get; set; }
 
         [NotMapped]
