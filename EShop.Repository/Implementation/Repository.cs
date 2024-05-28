@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 
 namespace EShop.Repository.Implementation
 {
-    public class Repository<T, TViewModel, TContext> : IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseViewModel where TContext : DbContext
+    public class Repository<T, TViewModel, TContext> : IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseViewModel, new() where TContext : DbContext 
     {
         private readonly IUnitOfWork<TContext> _unitOfWork;
         private readonly IMapper _mappingEngine;
@@ -57,6 +57,7 @@ namespace EShop.Repository.Implementation
         public async Task<Result<TViewModel>> UpdateAsync(TViewModel model)
         {
             var result = new Result<TViewModel>();
+            result.Data = model;
             try
             {
                 result.Data = model;
@@ -113,7 +114,7 @@ namespace EShop.Repository.Implementation
         public async Task<Result<IEnumerable<TViewModel>>> GetAllAsync()
         {
             var result = new Result<IEnumerable<TViewModel>>();
-
+            result.Data = new List<TViewModel>();
             try
             {
                 var item = await _service.Where(m => m.ExpireDate == null).ToArrayAsync();
@@ -137,6 +138,7 @@ namespace EShop.Repository.Implementation
         public async Task<Result<IEnumerable<TViewModel>>> GetAllAsync(Expression<Func<T, bool>> filter)
         {
             var result = new Result<IEnumerable<TViewModel>>();
+            result.Data = new List<TViewModel>();
 
             try
             {
@@ -161,6 +163,7 @@ namespace EShop.Repository.Implementation
         public async Task<Result<IEnumerable<TResult>>> GetProcedureAsync<TResult>(string procedureName, SqlParameter[] sparams) where TResult : class
         {
             var result = new Result<IEnumerable<TResult>>();
+            result.Data = new List<TResult>();
 
             try
             {
@@ -168,7 +171,7 @@ namespace EShop.Repository.Implementation
                     string.Join(", ", sparams.Select(m => m.ParameterName + (m.Direction == System.Data.ParameterDirection.Output ? " OUTPUT" : "")));
                 var list = _unitOfWork.ExecWithStoreProcedure<TResult>(Query, sparams).ToList();
 
-                if (list.Any())
+                if (list != null)
                 {
                     result.Data = list;
                     result.Status = TS.Status.Success;
@@ -206,8 +209,8 @@ namespace EShop.Repository.Implementation
                     result.Status = TS.Status.Success;
                     return result;
                 }
-                //result.Status = TS.Status.Warning;
-                //result.Message = Resource.Notifications.NotFound;
+                result.Status = TS.Status.Warning;
+                result.Message = Resource.Notifications.NotFound;
                 result.Data = "[]";
             }
             catch (Exception ex)
@@ -221,6 +224,7 @@ namespace EShop.Repository.Implementation
         public async Task<Result<TViewModel?>> GetAsync(Expression<Func<T, bool>> filter)
         {
             var result = new Result<TViewModel>();
+            result.Data = new TViewModel();
 
             try
             {
@@ -245,6 +249,7 @@ namespace EShop.Repository.Implementation
         public async Task<Result<TViewModel?>> GetByIdAsync(Int64 id)
         {
             var result = new Result<TViewModel>();
+            result.Data = new TViewModel();
             try
             {
                 var item = await _service.FindAsync(id);

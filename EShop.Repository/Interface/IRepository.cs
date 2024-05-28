@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 
 namespace EShop.Repository.Interface
 {
-    public interface IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseViewModel
+    public interface IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseViewModel, new()
     {
         Task<Result<TViewModel>> AddAsync(TViewModel model);
         Task<Result<TViewModel>> UpdateAsync(TViewModel model);

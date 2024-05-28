@@ -14,7 +14,7 @@ namespace EShop.Repository.Implementation
         {
         }
 
-        public async Task<Result<PaginatedViewModel<FeatureViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
+        public async Task<Result<PaginatedViewModel<FeatureViewModel>>> GetPaginatedResult(Int64? categoryId = null, Int64? parentId = null, string? title = null, int take = 10, int skip = 0)
         {
             var result = new Result<PaginatedViewModel<FeatureViewModel>> ();
 
@@ -23,7 +23,9 @@ namespace EShop.Repository.Implementation
                 var totalCount = new SqlParameter("@TotalCount", System.Data.SqlDbType.Int);
                 totalCount.Direction = System.Data.ParameterDirection.Output;
                 var sparam = new SqlParameter[] {
-					new SqlParameter("@Title", title == null ? DBNull.Value : title),
+                    new SqlParameter("@CategoryId", categoryId == null ? DBNull.Value : categoryId),
+                    new SqlParameter("@ParentId", parentId == null ? DBNull.Value : parentId),
+                    new SqlParameter("@Title", title == null ? DBNull.Value : title),
 					new SqlParameter("@Take", take),
                     new SqlParameter("@Skip", skip),
                     totalCount
@@ -31,7 +33,7 @@ namespace EShop.Repository.Implementation
 
                 var r = await GetProcedureAsync<FeatureViewModel>("Feature_Get", sparam);
 
-                if(r.Status == TS.Status.Success) {
+                if(r.Status == TS.Status.Success || r.Status == TS.Status.Warning) {
                     result.Data = new PaginatedViewModel<FeatureViewModel>
                     {
                         Data = r.Data,

@@ -56,8 +56,8 @@ namespace EShop.AdminPanel.Pages.Category
         {
             try
             {
-                var result = await _categoryRepository.GetAllAsync();
-                var list = result.Data.OrderBy(m => m.ParentOrder + m.DisplayOrder).ToList();
+                var result = await _categoryRepository.GetPaginatedResult(null, 100000, 0);
+                var list = result.Data?.Data.ToList();
 
                 if (!id.HasValue || id == 0)
                     return new PartialViewResult
@@ -131,6 +131,12 @@ namespace EShop.AdminPanel.Pages.Category
                     category.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                     if (!id.HasValue || id == 0)
                     {
+                        var result = await _categoryRepository.GetAllAsync(m => m.ParentId == category.ParentId);
+                        var lastCategory = result.Data?.OrderBy(m => m.DisplayOrder).LastOrDefault();
+                        category.DisplayOrder = 1;
+                        if(lastCategory != null)
+                            category.DisplayOrder = lastCategory.DisplayOrder + 1;
+
                         await _categoryRepository.AddAsync(category);
                     }
                     else
@@ -164,7 +170,7 @@ namespace EShop.AdminPanel.Pages.Category
             }
             return await GetCategorys();
         }
-        public async Task<JsonResult> OnPosChangeOrderAsync(Int64 id, int order)
+        public async Task<JsonResult> OnPostChangeOrderAsync(Int64 id, int order)
         {
             try
             {

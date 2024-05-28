@@ -21,7 +21,7 @@
                         <form method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
                             <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
                         </form> |
-                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id',featureForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id','featureForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
 
                     </td>
                     <td>@m.CategoryTitle</td>
@@ -43,7 +43,9 @@
         else
         {
             <tr>
-                رکوردی یافت نشد
+                <td colspan="5">
+                    رکوردی یافت نشد
+                </td>
             </tr>
 
         }

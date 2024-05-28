@@ -5,6 +5,6 @@ namespace EShop.Repository.Interface
 {
     public interface IFeatureRepository: IRepository<Feature, FeatureViewModel>
     {
-        Task<Result<PaginatedViewModel<FeatureViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0);
+        Task<Result<PaginatedViewModel<FeatureViewModel>>> GetPaginatedResult(Int64? categoryId = null, Int64? parentId = null, string? title = null, int take = 10, int skip = 0);
     }
 }

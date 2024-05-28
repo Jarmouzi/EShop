@@ -37,11 +37,12 @@
             $('#saveBtn').html('ایجاد');
         }
 
-        Search = (take, skip) => {  
-			var Confirmed = $("input#Confirmed").val(); 
-			var Icon = $("input#Icon").val(); 
-			var Title = $("input#Title").val();
-            $('#viewAll').load(`?handler=ViewAllPartial&Confirmed=${Confirmed}&Icon=${Icon}&Title=${Title}&take=${take}&skip=${skip}`);
+        Search = (skip) => {
+            var categoryId = $("select#CategoryId").val();
+            var brandId = $("select#BrandId").val();
+            var title = $("input#Title").val();
+            var take = $("select#Take").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&categoryId=${categoryId}&brandId=${brandId}&title=${title}&take=${take}&skip=${skip}`);
         }
     </script>
 }

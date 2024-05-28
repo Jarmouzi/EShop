@@ -9,8 +9,15 @@ namespace EShop.ViewModel
 {
     public abstract class BaseViewModel
     {
+        protected BaseViewModel()
+        {
+            
+        }
+
         [ValidateNever]
         public Int64 Id { get; set; }
+
+        [ValidateNever]
         public Guid? ModifiedBy { get; set; }
         //public DateTime CreateDate { get; set; }
         //public DateTime? ModifyDate { get; set; }

@@ -1,4 +1,5 @@
 using EShop.Utilities;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -27,13 +28,21 @@ namespace EShop.ViewModel
         [DisplayName("آیکون")]
         public string? Icon { get; set; }
 
+        [DisplayName("ترتیب نمایش")]
+        public int? DisplayOrder { get; set; }
+
+        [DisplayName("ویژگی شاخص")]
+        public bool IsMain { get; set; }
+
         [DisplayName("تایید")]
         public bool Confirmed { get; set; }
 
         [NotMapped]
-        public SelectList Categories { get; set; }
+        [ValidateNever]
+        public List<CategoryViewModel> Categories { get; set; }
 
         [NotMapped]
+        [ValidateNever]
         public SelectList Parents { get; set; }
     }
 }

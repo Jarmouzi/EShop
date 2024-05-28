@@ -1,11 +1,14 @@
-using EShop.AdminPanel.Services;
+﻿using EShop.AdminPanel.Services;
 using EShop.IdentityService.Infrastructure.Authorizaion;
 using EShop.LogService.Repository;
+using EShop.Model;
 using EShop.Model.TypeSafe;
+using EShop.Repository.Implementation;
 using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Security.Claims;
 
@@ -17,26 +20,29 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
         private readonly ILogger<IndexModel> _logger;
         private readonly ILogRepository _dbLog;
         private readonly IFeatureRepository _featureRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IRazorRenderService _renderService;
         public IndexModel(ILogger<IndexModel> logger
             , ILogRepository dbLog
-            , IFeatureRepository featureRepository,
-            IRazorRenderService renderService)
+            , IFeatureRepository featureRepository
+            , ICategoryRepository categoryRepository
+            , IRazorRenderService renderService)
         {
             _logger = logger;
             _dbLog = dbLog;
             _featureRepository = featureRepository;
+            _categoryRepository = categoryRepository;
             _renderService = renderService;
         }
         public void OnGet()
         {
         }
-        public async Task<PartialViewResult> OnGetViewAllPartial(string? title = null, int take = 10, int skip = 0)
+        public async Task<PartialViewResult> OnGetViewAllPartial(Int64? categoryId = null, Int64? parentId = null, string? title = null, int take = 10, int skip = 0)
         {
             var result = new PaginatedViewModel<FeatureViewModel>();
             try
             {
-                var list = await _featureRepository.GetPaginatedResult(title, take, skip);
+                var list = await _featureRepository.GetPaginatedResult(categoryId, parentId, title, take, skip);
 
                 result = list.Data;
             }
@@ -55,15 +61,29 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
         {
             try
             {
+                var result = await _categoryRepository.GetPaginatedResult(null, 100000, 0);
+                var list = result.Data?.Data.ToList();
+
+                var pResult = await _featureRepository.GetAllAsync(m => m.ParentId == null);
+                var parents = new SelectList(pResult.Data, "Id", "Title", null);
+                parents.Prepend(new SelectListItem("انتخاب نمایید", null));
+
                 if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
                         ViewName = "_FeatureForm",
-                        ViewData = new ViewDataDictionary<FeatureViewModel>(ViewData, new FeatureViewModel())
+                        ViewData = new ViewDataDictionary<FeatureViewModel>(ViewData, new FeatureViewModel
+                        {
+                            Categories = list,
+                            Parents = parents
+                        })
                     };
                 else
                 {
                     var feature = await _featureRepository.GetByIdAsync(id.Value);
+                    feature.Data.Categories = list;
+                    feature.Data.Parents = parents;
+
                     return new PartialViewResult
                     {
                         ViewName = "_FeatureForm",
@@ -153,7 +173,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
             var html = "";
             try
             {
-                var list = await _featureRepository.GetPaginatedResult(null, 10, 0);
+                var list = await _featureRepository.GetPaginatedResult(null, null, null, 10, 0);
 
                 isValid = list.Status == TS.Status.Success;
 

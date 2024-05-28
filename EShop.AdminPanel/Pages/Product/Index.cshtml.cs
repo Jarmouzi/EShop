@@ -125,8 +125,6 @@ namespace EShop.AdminPanel.Pages.Product
             var html = "";
             try
             {
-                ModelState.Remove("Id");
-
                 if (ModelState.IsValid)
                 {
                     product.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

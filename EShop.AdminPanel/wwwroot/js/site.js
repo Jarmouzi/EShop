@@ -120,5 +120,25 @@
         //prevent default form submit event
         return false;
     }
+
+    jQueryChangeDisplayOrder = form => {
+        try {
+            $.ajax({
+                type: 'POST',
+                url: form.action,
+                data: new FormData(form),
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#viewAll').html(res.html);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        } catch (ex) {
+            console.log(ex)
+        }
+    }
 });
 
