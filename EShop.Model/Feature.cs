@@ -13,6 +13,8 @@ namespace EShop.Model
         public Int64? ParentId { get; set; }
         public string? Title { get; set; }
         public string? Icon { get; set; }
+        public int DisplayOrder { get; set; }
+        public bool IsMain { get; set; }
         public bool? Confirmed { get; set; }
         public virtual ICollection<Filter> Filters { get; set; }
         public virtual ICollection<Product_Feature> Product_Features { get; set; }

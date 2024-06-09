@@ -10,9 +10,10 @@ using EShop.LogService.Repository;
 using EShop.Model;
 using EShop.Repository.Implementation;
 using EShop.Repository.Interface;
-using EShop.ViewModel;  
+using EShop.ViewModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.FileProviders;
 
 namespace EShop.AdminPanel
 {
@@ -60,6 +61,17 @@ namespace EShop.AdminPanel
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            //var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    OnPrepareResponse = ctx =>
+            //    {
+            //        ctx.Context.Response.Headers.Append(
+            //             "Cache-Control", $"public, max-age={cacheMaxAgeOneWeek}");
+            //    },
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Statics")),
+            //    RequestPath = "/Statics"
+            //});
 
             app.UseRouting();
 

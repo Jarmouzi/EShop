@@ -10,6 +10,7 @@
     <title>کاسب یار | @ViewData["Title"] </title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+@*     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.rtl.min.css" /> *@
     <link rel="stylesheet" href="~/EShop.AdminPanel.styles.css" asp-append-version="true" />
     <link href="~/css/site.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
@@ -35,16 +36,17 @@
         <div class="content-wrapper">
             @RenderBody()
         </div>
-        <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="form-modal">
+        <div class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" id="form-modal">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title"></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
+                        <h5 class="modal-title"> MODAL TITLE</h5>
                     </div>
                     <div class="modal-body">
+                        <h1>MODAL BODY</h1>
                     </div>
                     <div class="clearfix"></div>
                 </div>

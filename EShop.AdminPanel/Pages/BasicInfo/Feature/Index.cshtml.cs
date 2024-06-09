@@ -133,6 +133,12 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
                     feature.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                     if (!id.HasValue || id == 0)
                     {
+                        var result = await _featureRepository.GetAllAsync(m => m.ParentId == feature.ParentId);
+                        var lastFeature = result.Data?.OrderBy(m => m.DisplayOrder).LastOrDefault();
+                        feature.DisplayOrder = 1;
+                        if (lastFeature != null)
+                            feature.DisplayOrder = lastFeature.DisplayOrder + 1;
+
                         await _featureRepository.AddAsync(feature);
                     }
                     else
@@ -163,6 +169,18 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
             catch (Exception ex)
             {
                 _logger.LogError("Feature OnPostDeleteAsync: " + ex.Message, id);
+            }
+            return await GetFeatures();
+        }
+        public async Task<JsonResult> OnPostChangeOrderAsync(Int64 id, int order)
+        {
+            try
+            {
+                await _featureRepository.ChangeDisplayOrder(id, order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Feature OnPostChangeOrderAsync: " + ex.Message, id);
             }
             return await GetFeatures();
         }

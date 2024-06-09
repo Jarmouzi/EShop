@@ -178,7 +178,7 @@ namespace EShop.AdminPanel.Pages.Category
             }
             catch (Exception ex)
             {
-                _logger.LogError("Category OnPostDeleteAsync: " + ex.Message, id);
+                _logger.LogError("Category OnPostChangeOrderAsync: " + ex.Message, id);
             }
             return await GetCategorys();
         }

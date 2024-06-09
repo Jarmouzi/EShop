@@ -1,7 +1,7 @@
-@page
-@model EShop.AdminPanel.Pages.BasicInfo.Product_Feature.IndexModel
+@page 
+@model EShop.AdminPanel.Pages.Product.Product_Feature.IndexModel
 @{
-    ViewData["Title"] = "Product_Feature";
+    ViewData["Title"] = "ویژگی های محصول" ;
 }
 @await Component.InvokeAsync("Breadcrumb")
 <section class="content">
@@ -11,49 +11,8 @@
                 <div class="box-header with-border">
                     <div id="product_featureForm" class="row"></div>
                 </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </section>
 
-@section Scripts
-    {
-    <script>
-        $(document).ready(function () {
-            $('#product_featureForm').load('?handler=FormPartial');
-            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
-        });
-
-        clearForm = () => {
-            $('#create-form').attr('action', '/Product_Feature?id=&handler=CreateOrEdit');  
-			$('#Active).val(');  
-			$('#ComponentName).val(');  
-			$('#Confirmed).val(');  
-			$('#DisplayOrder).val(');  
-			$('#featureId).val(');  
-			$('#IsMain).val(');  
-			$('#ItemId).val(');  
-			$('#Title).val(');  
-			$('#Value).val('); 
-            $('#saveBtn').html('?????');
-        }
-
-        Search = (take, skip) => {  
-			var Active = $("input#Active").val(); 
-			var ComponentName = $("input#ComponentName").val(); 
-			var Confirmed = $("input#Confirmed").val(); 
-			var DisplayOrder = $("input#DisplayOrder").val(); 
-			var featureId = $("input#featureId").val(); 
-			var IsMain = $("input#IsMain").val(); 
-			var ItemId = $("input#ItemId").val(); 
-			var Title = $("input#Title").val(); 
-			var Value = $("input#Value").val();
-            $('#viewAll').load(`?handler=ViewAllPartial&&amp;Active=${Active}&amp;ComponentName=${ComponentName}&amp;Confirmed=${Confirmed}&amp;DisplayOrder=${DisplayOrder}&amp;featureId=${featureId}&amp;IsMain=${IsMain}&amp;ItemId=${ItemId}&amp;Title=${Title}&amp;Value=${Value}&take=${take}&skip=${skip}`);
-        }
-    </script>
-}

@@ -35,11 +35,11 @@ namespace EShop.IdentityService.Infrastructure.Authorizaion
             var claims = context.HttpContext.User.Claims;
 
             var request = context.HttpContext.Request.QueryString.Value;
-            if (!string.IsNullOrEmpty(request))
-            {
-                var method = request.Split("handler=")[1].Split('&')[0];
-                //.Substring()
-            }
+            //if (!string.IsNullOrEmpty(request))
+            //{
+            //    var method = request.Split("handler=")[1].Split('&')[0];
+            //    //.Substring()
+            //}
 
             if (claims.Any(t => t.Type == ClaimTypes.Role && t.Value == "Admin") ||
                 claims.Any(t => t.Type == pageParts?[1] && t.Value.Contains(pageParts?[2] + ",")))

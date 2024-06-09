@@ -79,10 +79,17 @@ namespace EShop.Repository.Implementation
                 model.ModifyDate = DateTime.Now;
                 model.DisplayOrder += order;
 
-                var exchangeModel = await _service.Where(m => m.DisplayOrder == model.DisplayOrder && m.ParentId == model.ParentId).FirstOrDefaultAsync();
-                if (exchangeModel != null)
+                if (model.DisplayOrder < 1)
                 {
-                    exchangeModel.DisplayOrder += order * -1;
+                    model.DisplayOrder = 1;
+                }
+                else
+                {
+                    var exchangeModel = await _service.Where(m => m.DisplayOrder == model.DisplayOrder && m.ParentId == model.ParentId).FirstOrDefaultAsync();
+                    if (exchangeModel != null)
+                    {
+                        exchangeModel.DisplayOrder += order * -1;
+                    }
                 }
                 if (await _unitOfWork.SaveAsync() > 0)
                 {

@@ -1,28 +1,82 @@
-@model EShop.ViewModel.Product_FeatureViewModel
-<form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
-    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-    <input type="hidden" asp-for="ProductId" />
-    <div class="form-group col-md-6">
-        <label class="control-label">عنوان</label>
-        <input type="text" autocomplete="off" asp-for="FeatureTitle" name="Title" class="form-control">
-        <span asp-validation-for="FeatureTitle" class="text-danger"></span>
+@using System.Web
+@model List<EShop.ViewModel.Product_FeatureViewModel>
+<form id="create-form" method="post" asp-page="Index" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
 
+    <div class="col-12" id="accordion">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            if (Model[i].ParentFeatureId == null)
+            {
+                if (i > 0)
+                {
+                    @Html.Raw(HttpUtility.HtmlDecode("</div></div></div>"))
+
+                }
+                var list = Model.Where(m => m.ParentFeatureId == Model[i].Id).ToList();
+                var content = @"<div class='card card-primary card-outline'>
+                    <a class='d-block w-100 collapsed' data-toggle='collapse' href='#collapseOne' aria-expanded='false'>
+                        <div class='card-header'>
+                            <h4 class='card-title w-100'>
+                                " + @Model[i].ParentFeatureTitle + @"
+                            </h4>
+                        </div>
+                    </a>
+                    <div id='collapseOne' class='collapse' data-parent='#accordion' style=''>
+                        <div class='card-body'>";
+                @Html.Raw(HttpUtility.HtmlDecode(content));
+            }
+            else
+            {
+                <div class="form-group col-md-6">
+                    @Html.CheckBoxFor(m => m[i].IsMain)
+                    <label class="control-label">@Model[i].FeatureTitle</label>
+                    @Html.TextBoxFor(m => m[i].Value)
+                </div>                
+            }
+
+        }
+@*         @foreach (var p in Model.GroupBy(m => m.ParentFeatureId).Select(m => m.First()))
+        {
+            var list = Model.Where(m => m.ParentFeatureId == p.Id).ToList();
+            <div class="card card-primary card-outline">
+                <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false">
+                    <div class="card-header">
+                        <h4 class="card-title w-100">
+                            @p.ParentFeatureTitle
+                        </h4>
+                    </div>
+                </a>
+                <div id="collapseOne" class="collapse" data-parent="#accordion" style="">
+                    <div class="card-body">
+
+                        @for (int i = 0; i < list.Count; i++)
+                        {
+                            <div class="form-group col-md-6">
+                                @if (list[i].Confirmed)
+                                {
+                                    <input id=`ch_@list[i].Id` type="checkbox" checked="checked"/>
+                                }
+                                else
+                                {
+                                    <input id=`ch_@list[i].Id` type="checkbox" />
+                                }
+                                <label class="control-label">@list[i].FeatureTitle</label>
+                                <input id=`v_@list[i].Id` type="text" value="@list[i].Value" asp-for="list[i].Value" name="Title" class="form-control" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        } *@
     </div>
-    <div class="form-group col-md-6">
-        <label class="control-label">تایید</label>
-        <input type="checkbox" autocomplete="off" asp-for="Confirmed" name="Confirm" class="form-control">
-        <span asp-validation-for="Confirmed" class="text-danger"></span>
-    </div>
-    <div class="form-group col-md-12 pull-left">        
+
+    <div class="form-group col-md-12 pull-left">
         <div class="pull-left">
-            <a onclick="clearForm()" class="btn btn-default">خالی کردن فرم</a>
-            <button id="saveBtn" type="submit" class="btn btn-success">ایجاد</button>
-            <a onclick="Search(0);" class="btn btn-info">جستجو</a>
+            <button id="saveBtn" type="submit" class="btn btn-success">ثبت</button>
         </div>
     </div>
 
 </form>
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
-
 </script>

@@ -30,19 +30,22 @@
         });
 
         clearForm = () => {
-            $('#create-form').attr('action', '/Feature?id=&handler=CreateOrEdit');  
-			$('#Confirmed').val('');  
-			$('#Icon').val('');  
-			$('#Title').val(''); 
+            $('#create-form').attr('action', '/Feature?id=&handler=CreateOrEdit');
+            $("select#CategoryId").val('');
+            $("select#ParentId").val('');
+            $('#Title').val('');
+            $('#IsMain').val('');
+            $('#Confirmed').val('');
+			//$('#Icon').val('');  
             $('#saveBtn').html('ایجاد');
         }
 
         Search = (skip) => {
             var categoryId = $("select#CategoryId").val();
-            var brandId = $("select#BrandId").val();
+            var parentId = $("select#ParentId").val();
             var title = $("input#Title").val();
             var take = $("select#Take").val();
-            $('#viewAll').load(`?handler=ViewAllPartial&categoryId=${categoryId}&brandId=${brandId}&title=${title}&take=${take}&skip=${skip}`);
+            $('#viewAll').load(`?handler=ViewAllPartial&categoryId=${categoryId}&parentId=${parentId}&title=${title}&take=${take}&skip=${skip}`);
         }
     </script>
 }
