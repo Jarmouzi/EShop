@@ -15,4 +15,14 @@ namespace EShop.ViewModel
         public string ParentFeatureTitle { get; set; }
         public string ProductTitle { get; set; }
 	}
+
+    public class SimpleProduct_FeatureViewModel 
+    {
+        public Int64? Id { get; set; }
+        public Int64? ProductId { get; set; }
+        public Int64? FeatureId { get; set; }
+        public string? Value { get; set; }
+        public bool IsMain { get; set; }
+    }
+
 }

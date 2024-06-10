@@ -21,7 +21,7 @@
     <!-- Favicons -->
     <link href="./favicon.ico" rel="icon">
     <link href="./img/apple-touch-icon.png" rel="apple-touch-icon">
-    
+
     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
     <link rel="stylesheet" href="./css/main.css" asp-append-version="true" />
@@ -45,7 +45,7 @@
                     <!-- <h1><a asp-area="" asp-page="/Index">کاسب یار</a></h1>-->
                     <a href="index.html"><img src="./img/logo.png" alt="کاسب یار" class="img-fluid"></a>
                 </div>
-               @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"> *@
+                @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"> *@
                 <nav id="navbar" class="navbar px-3">
                     <ul>
                         <li><a class="nav-link scrollto " href="#hero">خانه</a></li>
@@ -62,12 +62,31 @@
             <div class="navbar-custom-menu">
                 <nav id="login_navbar" class="navbar">
                     <ul>
-                        <li class="dropdown user user-menu">
-                            <vc:culture-picker />
-                        </li>
-                        <li>
-                            <partial class="float-end" name="_LoginPartial" />
-                        </li>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <form method="post" asp-page="/Account/Logout" class="form-inline">
+                            <li class="dropdown user user-menu">
+                                <span class="nav-link dropdown-toggle" href="#" id="navbarDropdowm" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Welcome @User.Identity.Name
+                                </span>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdowm">
+                                    <li class="dropdown-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Dashboard/Index">داشبورد</a>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <button type="submit" class="m-lg-2 btn btn-link">خروج</button>
+                                    </li>
+                                </ul>
+                            </li>
+                            </form>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="nav-link" asp-page="/Account/Login">ورود</a>
+                            </li>
+                        }
                     </ul>
                 </nav>
             </div>

@@ -1,73 +1,47 @@
 @using System.Web
 @model List<EShop.ViewModel.Product_FeatureViewModel>
-<form id="create-form" method="post" asp-page="Index" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
+<form id="create-form" method="post" asp-page="Index" asp-page-handler="CreateOrEdit" onsubmit="addFeatures();" class="form-horizontal">
 
-    <div class="col-12" id="accordion">
-        @for (int i = 0; i < Model.Count; i++)
+    <div class="col-12 box-group" id="accordion">
+        @foreach (var p in Model.GroupBy(m => m.ParentFeatureId).Select(m => m.First()))
         {
-            if (Model[i].ParentFeatureId == null)
-            {
-                if (i > 0)
-                {
-                    @Html.Raw(HttpUtility.HtmlDecode("</div></div></div>"))
-
-                }
-                var list = Model.Where(m => m.ParentFeatureId == Model[i].Id).ToList();
-                var content = @"<div class='card card-primary card-outline'>
-                    <a class='d-block w-100 collapsed' data-toggle='collapse' href='#collapseOne' aria-expanded='false'>
-                        <div class='card-header'>
-                            <h4 class='card-title w-100'>
-                                " + @Model[i].ParentFeatureTitle + @"
-                            </h4>
-                        </div>
-                    </a>
-                    <div id='collapseOne' class='collapse' data-parent='#accordion' style=''>
-                        <div class='card-body'>";
-                @Html.Raw(HttpUtility.HtmlDecode(content));
-            }
-            else
-            {
-                <div class="form-group col-md-6">
-                    @Html.CheckBoxFor(m => m[i].IsMain)
-                    <label class="control-label">@Model[i].FeatureTitle</label>
-                    @Html.TextBoxFor(m => m[i].Value)
-                </div>                
-            }
-
-        }
-@*         @foreach (var p in Model.GroupBy(m => m.ParentFeatureId).Select(m => m.First()))
-        {
-            var list = Model.Where(m => m.ParentFeatureId == p.Id).ToList();
-            <div class="card card-primary card-outline">
-                <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false">
-                    <div class="card-header">
-                        <h4 class="card-title w-100">
+            var list = Model.Where(m => m.ParentFeatureId == p.ParentFeatureId).ToList();
+            <div class="panel box box-primary">
+                <div class="box-header with-border">
+                    <h4 class="box-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse_@p.ParentFeatureId">
                             @p.ParentFeatureTitle
-                        </h4>
-                    </div>
-                </a>
-                <div id="collapseOne" class="collapse" data-parent="#accordion" style="">
-                    <div class="card-body">
-
-                        @for (int i = 0; i < list.Count; i++)
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse_@p.ParentFeatureId" class="panel-collapse collapse">
+                    <div class="box-body">
+                        @foreach (var c in list)
                         {
-                            <div class="form-group col-md-6">
-                                @if (list[i].Confirmed)
-                                {
-                                    <input id=`ch_@list[i].Id` type="checkbox" checked="checked"/>
-                                }
-                                else
-                                {
-                                    <input id=`ch_@list[i].Id` type="checkbox" />
-                                }
-                                <label class="control-label">@list[i].FeatureTitle</label>
-                                <input id=`v_@list[i].Id` type="text" value="@list[i].Value" asp-for="list[i].Value" name="Title" class="form-control" />
-                            </div>
+                            <partial name="_FeatureField" model="@c"></partial>
                         }
                     </div>
                 </div>
             </div>
-        } *@
+
+            @*             <div class="card card-primary card-outline">
+        <a class="d-block w-100 collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false">
+        <div class="card-header">
+        <h4 class="card-title w-100">
+        @p.ParentFeatureTitle
+        </h4>
+        </div>
+        </a>
+        <div id="collapseOne" class="collapse" data-parent="#accordion" style="">
+        <div class="card-body">
+        @foreach (var c in list)
+        {
+        <partial name="_FeatureField" model="@c"></partial>
+        }
+        </div>
+        </div>
+        </div> *@
+        }
     </div>
 
     <div class="form-group col-md-12 pull-left">

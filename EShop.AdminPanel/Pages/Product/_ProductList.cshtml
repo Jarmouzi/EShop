@@ -24,18 +24,10 @@
                         <form method="post" asp-page="Index" asp-route-id="@c.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
                             <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
                         </form>
-                        <span class="pl-1">
-                            <a onclick="jQueryGet('?handler=FormPartial&id=@c.Id','productForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
-                        </span>
-                        <span class="pl-1">
-                            <a onclick="jQueryModalGet('/Product/Product_Feature?handler=FormPartial&id=@c.Id', 'ویژگی های محصول')" data-toggle="tooltip" data-placement="top" title="ویژگی های محصول"> <i class="fa fa-list"></i> </a>
-                        </span>
-                        <span class="pl-1">
-                            <a onclick="/Product/Product_Feature?id=@c.Id" data-toggle="tooltip" data-placement="top" title="تصاویر محصول"> <i class="fa fa-image"></i> </a>
-                        </span>
-                        <span class="pl-1">
-                            <a onclick="/Product_Feature?id=@c.Id" data-toggle="tooltip" data-placement="top" title="بررسی فنی محصول"> <i class="fa fa-newspaper-o"></i> </a>
-                        </span>
+                        <a class="pl-1" onclick="jQueryGet('?handler=FormPartial&id=@c.Id','productForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+                        <a class="pl-1" onclick="jQueryModalGet('/Product/Product_Feature?handler=FormPartial&id=@c.Id', 'ویژگی های محصول')" data-toggle="tooltip" data-placement="top" title="ویژگی های محصول"> <i class="fa fa-list"></i> </a>
+                        <a class="pl-1" onclick="/Product/Product_Feature?id=@c.Id" data-toggle="tooltip" data-placement="top" title="تصاویر محصول"> <i class="fa fa-image"></i> </a>
+                        <a class="pl-1" onclick="/Product_Feature?id=@c.Id" data-toggle="tooltip" data-placement="top" title="بررسی فنی محصول"> <i class="fa fa-newspaper-o"></i> </a>
                     </td>
                     <td>@c.CategoryTitle</td>
                     <td>@c.BrandTitle</td>

@@ -115,7 +115,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
         //    }
         //    return new JsonResult(new { isValid = true, html = "" });
         //}
-        public async Task<JsonResult> OnPostCreateOrEditAsync(List<Product_FeatureViewModel> product_features)
+        public async Task<JsonResult> OnPostCreateOrEditAsync([FromBody] List<SimpleProduct_FeatureViewModel> product_features)
         {
             var html = "";
             try

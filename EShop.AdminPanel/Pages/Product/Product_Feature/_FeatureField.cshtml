@@ -1,0 +1,9 @@
+﻿@model EShop.ViewModel.Product_FeatureViewModel
+<div class="form-group col-md-6 feature">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ProductId" />
+    <input type="hidden" asp-for="FeatureId" />
+    @Html.CheckBoxFor(m => m.IsMain, new { @class = "pull-right mi-1", @title = "ویژگی شاخص" })
+    <label class="control-label">@Model.FeatureTitle</label>
+    @Html.TextBoxFor(m => m.Value, new { @class = "form-control col-md-10" })
+</div>
