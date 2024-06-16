@@ -8,22 +8,20 @@ namespace EShop.Web.API.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
     [AuthorizeApi]
-    public class ProductInPageController : ControllerBase
+    public class FeatureValueController : ControllerBase
     {
-		private readonly IProductInPageRepository _ProductInPageRepository;
+		private readonly IFeatureValueRepository _FeatureValueRepository;
 
-        public ProductInPageController(IProductInPageRepository ProductInPageRepository)
+        public FeatureValueController(IFeatureValueRepository FeatureValueRepository)
         {
-            _ProductInPageRepository = ProductInPageRepository;
+            _FeatureValueRepository = FeatureValueRepository;
         }
-
         //[HttpPost("Add")]
-        //public async Task<IActionResult> Insert(ProductInPageViewModel model)
+        //public async Task<IActionResult> Insert(FeatureValueViewModel model)
         //{
         //    try
         //    {
-        //        var result = await _ProductInPageRepository.AddAsync(model);
-		//
+        //        var result = await _FeatureValueRepository.AddAsync(model);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -31,14 +29,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-		//
         //[HttpPut("Update")]
-        //public async Task<IActionResult> Update(ProductInPageViewModel model)
+        //public async Task<IActionResult> Update(FeatureValueViewModel model)
         //{
         //    try
         //    {
-        //        var result = await _ProductInPageRepository.UpdateAsync(model);
-		//
+        //        var result = await _FeatureValueRepository.UpdateAsync(model);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -46,14 +42,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-		//
         //[HttpDelete("Delete")]
         //public async Task<IActionResult> Delete(Int64 id)
         //{
         //    try
         //    {
-        //        var result = await _ProductInPageRepository.DeleteAsync(id);
-		//
+        //        var result = await _FeatureValueRepository.DeleteAsync(id);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -61,15 +55,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-
-
         [HttpGet("Get")]
         public async Task<IActionResult> Get(Int64 id)
         {
             try
             {
-                var result =await  _ProductInPageRepository.GetByIdAsync(id);
-
+                var result =await  _FeatureValueRepository.GetByIdAsync(id);
                 return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
@@ -83,8 +74,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _ProductInPageRepository.GetAllAsync();
-
+                var result = await _FeatureValueRepository.GetAllAsync();
                 return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
@@ -98,8 +88,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _ProductInPageRepository.GetProcedureAsync("ProductInPage_Json", json);
-
+                var result = await _FeatureValueRepository.GetProcedureAsync("FeatureValue_Json", json);
                 return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)

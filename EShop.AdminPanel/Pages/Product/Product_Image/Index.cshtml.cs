@@ -1,7 +1,9 @@
 using EShop.AdminPanel.Services;
 using EShop.IdentityService.Infrastructure.Authorizaion;
 using EShop.LogService.Repository;
+using EShop.Model;
 using EShop.Model.TypeSafe;
+using EShop.Repository.Implementation;
 using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -9,40 +11,57 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Security.Claims;
 
-namespace EShop.AdminPanel.Pages.BasicInfo.Product_Image
+namespace EShop.AdminPanel.Pages.Product.Product_Image
 {
     [AuthorizePage]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ILogRepository _dbLog;
+        private readonly IProductRepository _productRepository;
+        private readonly IProduct_OptionRepository _productOptionRepository;
         private readonly IProduct_ImageRepository _product_imageRepository;
         private readonly IRazorRenderService _renderService;
+
+        [BindProperty]
+        public Int64? ProductId { get; set; }
+
+        [BindProperty]
+        public Int64? Product_OptionId { get; set; }
+
+
         public IndexModel(ILogger<IndexModel> logger
             , ILogRepository dbLog
-            , IProduct_ImageRepository product_imageRepository,
-            IRazorRenderService renderService)
+            , IProductRepository productRepository
+            , IProduct_OptionRepository productOptionRepository
+            , IProduct_ImageRepository product_imageRepository
+            , IRazorRenderService renderService)
         {
             _logger = logger;
             _dbLog = dbLog;
+            _productRepository = productRepository;
+            _productOptionRepository = productOptionRepository;
             _product_imageRepository = product_imageRepository;
             _renderService = renderService;
         }
-        public void OnGet()
+        public void OnGet(Int64? id = null, Int64? oId = null)
         {
+            ProductId = id;
+            Product_OptionId = oId;
         }
-        public async Task<PartialViewResult> OnGetViewAllPartial(string? title = null, int take = 10, int skip = 0)
+        public async Task<PartialViewResult> OnGetViewAllPartial(Int64? pId, Int64? oId)
         {
-            var result = new PaginatedViewModel<Product_ImageViewModel>();
+            //var result = new PaginatedViewModel<Product_ImageViewModel>();
+            var result = new List<Product_ImageViewModel>();
             try
             {
-                var list = await _product_imageRepository.GetPaginatedResult(title, take, skip);
+                var list = await _product_imageRepository.GetAllAsync(m => m.ProductId == pId);
 
-                result = list.Data;
+                result = list.Data.ToList();
             }
             catch (Exception ex)
             {
-                _logger.LogError("Product_Image OnGetViewAllPartial: " + ex.Message, [title, take, skip]);
+                _logger.LogError("Product_Image OnGetViewAllPartial: " + ex.Message, [pId, oId]);
             }
 
             return new PartialViewResult
@@ -51,10 +70,21 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Product_Image
                 ViewData = new ViewDataDictionary<PaginatedViewModel<Product_ImageViewModel>>(ViewData, result)
             };
         }
-        public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
+        public async Task<PartialViewResult> OnGetFormPartial(Int64? pId, Int64? oId, Int64? id)
         {
             try
             {
+                string productTitle, productVariantTitle = "";
+                if (ProductId.HasValue)
+                {
+                    var product = await _productRepository.GetByIdAsync(ProductId.Value);
+                    productTitle = product.Data.Title;
+                }
+                //if (ProductVariantId.HasValue)
+                //{
+                //    var product = await _productVariantRepository.GetByIdAsync(ProductVariantId.Value);
+                //    productTitle = product.Data.ProductTitle;
+                //}
                 if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
@@ -87,8 +117,19 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Product_Image
         {
             try
             {
+                //var productVariant = await 
                 if (!id.HasValue || id == 0)
-                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_Product_ImageForm", new Product_ImageViewModel()) });
+                {
+                    var product = await _productRepository.GetByIdAsync(ProductId.Value);
+                    //var productVariant = await _productVariantRepository.GetByIdAsync(ProductVariantId);
+
+                    return new JsonResult(new
+                    {
+                        isValid = true,
+                        html = await _renderService.ToStringAsync("_Product_ImageForm",
+                                new Product_ImageViewModel { ProductId = ProductId??0, ProductTitle = product.Data?.Title })
+                    });
+                }
                 else
                 {
                     var thisProduct_Image = await _product_imageRepository.GetByIdAsync(id.Value);
@@ -153,7 +194,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Product_Image
             var html = "";
             try
             {
-                var list = await _product_imageRepository.GetPaginatedResult(null, 10, 0);
+                var list = await _product_imageRepository.GetAllAsync(m => m.ProductId == ProductId);
 
                 isValid = list.Status == TS.Status.Success;
 

@@ -11,6 +11,7 @@ namespace EShop.ViewModel
 		public int? SortOrder { get; set; }
 		public bool ShowOnMenu { get; set; }
 		public Int64? ParentId { get; set; }
-		//public bool? Confirmed { get; set; }
-	}
+        //public string? ParentTitle { get; set; }
+        //public bool? Confirmed { get; set; }
+    }
 }

@@ -1,6 +1,6 @@
 @using System.Web
 @model List<EShop.ViewModel.Product_FeatureViewModel>
-<form id="create-form" method="post" asp-page="Index" asp-page-handler="CreateOrEdit" onsubmit="addFeatures();" class="form-horizontal">
+<form id="create-form" method="post" asp-page="Index" asp-page-handler="CreateOrEdit" onsubmit="return addFeatures(this);" class="form-horizontal">
 
     <div class="col-12 box-group" id="accordion">
         @foreach (var p in Model.GroupBy(m => m.ParentFeatureId).Select(m => m.First()))
@@ -51,6 +51,51 @@
     </div>
 
 </form>
+@* <script type="text/javascript" language=javascript>
+    $.validator.unobtrusive.parse(document);
+</script> *@
+
+
 <script type="text/javascript" language=javascript>
     $.validator.unobtrusive.parse(document);
+
+    addFeatures = form => {
+        try {
+            debugger;
+            var product_features = [];
+            $(".feature").each(function (index, item) {
+                var pf = {};
+                pf.Id = parseInt($(item).find("#Id").val());
+                pf.ProductId = parseInt($(item).find("#ProductId").val());
+                pf.FeatureId = parseInt($(item).find("#FeatureId").val());
+                pf.IsMain = $(item).find("#IsMain").val() === 'true';
+                pf.Value = $(item).find("#Value").val();
+                product_features.push(pf);
+            });
+
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                dataType: "json",
+                contentType: 'application/json',
+                // contentType: false,
+                processData: false,
+                // headers: {
+                //     RequestVerificationToken:
+                //         $('input:hidden[name="__RequestVerificationToken"]').val()
+                // },
+                data: JSON.stringify(product_features),
+                success: function (data) {
+
+                    alert(data);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+    }
 </script>

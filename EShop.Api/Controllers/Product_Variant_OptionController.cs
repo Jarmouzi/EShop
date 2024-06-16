@@ -8,22 +8,20 @@ namespace EShop.Web.API.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
     [AuthorizeApi]
-    public class ProductVariant_OptionController : ControllerBase
+    public class Product_Variant_OptionController : ControllerBase
     {
-		private readonly IProductVariant_OptionRepository _ProductVariant_OptionRepository;
+		private readonly IProduct_Variant_OptionRepository _Product_Variant_OptionRepository;
 
-        public ProductVariant_OptionController(IProductVariant_OptionRepository ProductVariant_OptionRepository)
+        public Product_Variant_OptionController(IProduct_Variant_OptionRepository Product_Variant_OptionRepository)
         {
-            _ProductVariant_OptionRepository = ProductVariant_OptionRepository;
+            _Product_Variant_OptionRepository = Product_Variant_OptionRepository;
         }
-
         //[HttpPost("Add")]
-        //public async Task<IActionResult> Insert(ProductVariant_OptionViewModel model)
+        //public async Task<IActionResult> Insert(Product_Variant_OptionViewModel model)
         //{
         //    try
         //    {
-        //        var result = await _ProductVariant_OptionRepository.AddAsync(model);
-		//
+        //        var result = await _Product_Variant_OptionRepository.AddAsync(model);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -31,14 +29,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-		//
         //[HttpPut("Update")]
-        //public async Task<IActionResult> Update(ProductVariant_OptionViewModel model)
+        //public async Task<IActionResult> Update(Product_Variant_OptionViewModel model)
         //{
         //    try
         //    {
-        //        var result = await _ProductVariant_OptionRepository.UpdateAsync(model);
-		//
+        //        var result = await _Product_Variant_OptionRepository.UpdateAsync(model);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -46,14 +42,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-		//
         //[HttpDelete("Delete")]
         //public async Task<IActionResult> Delete(Int64 id)
         //{
         //    try
         //    {
-        //        var result = await _ProductVariant_OptionRepository.DeleteAsync(id);
-		//
+        //        var result = await _Product_Variant_OptionRepository.DeleteAsync(id);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -61,15 +55,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-
-
         [HttpGet("Get")]
         public async Task<IActionResult> Get(Int64 id)
         {
             try
             {
-                var result =await  _ProductVariant_OptionRepository.GetByIdAsync(id);
-
+                var result =await  _Product_Variant_OptionRepository.GetByIdAsync(id);
                 return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
@@ -83,8 +74,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _ProductVariant_OptionRepository.GetAllAsync();
-
+                var result = await _Product_Variant_OptionRepository.GetAllAsync();
                 return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
@@ -98,8 +88,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _ProductVariant_OptionRepository.GetProcedureAsync("ProductVariant_Option_Json", json);
-
+                var result = await _Product_Variant_OptionRepository.GetProcedureAsync("Product_Variant_Option_Json", json);
                 return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)

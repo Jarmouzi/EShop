@@ -9,7 +9,7 @@ namespace EShop.Model
 {
     public class ProductSeo: BaseModel
     { 
-		public Int64? ProductVariantId { get; set; }
+		public Int64? ProductId { get; set; }
 		public string? Title { get; set; }
 		public string? Description { get; set; }
 		public bool? IsName { get; set; }

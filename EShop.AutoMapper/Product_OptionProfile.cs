@@ -4,15 +4,16 @@ using EShop.ViewModel;
 
 namespace EShop.AutoMapper
 {
-    public class ProductVariant_OptionProfile : Profile
+    public class Product_OptionProfile : Profile
     {
-        public ProductVariant_OptionProfile()
+        public Product_OptionProfile()
         {
-            CreateMap<ProductVariant_Option, ProductVariant_OptionViewModel>()
+            CreateMap<Product_Option, Product_OptionViewModel>()
+				.ForMember(dest => dest.ProductTitle, opt => opt.MapFrom(src => src.Product.Title))	
 				.ForMember(dest => dest.OptionTitle, opt => opt.MapFrom(src => src.Option.Title))	
 				.ForMember(dest => dest.OptionValueTitle, opt => opt.MapFrom(src => src.OptionValue.Title))	;
 
-            CreateMap<ProductVariant_OptionViewModel, ProductVariant_Option>();
+            CreateMap<Product_OptionViewModel, Product_Option>();
         }
     }
 }

@@ -15,6 +15,6 @@ namespace EShop.Model
 
 		[ForeignKey("ImageId")]
         public virtual Image Image { get; set; }
-				public virtual ICollection<ProductVariant_Option> ProductVariant_Options { get; set; }
+		public virtual ICollection<Product_Option> Product_Options { get; set; }
 	}
 }

@@ -2,6 +2,8 @@
 @model EShop.AdminPanel.Pages.Product.Product_Feature.IndexModel
 @{
     ViewData["Title"] = "ویژگی های محصول";
+    var first = true;
+    var show = "show";
 }
 @await Component.InvokeAsync("Breadcrumb")
 <section class="content">
@@ -9,52 +11,88 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <div id="product_featureForm" class="row"></div>
+                    <h4 class="box-title">
+                        @Model.Product_Features.FirstOrDefault()?.ProductTitle
+                    </h4>
+                </div>
+                <div class="box-body">
+                    <div id="product_featureForm">
+                        <form id="create-form" method="post" class="form-horizontal">
+
+                            <div class="col-12 box-group" id="accordion" data-accordion="true">
+
+                                @foreach (var p in Model.Product_Features.GroupBy(m => m.ParentFeatureId).Select(m => m.First()))
+                                {
+                                    <div class="panel box box-default">
+                                        <div class="box-header with-border">
+                                            <h4 class="box-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_@p.ParentFeatureId" aria-expanded="@first">
+                                                    @p.ParentFeatureTitle
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapse_@p.ParentFeatureId" class="panel-collapse collapse @show">
+                                            <div class="box-body">
+                                                @for (int i = 0; i < Model.Product_Features.Count(); i++)
+                                                {
+                                                    if (Model.Product_Features[i].ParentFeatureId == p.ParentFeatureId)
+                                                    {
+                                                        <div class="form-group col-md-6 feature">
+                                                            <input type="hidden" asp-for="@Model.Product_Features[i].Id" />
+                                                            <input type="hidden" asp-for="@Model.Product_Features[i].ProductId" />
+                                                            <input type="hidden" asp-for="@Model.Product_Features[i].FeatureId" />
+                                                            <input type="checkbox" asp-for="@Model.Product_Features[i].IsMain" class="pull-right mi-1" title="ویژگی شاخص" />
+                                                            <label class="control-label">@Model.Product_Features[i].FeatureTitle</label>
+                                                            <input type="text" asp-for="@Model.Product_Features[i].Value" class="form-control col-md-10" />
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    first = false;
+                                    show = "";
+                                }
+                            </div>
+
+                            <div class="form-group col-md-12 pull-left">
+                                <div class="pull-left">
+                                    <button id="saveBtn" type="submit" class="btn btn-success">ثبت</button>
+                                    <a onclick="location.href='/Product'" class="btn btn-info">بازگشت</a>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-@section Scripts
-{
-    <script type="text/javascript" language=javascript>
-        addFeatures = form => {
-            try {
-                debugger;
-                var product_features = [];
-                $(".feature").each(function (index, item) {
-                    var pf = {};
-                    pf.Id = parseInt($(item).find("#Id").val());
-                    pf.ProductId = parseInt($(item).find("#ProductId").val());
-                    pf.FeatureId = parseInt($(item).find("#FeatureId").val());
-                    pf.IsMain = $(item).find("#IsMain").val();
-                    pf.Value = $(item).find("#Value").val();
-                    product_features.push(pf);
-                });
+<script>
 
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    //dataType: "json",
-                    //contentType: 'application/json',
-                    contentType: false,
-                    processData: false,
-                    // headers: {
-                    //     RequestVerificationToken:
-                    //         $('input:hidden[name="__RequestVerificationToken"]').val()
-                    // },
-                    data: new FormData(product_features),
-                    success: function (data) {
+    $(document).ready(function () {
+        $("[data-widget='collapse']").each(function () {
+            $(this).click(function () {
+                // Find the box parent
+                var box = $(this).parents(".box").first();
 
-                        alert(data);
-                    }
-                });
-                return false;
-            } catch (ex) {
-                console.log(ex)
-            }
-        }
-    </script>
-}
+                // Find the body and the footer
+                var bf = box.find(".box-body, .box-footer");
+
+                // Check if the box is currently expanded
+                if (!box.hasClass("collapsed-box")) {
+                    box.addClass("collapsed-box");
+                    bf.slideUp();
+                } else {
+                    box.removeClass("collapsed-box");
+                    bf.slideDown();
+                }
+            });
+        });
+    });
+</script>
+
 

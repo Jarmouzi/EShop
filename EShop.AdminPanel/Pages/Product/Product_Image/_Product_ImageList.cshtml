@@ -1,49 +1,46 @@
 @using EShop.ViewModel;
 @model PaginatedViewModel<Product_ImageViewModel>
 
-<table class="table table-bordered" id="product_images">
-    <thead>
-        <tr>
-            <th>عملیات</th>
-            <th>عنوان</th>
-            <th>کشور</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Data.Any())
-        {
-            @foreach (var m in Model.Data)
-            {
-                <tr>
-                    <td class="d-inline">
-                        <form method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
-                            <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
-                        </form> |
-                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id',product_imageForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
 
-                    </td>
-                    <td>
-                        @if (m.Confirmed == true)
-                        {
-                            <input type="checkbox" checked="checked" disabled="disabled" />
-                        }
-                        else
-                        {
-                            <input type="checkbox" disabled="disabled" />
-                        }
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                رکوردی یافت نشد
-            </tr>
+@if (Model.Data.Any())
+{
+    @foreach (var m in Model.Data)
+    {
+        <div class="box box-info">
+            <div class="box-header with-border">
+                @if (m.Confirmed == true)
+                {
+                    <input type="checkbox" class="pull-right" checked="checked" disabled="disabled" />
+                }
+                else
+                {
+                    <input type="checkbox" class="pull-right" disabled="disabled" />
+                }
+                @if (m.Featured == true)
+                {
+                    <h5>تصویر شاخص</h5>    
+                }
 
-        }
-    </tbody>
-</table>
+                <form class="pull-left" method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
+                    <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
+                </form>
+                <a class="pull-left" onclick="jQueryGet('?handler=FormPartial&id=@m.Id',product_imageForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+
+            </div>
+            <div class="box-body">
+                <img alt="@m.ImageAlt" src="@m.ImageUrl" />
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="box box-info">
+        رکوردی یافت نشد
+    </div>
+
+}
+
 <partial name="_paginationpartial" model="@Model.Pagination" />
 <script>
     $(document).ready(function () {

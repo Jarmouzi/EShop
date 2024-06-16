@@ -1,7 +1,9 @@
 @page
-@model EShop.AdminPanel.Pages.BasicInfo.Product_Image.IndexModel
+@model EShop.AdminPanel.Pages.Product.Product_Image.IndexModel
 @{
     ViewData["Title"] = "Product_Image";
+    var pId = "pId=" + (Model.ProductId == null ? "" : Model.ProductId.ToString());
+    var oId = "oId="  + (Model.Product_OptionId == null ? "" : Model.Product_OptionId.ToString());
 }
 @await Component.InvokeAsync("Breadcrumb")
 <section class="content">
@@ -25,8 +27,8 @@
     {
     <script>
         $(document).ready(function () {
-            $('#product_imageForm').load('?handler=FormPartial');
-            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+            $('#product_imageForm').load(`?handler=FormPartial&${'@pId'}&${'@oId'}&id=`);
+            $('#viewAll').load(`?handler=ViewAllPartial&${'@pId'}&${'@oId'}`);
         });
 
         clearForm = () => {
@@ -38,7 +40,7 @@
 			$('#ImageId).val(');  
 			$('#ProductId).val(');  
 			$('#ProductVariantId).val('); 
-            $("#saveBtn").html("?????");
+            $("#saveBtn").html("ایجاد");
         }
 
         Search = (take, skip) => {  
@@ -47,7 +49,7 @@
 			var ImageId = $("input#ImageId").val(); 
 			var ProductId = $("input#ProductId").val(); 
 			var ProductVariantId = $("input#ProductVariantId").val();
-            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Confirmed=${Confirmed}&amp;Featured=${Featured}&amp;ImageId=${ImageId}&amp;ProductId=${ProductId}&amp;ProductVariantId=${ProductVariantId}&take=${take}&skip=${skip}`);
+            $("#viewAll").load(`?handler=ViewAllPartial&Confirmed=${Confirmed}&Featured=${Featured}&ImageId=${ImageId}&ProductId=${ProductId}&ProductVariantId=${ProductVariantId}&take=${take}&skip=${skip}`);
         }
     </script>
 }

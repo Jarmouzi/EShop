@@ -8,15 +8,15 @@ using Microsoft.Data.SqlClient;
 
 namespace EShop.Repository.Implementation
 {
-    public class ProductVariant_OptionRepository : Repository<ProductVariant_Option, ProductVariant_OptionViewModel, EShopContext>, IProductVariant_OptionRepository
+    public class Product_OptionRepository : Repository<Product_Option, Product_OptionViewModel, EShopContext>, IProduct_OptionRepository
     {
-        public ProductVariant_OptionRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
+        public Product_OptionRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
         {
         }
 
-        public async Task<Result<PaginatedViewModel<ProductVariant_OptionViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
+        public async Task<Result<PaginatedViewModel<Product_OptionViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
         {
-            var result = new Result<PaginatedViewModel<ProductVariant_OptionViewModel>> ();
+            var result = new Result<PaginatedViewModel<Product_OptionViewModel>> ();
 
             try
             {
@@ -29,10 +29,10 @@ namespace EShop.Repository.Implementation
                     totalCount
                 };
 
-                var r = await GetProcedureAsync<ProductVariant_OptionViewModel>("ProductVariant_Option_Get", sparam);
+                var r = await GetProcedureAsync<Product_OptionViewModel>("Product_Option_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
-                    result.Data = new PaginatedViewModel<ProductVariant_OptionViewModel>
+                    result.Data = new PaginatedViewModel<Product_OptionViewModel>
                     {
                         Data = r.Data,
                         Pagination = new PaginationViewModel

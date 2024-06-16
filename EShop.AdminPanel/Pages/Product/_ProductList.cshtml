@@ -25,14 +25,14 @@
                             <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
                         </form>
                         <a class="pl-1" onclick="jQueryGet('?handler=FormPartial&id=@c.Id','productForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
-                        <a class="pl-1" onclick="jQueryModalGet('/Product/Product_Feature?handler=FormPartial&id=@c.Id', 'ویژگی های محصول')" data-toggle="tooltip" data-placement="top" title="ویژگی های محصول"> <i class="fa fa-list"></i> </a>
-                        <a class="pl-1" onclick="/Product/Product_Feature?id=@c.Id" data-toggle="tooltip" data-placement="top" title="تصاویر محصول"> <i class="fa fa-image"></i> </a>
+                        <a class="pl-1" onclick="location.href='/Product/Product_Feature?id=@c.Id'" data-toggle="tooltip" data-placement="top" title="ویژگی های محصول"> <i class="fa fa-list"></i> </a>
+                        <a class="pl-1" onclick="location.href='/Product/Product_Image?id=@c.Id'" data-toggle="tooltip" data-placement="top" title="تصاویر محصول"> <i class="fa fa-image"></i> </a>
                         <a class="pl-1" onclick="/Product_Feature?id=@c.Id" data-toggle="tooltip" data-placement="top" title="بررسی فنی محصول"> <i class="fa fa-newspaper-o"></i> </a>
                     </td>
                     <td>@c.CategoryTitle</td>
                     <td>@c.BrandTitle</td>
                     <td>@c.Title</td>
-                    <td>
+@*                     <td>
                         @if (c.AvailableForSale)
                         {
                             <input type="checkbox" checked="checked" disabled="disabled" />
@@ -41,7 +41,7 @@
                         {
                             <input type="checkbox" disabled="disabled" />
                         }
-                    </td>
+                    </td> *@
                     <td>
                         @if (c.Confirmed)
                         {

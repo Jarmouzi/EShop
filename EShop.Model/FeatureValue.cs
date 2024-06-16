@@ -7,9 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EShop.Model
 {
-    public class Option: BaseModel
+    public class FeatureValue: BaseModel
     { 
-		public string? Title { get; set; }
-		public virtual ICollection<Product_Option> Product_Options { get; set; }
+		public Int64? FeatureId { get; set; }
+		public string? Value { get; set; }
+
+		[ForeignKey("FeatureId")]
+        public virtual Feature Feature { get; set; }
 	}
 }

@@ -4,14 +4,9 @@ using EShop.Model;
 using EShop.Model.TypeSafe;
 using EShop.Repository.Interface;
 using EShop.ViewModel;
-using Microsoft.VisualBasic;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Data.SqlClient;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Nodes;
-using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 
 namespace EShop.Repository.Implementation
 {

@@ -7,19 +7,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EShop.Model
 {
-    public class ProductVariant_Option: BaseModel
+    public class Product_Variant_Option: BaseModel
     { 
 		public Int64? ProductVariantId { get; set; }
-		public Int64? OptionId { get; set; }
-		public Int64? OptionValueId { get; set; }
+		public Int64? Product_OptionId { get; set; }
 
 		[ForeignKey("ProductVariantId")]
         public virtual ProductVariant ProductVariant { get; set; }
 
-		[ForeignKey("OptionId")]
-        public virtual Option Option { get; set; }
-
-		[ForeignKey("OptionValueId")]
-        public virtual OptionValue OptionValue { get; set; }
+		[ForeignKey("Product_OptionId")]
+        public virtual Product_Option Product_Option { get; set; }
 	}
 }

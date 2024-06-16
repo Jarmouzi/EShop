@@ -15,10 +15,10 @@ namespace EShop.Model
         public int? DisplayOrder { get; set; }
         public bool? Confirmed { get; set; }
 
-        [ForeignKey("featureId")]
+        [ForeignKey("FeatureId")]
         public virtual Feature Feature { get; set; }
 
-        [ForeignKey("ItemId")]
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
     }
 }

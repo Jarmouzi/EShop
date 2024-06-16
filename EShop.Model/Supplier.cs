@@ -17,7 +17,6 @@ namespace EShop.Model
 		public string? Logo { get; set; }
 		public string? Banner { get; set; }
 		public bool? Confirmed { get; set; }
-				public virtual ICollection<Supplier_Contract> Supplier_Contracts { get; set; }
-				public virtual ICollection<ProductInPage> ProductInPages { get; set; }
+		public virtual ICollection<Supplier_Contract> Supplier_Contracts { get; set; }
 	}
 }

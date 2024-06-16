@@ -4,7 +4,6 @@ namespace EShop.ViewModel
 {
     public class ProductVariantViewModel: BaseViewModel
     { 
-		public long ProductId { get; set; }
 		public long? SupplierId { get; set; }
 		public bool? AvailableForSale { get; set; }
 		public long? Price { get; set; }

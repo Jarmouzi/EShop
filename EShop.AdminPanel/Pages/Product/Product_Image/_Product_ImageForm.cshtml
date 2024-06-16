@@ -1,7 +1,27 @@
 @model EShop.ViewModel.Product_ImageViewModel
-<form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
+<form id="create-form" method="post" asp-page="Index" asp-route-id="@Model.Id" asp-route-pid="@Model.ProductId" asp-route-oid="@Model.Product_OptionId" asp-page-handler="CreateOrEdit" onsubmit="return jQueryModalPost(this);" class="form-horizontal">
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <div class="box-header with-border">
+        <h4 class="box-title">@Model.ProductTitle</h4>
+        <h6 class="box-pane">@Model.OptionTitle </h6>
+        <h6 class="box-pane">@Model.ValueTitle </h6>
+    </div>
     <div class="form-group col-md-6">
+        <label class="control-label">عنوان تصویر</label>
+        <input type="text" autocomplete="off" asp-for="ImageAlt" name="Title" class="form-control">
+        <span asp-validation-for="ImageAlt" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-6">
+        <label class="control-label" asp-for="UploadedFile"></label>
+        <input asp-for="UploadedFile" type="file" class="form-control">
+        <span asp-validation-for="UploadedFile"></span>
+    </div>
+    <div class="form-group col-md-3 mt-5">
+        <label class="control-label">تصویر شاخص</label>
+        <input type="checkbox" autocomplete="off" asp-for="Featured" name="Featured" class="form-control">
+        <span asp-validation-for="Featured" class="text-danger"></span>
+    </div>
+    <div class="form-group col-md-3 mt-5">
         <label class="control-label">تایید</label>
         <input type="checkbox" autocomplete="off" asp-for="Confirmed" name="Confirm" class="form-control">
         <span asp-validation-for="Confirmed" class="text-danger"></span>

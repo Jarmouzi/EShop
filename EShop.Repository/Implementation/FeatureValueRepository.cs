@@ -8,15 +8,15 @@ using Microsoft.Data.SqlClient;
 
 namespace EShop.Repository.Implementation
 {
-    public class PageRepository : Repository<Page, PageViewModel, EShopContext>, IPageRepository
+    public class FeatureValueRepository : Repository<FeatureValue, FeatureValueViewModel, EShopContext>, IFeatureValueRepository
     {
-        public PageRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
+        public FeatureValueRepository(IUnitOfWork<EShopContext> unitOfWork, IMapper mappingEngine) : base(unitOfWork, mappingEngine)
         {
         }
 
-        public async Task<Result<PaginatedViewModel<PageViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
+        public async Task<Result<PaginatedViewModel<FeatureValueViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
         {
-            var result = new Result<PaginatedViewModel<PageViewModel>> ();
+            var result = new Result<PaginatedViewModel<FeatureValueViewModel>> ();
 
             try
             {
@@ -29,10 +29,10 @@ namespace EShop.Repository.Implementation
                     totalCount
                 };
 
-                var r = await GetProcedureAsync<PageViewModel>("Page_Get", sparam);
+                var r = await GetProcedureAsync<FeatureValueViewModel>("FeatureValue_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
-                    result.Data = new PaginatedViewModel<PageViewModel>
+                    result.Data = new PaginatedViewModel<FeatureValueViewModel>
                     {
                         Data = r.Data,
                         Pagination = new PaginationViewModel

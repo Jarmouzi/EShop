@@ -22,15 +22,12 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
         private readonly IProduct_FeatureRepository _product_featureRepository;
         private readonly IRazorRenderService _renderService;
 
-
-        public IEnumerable<Product_FeatureViewModel> Product_Features { get; set; }
-
         [BindProperty]
-        public ProductViewModel Product { get; set; }
+        public List<Product_FeatureViewModel> Product_Features { get; set; }
 
+        //[BindProperty]
+        //public ProductViewModel Product { get; set; }
 
-        //[Parameter]
-        //public int Id { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger
             , ILogRepository dbLog
@@ -42,20 +39,57 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
             _product_featureRepository = product_featureRepository;
             _renderService = renderService;
         }
-        public async Task OnGet()
+        public async Task OnGet(Int64? id)
         {
-            //try
-            //{
-            //    Product_Features = _product_featureRepository.GetProductFeatures(Id).Result.Data;
+            try
+            {
+                if (id == null)
+                    Product_Features = new List<Product_FeatureViewModel>();
+                else
+                    Product_Features = _product_featureRepository.GetProductFeatures(id.Value).Result.Data.ToList();
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError("Product_Feature OnPostCreateOrEditAsync: " + ex.Message, Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Product_Feature OnPostCreateOrEditAsync: " + ex.Message, id);
 
-            //    Product_Features = new List<Product_FeatureViewModel>();
+                Product_Features = new List<Product_FeatureViewModel>();
 
-            //}
+            }
+        }
+        public async Task<IActionResult> OnPost()
+        {
+            try
+            {
+                foreach (var item in Product_Features)
+                {
+                    item.Confirmed = true;
+                    if (item.Id > 0)
+                    {
+                        if (!string.IsNullOrWhiteSpace(item.Value))
+                        {
+                            await _product_featureRepository.UpdateAsync(item);
+                        }
+                        else
+                        {
+                            await _product_featureRepository.DeleteAsync(item.Id);
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrWhiteSpace(item.Value))
+                        {
+                            await _product_featureRepository.AddAsync(item);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Product_Feature OnPost: " + ex.Message, [Product_Features]);
+            }
+
+            return RedirectToPage("/Product");
         }
         //public async Task<PartialViewResult> OnGetViewAllPartial(string? title = null, int take = 10, int skip = 0)
         //{
@@ -81,7 +115,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
         {
             try
             {
-                Product_Features = _product_featureRepository.GetProductFeatures(id).Result.Data;
+                Product_Features = _product_featureRepository.GetProductFeatures(id).Result.Data.ToList();
                 //return new PartialViewResult
                 //{
                 //    ViewName = "_Product_FeatureForm",
@@ -115,7 +149,9 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
         //    }
         //    return new JsonResult(new { isValid = true, html = "" });
         //}
-        public async Task<JsonResult> OnPostCreateOrEditAsync([FromBody] List<SimpleProduct_FeatureViewModel> product_features)
+
+
+        public async Task<IActionResult> OnPostCreateOrEditAsync([FromBody] List<SimpleProduct_FeatureViewModel> product_features)
         {
             var html = "";
             try

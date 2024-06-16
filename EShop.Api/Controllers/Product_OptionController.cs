@@ -8,22 +8,20 @@ namespace EShop.Web.API.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
     [AuthorizeApi]
-    public class PageController : ControllerBase
+    public class Product_OptionController : ControllerBase
     {
-		private readonly IPageRepository _PageRepository;
+		private readonly IProduct_OptionRepository _Product_OptionRepository;
 
-        public PageController(IPageRepository PageRepository)
+        public Product_OptionController(IProduct_OptionRepository Product_OptionRepository)
         {
-            _PageRepository = PageRepository;
+            _Product_OptionRepository = Product_OptionRepository;
         }
-
         //[HttpPost("Add")]
-        //public async Task<IActionResult> Insert(PageViewModel model)
+        //public async Task<IActionResult> Insert(Product_OptionViewModel model)
         //{
         //    try
         //    {
-        //        var result = await _PageRepository.AddAsync(model);
-		//
+        //        var result = await _Product_OptionRepository.AddAsync(model);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -31,14 +29,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-		//
         //[HttpPut("Update")]
-        //public async Task<IActionResult> Update(PageViewModel model)
+        //public async Task<IActionResult> Update(Product_OptionViewModel model)
         //{
         //    try
         //    {
-        //        var result = await _PageRepository.UpdateAsync(model);
-		//
+        //        var result = await _Product_OptionRepository.UpdateAsync(model);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -46,14 +42,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-		//
         //[HttpDelete("Delete")]
         //public async Task<IActionResult> Delete(Int64 id)
         //{
         //    try
         //    {
-        //        var result = await _PageRepository.DeleteAsync(id);
-		//
+        //        var result = await _Product_OptionRepository.DeleteAsync(id);
         //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
         //    }
         //    catch (Exception ex)
@@ -61,15 +55,12 @@ namespace EShop.Web.API.Controllers
         //        return Ok( new { Message = ex.Message, Status = "server-error" });
         //    }
         //}
-
-
         [HttpGet("Get")]
         public async Task<IActionResult> Get(Int64 id)
         {
             try
             {
-                var result =await  _PageRepository.GetByIdAsync(id);
-
+                var result =await  _Product_OptionRepository.GetByIdAsync(id);
                 return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
@@ -83,8 +74,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _PageRepository.GetAllAsync();
-
+                var result = await _Product_OptionRepository.GetAllAsync();
                 return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)
@@ -98,8 +88,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _PageRepository.GetProcedureAsync("Page_Json", json);
-
+                var result = await _Product_OptionRepository.GetProcedureAsync("Product_Option_Json", json);
                 return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)

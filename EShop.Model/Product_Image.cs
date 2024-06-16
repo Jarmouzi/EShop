@@ -10,7 +10,7 @@ namespace EShop.Model
     public class Product_Image: BaseModel
     { 
 		public Int64 ProductId { get; set; }
-		public Int64? ProductVariantId { get; set; }
+		public Int64? Product_OptionId { get; set; }
 		public Int64? ImageId { get; set; }
 		public bool? Featured { get; set; }
 		public bool? Confirmed { get; set; }
@@ -21,7 +21,7 @@ namespace EShop.Model
 		[ForeignKey("ImageId")]
         public virtual Image Image { get; set; }
 
-		[ForeignKey("ProductVariantId")]
-        public virtual ProductVariant ProductVariant { get; set; }
+		[ForeignKey("Product_OptionId")]
+        public virtual Product_Option? Product_Option { get; set; }
 	}
 }
