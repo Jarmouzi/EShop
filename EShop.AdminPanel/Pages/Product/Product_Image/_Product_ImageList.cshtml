@@ -1,47 +1,49 @@
 @using EShop.ViewModel;
-@model PaginatedViewModel<Product_ImageViewModel>
+@model IEnumerable<Product_ImageViewModel>
 
 
-@if (Model.Data.Any())
+@if (Model.Any())
 {
-    @foreach (var m in Model.Data)
+    @foreach (var m in Model)
     {
-        <div class="box box-info">
-            <div class="box-header with-border">
-                @if (m.Confirmed == true)
-                {
-                    <input type="checkbox" class="pull-right" checked="checked" disabled="disabled" />
-                }
-                else
-                {
-                    <input type="checkbox" class="pull-right" disabled="disabled" />
-                }
-                @if (m.Featured == true)
-                {
-                    <h5>تصویر شاخص</h5>    
-                }
+        <div class="col-md-3 pull-right">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    @if (m.Confirmed == true)
+                    {
+                        <i class="fa fa-check cb" title="تایید شده"></i>
+                    }
+                    @if (m.Featured == true)
+                    {
+                        <i class="fa fa-star cb" title="تصویر شاخص"></i>
+                        
+                    }
 
-                <form class="pull-left" method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
-                    <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
-                </form>
-                <a class="pull-left" onclick="jQueryGet('?handler=FormPartial&id=@m.Id',product_imageForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
+                    <form class="pull-left" method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
+                        <input type="hidden" asp-for="@m.ProductId" />
+                        <input type="hidden" asp-for="@m.Product_OptionId" />
+                        <button type="submit" data-toggle="tooltip" data-placement="top" title="حذف" class="d-link"> <i class="fa fa-remove"></i></button>
+                    </form>
+                    <a class="pull-left" onclick="jQueryGet('?handler=FormPartial&pId=@m.ProductId&oId=@m.Product_OptionId&=@m.Id',product_imageForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
 
-            </div>
-            <div class="box-body">
-                <img alt="@m.ImageAlt" src="@m.ImageUrl" />
+                </div>
+                <div class="box-body">
+                    <img alt="@m.ImageAlt" src="@m.ImageUrl" style="max-height: 250px; max-width: 100%;" />
+                </div>
             </div>
         </div>
     }
 }
 else
 {
-    <div class="box box-info">
-        رکوردی یافت نشد
+    <div class="col-md-12">
+        <div class="box box-info">
+            رکوردی یافت نشد
+        </div>
     </div>
 
 }
 
-<partial name="_paginationpartial" model="@Model.Pagination" />
 <script>
     $(document).ready(function () {
         $("#product_imageTable").DataTable();

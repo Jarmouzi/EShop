@@ -55,7 +55,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
             var result = new List<Product_ImageViewModel>();
             try
             {
-                var list = await _product_imageRepository.GetAllAsync(m => m.ProductId == pId);
+                var list = await _product_imageRepository.GetPaginatedResult(pId, oId);
 
                 result = list.Data.ToList();
             }
@@ -67,17 +67,17 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
             return new PartialViewResult
             {
                 ViewName = "_Product_ImageList",
-                ViewData = new ViewDataDictionary<PaginatedViewModel<Product_ImageViewModel>>(ViewData, result)
+                ViewData = new ViewDataDictionary<List<Product_ImageViewModel>>(ViewData, result)
             };
         }
         public async Task<PartialViewResult> OnGetFormPartial(Int64? pId, Int64? oId, Int64? id)
         {
             try
             {
-                string productTitle, productVariantTitle = "";
-                if (ProductId.HasValue)
+                string productTitle = "", productVariantTitle = "";
+                if (pId.HasValue)
                 {
-                    var product = await _productRepository.GetByIdAsync(ProductId.Value);
+                    var product = await _productRepository.GetByIdAsync(pId.Value);
                     productTitle = product.Data.Title;
                 }
                 //if (ProductVariantId.HasValue)
@@ -89,7 +89,8 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
                     return new PartialViewResult
                     {
                         ViewName = "_Product_ImageForm",
-                        ViewData = new ViewDataDictionary<Product_ImageViewModel>(ViewData, new Product_ImageViewModel())
+                        ViewData = new ViewDataDictionary<Product_ImageViewModel>(ViewData, 
+                        new Product_ImageViewModel { ProductTitle = productTitle, ProductId = pId??0, Product_OptionId = oId })
                     };
                 else
                 {
@@ -148,11 +149,49 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
             var html = "";
             try
             {
+                if (product_image.UploadedFile == null || product_image.UploadedFile.Length == 0)
+                {
+                    if (!id.HasValue || id == 0)
+                    {
+                        ModelState.AddModelError("UploadedFile", "لطفا تصویر محصول را انتخاب نمایید");
+                        html = await _renderService.ToStringAsync("_product_imageForm", product_image);
+                        return new JsonResult(new { isValid = false, html = html });
+                    }
+                    else
+                    {
+                        ModelState.Remove("UploadedFile");
+                    }
+                }
+
                 ModelState.Remove("Id");
                 if (ModelState.IsValid)
                 {
+                    if (product_image.UploadedFile != null && product_image.UploadedFile.Length > 0)
+                    {
+                        var imageUrl = await _renderService.UploadImage(product_image.UploadedFile);
+                        if (imageUrl == null)
+                        {
+                            _logger.LogError("product_image OnPostCreateOrEditAsync: " + imageUrl, product_image);
+
+                            ModelState.AddModelError("UploadedFile", "امکان ثبت تصویر بنر وجود ندارد. خواهشمند است مجددا تلاش نمایید");
+                            html = await _renderService.ToStringAsync("_product_imageForm", product_image);
+                            return new JsonResult(new { isValid = false, html = html });
+                        }
+
+                        product_image.ImageUrl = imageUrl;
+                    }
+                    //var Api = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("EShopSettings")["StaicsServer"]
+                    //    + "Statistics/UploadImage" ;
+                    //string filePath = Path.Combine(contentRootPath, "images", new Int64().ToString(), product_image.UploadedFile.ContentType);
+
+                    //using (var stream = new FileStream(filePath, FileMode.Create))
+                    //{
+                    //    await product_image.UploadedFile.CopyToAsync(stream);
+                    //}
+
                     product_image.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Int64())
+
+                    if (!id.HasValue || id == 0)
                     {
                         await _product_imageRepository.AddAsync(product_image);
                     }
@@ -160,21 +199,22 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
                     {
                         await _product_imageRepository.UpdateAsync(product_image);
                     }
+                    html = await _renderService.ToStringAsync("_product_imageForm", new Product_ImageViewModel());
                     return await GetProduct_Images();
                 }
                 else
                 {
-                    html = await _renderService.ToStringAsync("_Product_ImageForm", product_image);
+                    html = await _renderService.ToStringAsync("_product_imageForm", product_image);
                 }
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("Product_Image OnPostCreateOrEditAsync: " + ex.Message, product_image);
+                _logger.LogError("product_image OnPostCreateOrEditAsync: " + ex.Message, product_image);
             }
             return new JsonResult(new { isValid = false, html = html });
         }
-        public async Task<JsonResult> OnPostDeleteAsync(Int64 id)
+        public async Task<JsonResult> OnPostDeleteAsync(Int64? ProductId, Int64? Product_OptionId, Int64 id)
         {
             try
             {
@@ -185,16 +225,16 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
             {
                 _logger.LogError("Product_Image OnPostDeleteAsync: " + ex.Message, id);
             }
-            return await GetProduct_Images();
+            return await GetProduct_Images(ProductId, Product_OptionId);
         }
 
-        private async Task<JsonResult> GetProduct_Images()
+        private async Task<JsonResult> GetProduct_Images(Int64? pId, Int64? oId)
         {
             var isValid = false;
             var html = "";
             try
             {
-                var list = await _product_imageRepository.GetAllAsync(m => m.ProductId == ProductId);
+                var list = await _product_imageRepository.GetPaginatedResult(pId, oId);
 
                 isValid = list.Status == TS.Status.Success;
 

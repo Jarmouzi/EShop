@@ -5,6 +5,6 @@ namespace EShop.Repository.Interface
 {
     public interface IProduct_ImageRepository: IRepository<Product_Image, Product_ImageViewModel>
     {
-        Task<Result<PaginatedViewModel<Product_ImageViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0);
+        Task<Result<IEnumerable<Product_ImageViewModel>>> GetPaginatedResult(Int64? productId, Int64? productOptionId);
     }
 }

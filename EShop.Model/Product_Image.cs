@@ -22,6 +22,6 @@ namespace EShop.Model
         public virtual Image Image { get; set; }
 
 		[ForeignKey("Product_OptionId")]
-        public virtual Product_Option? Product_Option { get; set; }
+        public virtual Product_Option Product_Option { get; set; }
 	}
 }

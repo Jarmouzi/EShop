@@ -228,10 +228,22 @@ namespace EShop.IdentityService.Infrastructure
             using (var scope = app.Services.CreateScope())
             {
 
+                var cntx = scope.ServiceProvider.GetRequiredService<EShopContext>();
+                await cntx.Database.EnsureDeletedAsync();
+                await cntx.Database.EnsureCreatedAsync();
+            }
+            return app;
+        }
+        public static async Task<IApplicationBuilder> SeedIdentityDataAsync(this WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+
                 var cntx = scope.ServiceProvider.GetRequiredService<UserIdentityContext>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 await cntx.Database.EnsureDeletedAsync();
+
                 if (await cntx.Database.EnsureCreatedAsync())
                 {
                     // Creating Role Entities

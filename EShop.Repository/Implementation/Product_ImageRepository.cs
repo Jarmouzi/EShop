@@ -14,34 +14,21 @@ namespace EShop.Repository.Implementation
         {
         }
 
-        public async Task<Result<PaginatedViewModel<Product_ImageViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
+        public async Task<Result<IEnumerable<Product_ImageViewModel>>> GetPaginatedResult(Int64? productId, Int64? productOptionId)
         {
-            var result = new Result<PaginatedViewModel<Product_ImageViewModel>> ();
+            var result = new Result<IEnumerable<Product_ImageViewModel>> ();
 
             try
             {
-                var totalCount = new SqlParameter("@TotalCount", System.Data.SqlDbType.Int);
-                totalCount.Direction = System.Data.ParameterDirection.Output;
                 var sparam = new SqlParameter[] {
-					new SqlParameter("@Title", title == null ? DBNull.Value : title),
-					new SqlParameter("@Take", take),
-                    new SqlParameter("@Skip", skip),
-                    totalCount
+                    new SqlParameter("@ProductId", productId == null? DBNull.Value :productId ),
+                    new SqlParameter("@ProductOptionId", productOptionId == null? DBNull.Value :productOptionId)
                 };
 
                 var r = await GetProcedureAsync<Product_ImageViewModel>("Product_Image_Get", sparam);
 
                 if(r.Status == TS.Status.Success) {
-                    result.Data = new PaginatedViewModel<Product_ImageViewModel>
-                    {
-                        Data = r.Data,
-                        Pagination = new PaginationViewModel
-                        {
-                            Take = take,
-                            Skip = skip,
-                            TotalCount = Convert.ToInt32(totalCount.Value)
-                        }
-                    };
+                    result.Data = r.Data;
                     result.Status = TS.Status.Success;
                     return result;
                 }

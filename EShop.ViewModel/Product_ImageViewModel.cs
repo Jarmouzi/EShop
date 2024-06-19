@@ -10,8 +10,10 @@ namespace EShop.ViewModel
 		public long ProductId { get; set; }
 		public long? Product_OptionId { get; set; }
 		public long? ImageId { get; set; }
-		public bool? Featured { get; set; }
-		public bool? Confirmed { get; set; }
+
+        [DefaultValue(false)]
+        public bool Featured { get; set; }
+		public bool Confirmed { get; set; }
 		public string ProductTitle { get; set; }
         public string ImageUrl { get; set; }
         public string ImageAlt { get; set; }
