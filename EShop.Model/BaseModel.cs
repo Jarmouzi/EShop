@@ -13,9 +13,6 @@ namespace EShop.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Int64 Id { get; set; }
         public Guid? ModifiedBy { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [DefaultValue("getdate()")]
         public DateTime CreateDate { get; set; }
         public DateTime? ModifyDate { get; set; }
         public DateTime? ExpireDate { get; set; }

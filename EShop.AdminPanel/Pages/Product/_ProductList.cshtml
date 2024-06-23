@@ -27,7 +27,8 @@
                         <a class="pl-1" onclick="jQueryGet('?handler=FormPartial&id=@c.Id','productForm', 'ویرایش')" data-toggle="tooltip" data-placement="top" title="ویرایش"> <i class="fa fa-edit"></i> </a>
                         <a class="pl-1" onclick="location.href='/Product/Product_Feature?id=@c.Id'" data-toggle="tooltip" data-placement="top" title="ویژگی های محصول"> <i class="fa fa-list"></i> </a>
                         <a class="pl-1" onclick="location.href='/Product/Product_Image?id=@c.Id'" data-toggle="tooltip" data-placement="top" title="تصاویر محصول"> <i class="fa fa-image"></i> </a>
-                        <a class="pl-1" onclick="/Product_Feature?id=@c.Id" data-toggle="tooltip" data-placement="top" title="بررسی فنی محصول"> <i class="fa fa-newspaper-o"></i> </a>
+                        <a class="pl-1" onclick="location.href='/Product/Product_Seo?id=@c.Id'" data-toggle="tooltip" data-placement="top" title="سئو محصول"> <i class="fa fa-magnet"></i> </a>
+                        <a class="pl-1" onclick="location.href='/Product/ProductVariant?id=@c.Id'" data-toggle="tooltip" data-placement="top" title="تنوع محصول"> <i class="fa fa-magnet"></i> </a>
                     </td>
                     <td>@c.CategoryTitle</td>
                     <td>@c.BrandTitle</td>

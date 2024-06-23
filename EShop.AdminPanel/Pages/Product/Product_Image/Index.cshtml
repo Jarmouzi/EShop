@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "تصاویر محصول";
     var pId = "pId=" + (Model.ProductId == null ? "" : Model.ProductId.ToString());
-    var oId = "oId="  + (Model.Product_OptionId == null ? "" : Model.Product_OptionId.ToString());
+    var oId = "oId=" + (Model.Product_OptionId == null ? "" : Model.Product_OptionId.ToString());
 }
 @await Component.InvokeAsync("Breadcrumb")
 <section class="content">
@@ -24,7 +24,7 @@
 </section>
 
 @section Scripts
-    {
+{
     <script>
         $(document).ready(function () {
             $('#product_imageForm').load(`?handler=FormPartial&${'@pId'}&${'@oId'}&id=`);
@@ -32,24 +32,15 @@
         });
 
         clearForm = () => {
-            $("#create-form").attr("action", "/Product_Image?id=&handler=CreateOrEdit"); 
+            $("#create-form").attr("action", "/Product_Image?id=&handler=CreateOrEdit");
             $(".validation-summary-errors").val("");
-            $("field-validation-error").val("");  
-			$('#Confirmed).val(');  
-			$('#Featured).val(');  
-			$('#ImageId).val(');  
-			$('#ProductId).val(');  
-			$('#ProductVariantId).val('); 
+            $("field-validation-error").val("");
+            $("#Confirmed").val("");
+            $("#Featured").val("");
+            $("#UploadedFile").val("");
+            $("#ImageAlt").val("");
             $("#saveBtn").html("ایجاد");
         }
 
-        Search = (take, skip) => {  
-			var Confirmed = $("input#Confirmed").val(); 
-			var Featured = $("input#Featured").val(); 
-			var ImageId = $("input#ImageId").val(); 
-			var ProductId = $("input#ProductId").val(); 
-			var ProductVariantId = $("input#ProductVariantId").val();
-            $("#viewAll").load(`?handler=ViewAllPartial&Confirmed=${Confirmed}&Featured=${Featured}&ImageId=${ImageId}&ProductId=${ProductId}&ProductVariantId=${ProductVariantId}&take=${take}&skip=${skip}`);
-        }
     </script>
 }

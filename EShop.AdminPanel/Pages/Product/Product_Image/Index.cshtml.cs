@@ -74,24 +74,26 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
         {
             try
             {
-                string productTitle = "", productVariantTitle = "";
-                if (pId.HasValue)
-                {
-                    var product = await _productRepository.GetByIdAsync(pId.Value);
-                    productTitle = product.Data.Title;
-                }
-                //if (ProductVariantId.HasValue)
-                //{
-                //    var product = await _productVariantRepository.GetByIdAsync(ProductVariantId.Value);
-                //    productTitle = product.Data.ProductTitle;
-                //}
                 if (!id.HasValue || id == 0)
+                {
+                    var model = new Product_ImageViewModel { ProductId = pId ?? 0, Product_OptionId = oId };
+                    if (pId.HasValue)
+                    {
+                        var product = await _productRepository.GetByIdAsync(pId.Value);
+                        model.ProductTitle = product.Data.Title;
+                    }
+                    if (oId.HasValue)
+                    {
+                        var productOption = await _productOptionRepository.GetByIdAsync(oId.Value);
+                        model.OptionTitle = productOption.Data.OptionTitle;
+                        model.ValueTitle = productOption.Data.OptionValueTitle;
+                    }
                     return new PartialViewResult
                     {
                         ViewName = "_Product_ImageForm",
-                        ViewData = new ViewDataDictionary<Product_ImageViewModel>(ViewData, 
-                        new Product_ImageViewModel { ProductTitle = productTitle, ProductId = pId??0, Product_OptionId = oId })
+                        ViewData = new ViewDataDictionary<Product_ImageViewModel>(ViewData, model)
                     };
+                }
                 else
                 {
                     var product_image = await _product_imageRepository.GetByIdAsync(id.Value);
@@ -118,17 +120,16 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
         {
             try
             {
-                //var productVariant = await 
                 if (!id.HasValue || id == 0)
                 {
                     var product = await _productRepository.GetByIdAsync(ProductId.Value);
-                    //var productVariant = await _productVariantRepository.GetByIdAsync(ProductVariantId);
+                    //var product_Option = await _product_OptionRepository.GetByIdAsync(Product_OptionId);
 
                     return new JsonResult(new
                     {
                         isValid = true,
                         html = await _renderService.ToStringAsync("_Product_ImageForm",
-                                new Product_ImageViewModel { ProductId = ProductId??0, ProductTitle = product.Data?.Title })
+                                new Product_ImageViewModel { ProductId = ProductId ?? 0, ProductTitle = product.Data?.Title })
                     });
                 }
                 else
@@ -164,48 +165,52 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
                 }
 
                 ModelState.Remove("Id");
-                if (ModelState.IsValid)
+                //if (ModelState.IsValid)
+                //{
+                if (product_image.UploadedFile != null && product_image.UploadedFile.Length > 0)
                 {
-                    if (product_image.UploadedFile != null && product_image.UploadedFile.Length > 0)
+                    var imageUrl = await _renderService.UploadImage(product_image.UploadedFile);
+                    if (imageUrl == null)
                     {
-                        var imageUrl = await _renderService.UploadImage(product_image.UploadedFile);
-                        if (imageUrl == null)
-                        {
-                            _logger.LogError("product_image OnPostCreateOrEditAsync: " + imageUrl, product_image);
+                        _logger.LogError("product_image OnPostCreateOrEditAsync: " + imageUrl, product_image);
 
-                            ModelState.AddModelError("UploadedFile", "امکان ثبت تصویر بنر وجود ندارد. خواهشمند است مجددا تلاش نمایید");
-                            html = await _renderService.ToStringAsync("_product_imageForm", product_image);
-                            return new JsonResult(new { isValid = false, html = html });
-                        }
-
-                        product_image.ImageUrl = imageUrl;
+                        ModelState.AddModelError("UploadedFile", "امکان ثبت تصویر بنر وجود ندارد. خواهشمند است مجددا تلاش نمایید");
+                        html = await _renderService.ToStringAsync("_product_imageForm", product_image);
+                        return new JsonResult(new { isValid = false, html = html });
                     }
-                    //var Api = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("EShopSettings")["StaicsServer"]
-                    //    + "Statistics/UploadImage" ;
-                    //string filePath = Path.Combine(contentRootPath, "images", new Int64().ToString(), product_image.UploadedFile.ContentType);
 
-                    //using (var stream = new FileStream(filePath, FileMode.Create))
-                    //{
-                    //    await product_image.UploadedFile.CopyToAsync(stream);
-                    //}
+                    product_image.ImageUrl = imageUrl;
+                }
+                //var Api = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("EShopSettings")["StaicsServer"]
+                //    + "Statistics/UploadImage" ;
+                //string filePath = Path.Combine(contentRootPath, "images", new Int64().ToString(), product_image.UploadedFile.ContentType);
 
-                    product_image.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                //using (var stream = new FileStream(filePath, FileMode.Create))
+                //{
+                //    await product_image.UploadedFile.CopyToAsync(stream);
+                //}
+                if (string.IsNullOrWhiteSpace(product_image.ImageAlt))
+                {
+                    product_image.ImageAlt = $"قیمت و خرید {product_image.ProductTitle} {product_image.OptionTitle} {product_image.ValueTitle}".Trim();
+                }
 
-                    if (!id.HasValue || id == 0)
-                    {
-                        await _product_imageRepository.AddAsync(product_image);
-                    }
-                    else
-                    {
-                        await _product_imageRepository.UpdateAsync(product_image);
-                    }
-                    html = await _renderService.ToStringAsync("_product_imageForm", new Product_ImageViewModel());
-                    return await GetProduct_Images();
+                product_image.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                var result = await _product_imageRepository.InsertUpdateAsync(product_image);
+                if (result.Status == TS.Status.Success)
+                {
+                    html = await _renderService.ToStringAsync("_product_imageForm", product_image);
+                    return await GetProduct_Images(product_image.ProductId, product_image.Product_OptionId);
                 }
                 else
                 {
-                    html = await _renderService.ToStringAsync("_product_imageForm", product_image);
+                    ModelState.TryAddModelError("ProductId", result.Message);
                 }
+                //}
+                //else
+                //{
+                //    html = await _renderService.ToStringAsync("_product_imageForm", product_image);
+                //}
 
             }
             catch (Exception ex)

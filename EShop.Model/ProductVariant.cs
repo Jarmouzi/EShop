@@ -21,6 +21,5 @@ namespace EShop.Model
         public virtual Product Product { get; set; }
         public virtual ICollection<ProductSeo> ProductSeos { get; set; }
         public virtual ICollection<Product_Option> Product_Options { get; set; }
-        public virtual ICollection<Product_Image> Product_Images { get; set; }
     }
 }

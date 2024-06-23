@@ -3,6 +3,9 @@
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <input type="hidden" asp-for="@Model.ProductId" />
     <input type="hidden" asp-for="@Model.Product_OptionId" />
+    <input type="hidden" asp-for="@Model.ProductTitle" />
+    <input type="hidden" asp-for="@Model.OptionTitle" />
+    <input type="hidden" asp-for="@Model.ValueTitle" />
     <div class="box-header with-border">
         <h4 class="box-title">@Model.ProductTitle</h4>
         <h6 class="box-pane">@Model.OptionTitle </h6>
@@ -11,12 +14,10 @@
     <div class="form-group col-md-6">
         <label class="control-label">عنوان تصویر</label>
         <input type="text" autocomplete="off" asp-for="ImageAlt" name="Title" class="form-control">
-        <span asp-validation-for="ImageAlt" class="text-danger"></span>
     </div>
     <div class="form-group col-md-6">
         <label class="control-label" asp-for="UploadedFile"></label>
         <input asp-for="UploadedFile" type="file" class="form-control">
-        <span asp-validation-for="UploadedFile"></span>
     </div>
     <div class="form-group col-md-3 mt-5">
         @Html.CheckBoxFor(m => m.Featured)
