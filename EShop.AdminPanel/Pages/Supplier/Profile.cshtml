@@ -1,0 +1,74 @@
+﻿@page
+@model EShop.AdminPanel.Pages.Supplier.ProfileModel
+@{
+    ViewData["Title"] = "پروفایل فروشگاه";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="col-md-12" data-aos="fade-up">
+                        <div class="member">
+                            <img src="@Model.Supplier.Banner" alt="">
+                            <div class="member-info">
+                                <div class="member-info-content">
+                                    <h4>Walter White</h4>
+                                    <span>Chief Executive Officer</span>
+                                </div>
+                                <div class="social">
+                                    <a href=""><i class="bi bi-twitter"></i></a>
+                                    <a href=""><i class="bi bi-facebook"></i></a>
+                                    <a href=""><i class="bi bi-instagram"></i></a>
+                                    <a href=""><i class="bi bi-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#supplierForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&title=&country=&take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $('#create-form').attr('action', '/Supplier?id=&handler=CreateOrEdit');
+            $('#Address).val(');
+            $('#Banner).val(');
+            $('#Confirmed).val(');
+            $('#FaxNumber).val(');
+            $('#Logo).val(');
+            $('#OwnerId).val(');
+            $('#PhoneNumber).val(');
+            $('#Title).val(');
+            $('#saveBtn').html('?????');
+        }
+
+        Search = (take, skip) => {
+            var Address = $("input#Address").val();
+            var Banner = $("input#Banner").val();
+            var Confirmed = $("input#Confirmed").val();
+            var FaxNumber = $("input#FaxNumber").val();
+            var Logo = $("input#Logo").val();
+            var OwnerId = $("input#OwnerId").val();
+            var PhoneNumber = $("input#PhoneNumber").val();
+            var Title = $("input#Title").val();
+            $('#viewAll').load(`?handler=ViewAllPartial&&amp;Address=${Address}&amp;Banner=${Banner}&amp;Confirmed=${Confirmed}&amp;FaxNumber=${FaxNumber}&amp;Logo=${Logo}&amp;OwnerId=${OwnerId}&amp;PhoneNumber=${PhoneNumber}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}
+

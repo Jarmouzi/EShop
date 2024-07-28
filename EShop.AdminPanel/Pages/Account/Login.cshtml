@@ -41,7 +41,7 @@
                     <div class="form-group has-feedback">
                         <label asp-for="UserCredential.Password">رمز عبور</label>
                         <input asp-for="UserCredential.Password" class="form-control col-md-12" autocomplete="off" aria-required="true" placeholder="رمز عبور" />
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <span class="form-control-feedback"><i class="fa fa-lock"></i></span>
                     </div>
                     <div class="row">
                         <div class="col-xs-4">
@@ -71,8 +71,16 @@
 
                 <a href="#">رمز عبور را فراموش کردم</a><br>
 
+
             </div>
             <!-- /.login-box-body -->
+            <div class="login-box-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-info btn-block btn-flat">ثبت نام فروشگاه</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

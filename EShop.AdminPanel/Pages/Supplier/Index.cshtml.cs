@@ -9,23 +9,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Security.Claims;
 
-namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
+namespace EShop.AdminPanel.Pages.Supplier
 {
     [AuthorizePage]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ILogRepository _dbLog;
-        private readonly ISupplier_BrandRepository _supplier_brandRepository;
+        private readonly ISupplierRepository _supplierRepository;
         private readonly IRazorRenderService _renderService;
         public IndexModel(ILogger<IndexModel> logger
             , ILogRepository dbLog
-            , ISupplier_BrandRepository supplier_brandRepository,
+            , ISupplierRepository supplierRepository,
             IRazorRenderService renderService)
         {
             _logger = logger;
             _dbLog = dbLog;
-            _supplier_brandRepository = supplier_brandRepository;
+            _supplierRepository = supplierRepository;
             _renderService = renderService;
         }
         public void OnGet()
@@ -33,22 +33,22 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
         }
         public async Task<PartialViewResult> OnGetViewAllPartial(string? title = null, int take = 10, int skip = 0)
         {
-            var result = new PaginatedViewModel<Supplier_BrandViewModel>();
+            var result = new PaginatedViewModel<SupplierViewModel>();
             try
             {
-                var list = await _supplier_brandRepository.GetPaginatedResult(title, take, skip);
+                var list = await _supplierRepository.GetPaginatedResult(title, take, skip);
 
                 result = list.Data;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Supplier_Brand OnGetViewAllPartial: " + ex.Message, [title, take, skip]);
+                _logger.LogError("Supplier OnGetViewAllPartial: " + ex.Message, [title, take, skip]);
             }
 
             return new PartialViewResult
             {
-                ViewName = "_Supplier_BrandList",
-                ViewData = new ViewDataDictionary<PaginatedViewModel<Supplier_BrandViewModel>>(ViewData, result)
+                ViewName = "_SupplierList",
+                ViewData = new ViewDataDictionary<PaginatedViewModel<SupplierViewModel>>(ViewData, result)
             };
         }
         public async Task<PartialViewResult> OnGetFormPartial(Int64? id)
@@ -58,28 +58,28 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
                 if (!id.HasValue || id == 0)
                     return new PartialViewResult
                     {
-                        ViewName = "_Supplier_BrandForm",
-                        ViewData = new ViewDataDictionary<Supplier_BrandViewModel>(ViewData, new Supplier_BrandViewModel())
+                        ViewName = "_SupplierForm",
+                        ViewData = new ViewDataDictionary<SupplierViewModel>(ViewData, new SupplierViewModel())
                     };
                 else
                 {
-                    var supplier_brand = await _supplier_brandRepository.GetByIdAsync(id.Value);
+                    var supplier = await _supplierRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
-                        ViewName = "_Supplier_BrandForm",
-                        ViewData = new ViewDataDictionary<Supplier_BrandViewModel>(ViewData, supplier_brand.Data)
+                        ViewName = "_SupplierForm",
+                        ViewData = new ViewDataDictionary<SupplierViewModel>(ViewData, supplier.Data)
                     };
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Supplier_Brand OnPostCreateOrEditAsync: " + ex.Message, id);
+                _logger.LogError("Supplier OnPostCreateOrEditAsync: " + ex.Message, id);
             }
 
             return new PartialViewResult
             {
-                ViewName = "_Supplier_BrandForm",
-                ViewData = new ViewDataDictionary<Supplier_BrandViewModel>(ViewData, new Supplier_BrandViewModel())
+                ViewName = "_SupplierForm",
+                ViewData = new ViewDataDictionary<SupplierViewModel>(ViewData, new SupplierViewModel())
             };
         }
 
@@ -88,21 +88,21 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
             try
             {
                 if (!id.HasValue || id == 0)
-                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_Supplier_BrandForm", new Supplier_BrandViewModel()) });
+                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_SupplierForm", new SupplierViewModel()) });
                 else
                 {
-                    var thisSupplier_Brand = await _supplier_brandRepository.GetByIdAsync(id.Value);
-                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_Supplier_BrandForm", thisSupplier_Brand) });
+                    var thisSupplier = await _supplierRepository.GetByIdAsync(id.Value);
+                    return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_SupplierForm", thisSupplier) });
                 }
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("Supplier_Brand OnPostCreateOrEditAsync: " + ex.Message, id);
+                _logger.LogError("Supplier OnPostCreateOrEditAsync: " + ex.Message, id);
             }
             return new JsonResult(new { isValid = true, html = "" });
         }
-        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, Supplier_BrandViewModel supplier_brand)
+        public async Task<JsonResult> OnPostCreateOrEditAsync(Int64? id, SupplierViewModel supplier)
         {
             var html = "";
             try
@@ -110,26 +110,26 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
                 ModelState.Remove("Id");
                 if (ModelState.IsValid)
                 {
-                    supplier_brand.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (id == null || id == new Int64())
+                    supplier.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    if (!id.HasValue || id == 0)
                     {
-                        await _supplier_brandRepository.AddAsync(supplier_brand);
+                        await _supplierRepository.AddAsync(supplier);
                     }
                     else
                     {
-                        await _supplier_brandRepository.UpdateAsync(supplier_brand);
+                        await _supplierRepository.UpdateAsync(supplier);
                     }
-                    return await GetSupplier_Brands();
+                    return await GetSuppliers();
                 }
                 else
                 {
-                    html = await _renderService.ToStringAsync("_Supplier_BrandForm", supplier_brand);
+                    html = await _renderService.ToStringAsync("_SupplierForm", supplier);
                 }
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("Supplier_Brand OnPostCreateOrEditAsync: " + ex.Message, supplier_brand);
+                _logger.LogError("Supplier OnPostCreateOrEditAsync: " + ex.Message, supplier);
             }
             return new JsonResult(new { isValid = false, html = html });
         }
@@ -137,31 +137,31 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
         {
             try
             {
-                await _supplier_brandRepository.DeleteAsync(id);
+                await _supplierRepository.DeleteAsync(id);
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("Supplier_Brand OnPostDeleteAsync: " + ex.Message, id);
+                _logger.LogError("Supplier OnPostDeleteAsync: " + ex.Message, id);
             }
-            return await GetSupplier_Brands();
+            return await GetSuppliers();
         }
 
-        private async Task<JsonResult> GetSupplier_Brands()
+        private async Task<JsonResult> GetSuppliers()
         {
             var isValid = false;
             var html = "";
             try
             {
-                var list = await _supplier_brandRepository.GetPaginatedResult(null, 10, 0);
+                var list = await _supplierRepository.GetPaginatedResult(null, 10, 0);
 
                 isValid = list.Status == TS.Status.Success;
 
-                html = await _renderService.ToStringAsync("_Supplier_BrandList", list.Data);
+                html = await _renderService.ToStringAsync("_SupplierList", list.Data);
             }
             catch (Exception ex)
             {
-                _logger.LogError("Supplier_Brand GetSupplier_Brands: " + ex.Message);
+                _logger.LogError("Supplier GetSuppliers: " + ex.Message);
             }
             return new JsonResult(new { isValid = isValid, html = html });
         }

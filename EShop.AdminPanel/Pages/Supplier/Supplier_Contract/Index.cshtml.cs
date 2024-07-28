@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Security.Claims;
 
-namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Contract
+namespace EShop.AdminPanel.Pages.Supplier.Supplier_Contract
 {
     [AuthorizePage]
     public class IndexModel : PageModel

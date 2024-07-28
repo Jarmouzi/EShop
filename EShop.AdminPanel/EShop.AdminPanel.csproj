@@ -249,7 +249,6 @@
 
   <ItemGroup>
     <Folder Include="Statics\" />
-    <Folder Include="Pages\Supplier\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\lib\adminlte\dist\css\alt\" />
     <Folder Include="wwwroot\lib\adminlte\dist\css\skins\" />
