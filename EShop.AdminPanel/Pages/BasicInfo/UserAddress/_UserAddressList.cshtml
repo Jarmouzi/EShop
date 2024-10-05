@@ -1,0 +1,48 @@
+@using EShop.ViewModel;
+@model PaginatedViewModel<UserAddressViewModel>
+
+<table class="table table-bordered" id="useraddresss">
+    <thead>
+        <tr>
+            <th>عملیات</th>
+             
+					<th>Address</th> 
+					<th>CityId</th> 
+					<th>StateId</th> 
+					<th>UserId</th>  
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Data.Any())
+        {
+            @foreach (var m in Model.Data)
+            {
+                <tr>
+                    <td class="d-inline">
+                        <form method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
+                            <button type="submit" data-toggle="tooltip" data-placement="top" title="???" class="d-link"> <i class="fa fa-remove"></i></button>
+                        </form> |
+                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id',' + LOWER(TABLE_NAME) + N'Form', '??????')" data-toggle="tooltip" data-placement="top" title="??????"> <i class="fa fa-edit"></i> </a>
+
+                    </td> <td>@m.UserId</td><td>@m.StateId</td><td>@m.CityId</td><td>@m.Address</td>                 
+                    
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+				<td colspan="5">
+                ?????? ???? ???
+				</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<partial name="_paginationpartial" model="@Model.Pagination" />
+<script>
+    $(document).ready(function () {
+        $("#useraddressTable").DataTable();
+    });
+</script>

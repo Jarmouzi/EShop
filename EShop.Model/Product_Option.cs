@@ -21,7 +21,7 @@ namespace EShop.Model
 
         [ForeignKey("OptionValueId")]
         public virtual OptionValue OptionValue { get; set; }
-        public virtual ICollection<Product_Variant_Option> Product_Variant_Options { get; set; }
+        public virtual ICollection<ProductVariant_Option> Product_Variant_Options { get; set; }
         public virtual ICollection<Product_Image> Product_Images { get; set; }
     }
 }

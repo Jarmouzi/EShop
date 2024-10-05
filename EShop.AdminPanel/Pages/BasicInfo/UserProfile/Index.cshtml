@@ -1,0 +1,55 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.UserProfile.IndexModel
+@{
+    ViewData["Title"] = "UserProfile";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="userprofileForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#userprofileForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&Email=&amp;Family=&amp;Name=&amp;NationalCode=&amp;PhoneNumber=&amp;UserId=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/UserProfile?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#Email").val("");  
+			$("#Family").val("");  
+			$("#Name").val("");  
+			$("#NationalCode").val("");  
+			$("#PhoneNumber").val("");  
+			$("#UserId").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Email = $("input#Email").val(); 
+			var Family = $("input#Family").val(); 
+			var Name = $("input#Name").val(); 
+			var NationalCode = $("input#NationalCode").val(); 
+			var PhoneNumber = $("input#PhoneNumber").val(); 
+			var UserId = $("input#UserId").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Email=${Email}&amp;Family=${Family}&amp;Name=${Name}&amp;NationalCode=${NationalCode}&amp;PhoneNumber=${PhoneNumber}&amp;UserId=${UserId}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

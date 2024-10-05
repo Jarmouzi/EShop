@@ -1,0 +1,57 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.CartItem.IndexModel
+@{
+    ViewData["Title"] = "CartItem";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="cartitemForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#cartitemForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&Amount=&amp;CartId=&amp;DiscountAmount=&amp;ProductHandle=&amp;ProductUrl=&amp;ProductVarientId=&amp;Quantity=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/CartItem?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#Amount").val("");  
+			$("#CartId").val("");  
+			$("#DiscountAmount").val("");  
+			$("#ProductHandle").val("");  
+			$("#ProductUrl").val("");  
+			$("#ProductVarientId").val("");  
+			$("#Quantity").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Amount = $("input#Amount").val(); 
+			var CartId = $("input#CartId").val(); 
+			var DiscountAmount = $("input#DiscountAmount").val(); 
+			var ProductHandle = $("input#ProductHandle").val(); 
+			var ProductUrl = $("input#ProductUrl").val(); 
+			var ProductVarientId = $("input#ProductVarientId").val(); 
+			var Quantity = $("input#Quantity").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Amount=${Amount}&amp;CartId=${CartId}&amp;DiscountAmount=${DiscountAmount}&amp;ProductHandle=${ProductHandle}&amp;ProductUrl=${ProductUrl}&amp;ProductVarientId=${ProductVarientId}&amp;Quantity=${Quantity}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

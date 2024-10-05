@@ -1,0 +1,59 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Cart.IndexModel
+@{
+    ViewData["Title"] = "Cart";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="cartForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#cartForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&Amount=&amp;CheckoutUrl=&amp;DiscountAmount=&amp;DiscountCode=&amp;Handle=&amp;Quantity=&amp;TaxAmount=&amp;TotalAmount=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/Cart?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#Amount").val("");  
+			$("#CheckoutUrl").val("");  
+			$("#DiscountAmount").val("");  
+			$("#DiscountCode").val("");  
+			$("#Handle").val("");  
+			$("#Quantity").val("");  
+			$("#TaxAmount").val("");  
+			$("#TotalAmount").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Amount = $("input#Amount").val(); 
+			var CheckoutUrl = $("input#CheckoutUrl").val(); 
+			var DiscountAmount = $("input#DiscountAmount").val(); 
+			var DiscountCode = $("input#DiscountCode").val(); 
+			var Handle = $("input#Handle").val(); 
+			var Quantity = $("input#Quantity").val(); 
+			var TaxAmount = $("input#TaxAmount").val(); 
+			var TotalAmount = $("input#TotalAmount").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Amount=${Amount}&amp;CheckoutUrl=${CheckoutUrl}&amp;DiscountAmount=${DiscountAmount}&amp;DiscountCode=${DiscountCode}&amp;Handle=${Handle}&amp;Quantity=${Quantity}&amp;TaxAmount=${TaxAmount}&amp;TotalAmount=${TotalAmount}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

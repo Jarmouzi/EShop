@@ -1,0 +1,47 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.City.IndexModel
+@{
+    ViewData["Title"] = "City";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="cityForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#cityForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&StateId=&amp;Title=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/City?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#StateId").val("");  
+			$("#Title").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var StateId = $("input#StateId").val(); 
+			var Title = $("input#Title").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;StateId=${StateId}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

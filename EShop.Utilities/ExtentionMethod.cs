@@ -881,5 +881,10 @@ namespace EShop.Utilities
 
             return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
         }
+
+        public static string GenerateUniqueCode()
+        {
+            return Guid.NewGuid().ToString().Split('-')[4];
+        }
     }
 }

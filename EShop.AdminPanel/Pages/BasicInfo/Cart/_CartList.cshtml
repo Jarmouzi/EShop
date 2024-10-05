@@ -1,0 +1,52 @@
+@using EShop.ViewModel;
+@model PaginatedViewModel<CartViewModel>
+
+<table class="table table-bordered" id="carts">
+    <thead>
+        <tr>
+            <th>عملیات</th>
+             
+					<th>Amount</th> 
+					<th>CheckoutUrl</th> 
+					<th>DiscountAmount</th> 
+					<th>DiscountCode</th> 
+					<th>Handle</th> 
+					<th>Quantity</th> 
+					<th>TaxAmount</th> 
+					<th>TotalAmount</th>  
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Data.Any())
+        {
+            @foreach (var m in Model.Data)
+            {
+                <tr>
+                    <td class="d-inline">
+                        <form method="post" asp-page="Index" asp-route-id="@m.Id" asp-page-handler="Delete" onsubmit="return jQueryDelete(this)">
+                            <button type="submit" data-toggle="tooltip" data-placement="top" title="???" class="d-link"> <i class="fa fa-remove"></i></button>
+                        </form> |
+                        <a onclick="jQueryGet('?handler=FormPartial&id=@m.Id',' + LOWER(TABLE_NAME) + N'Form', '??????')" data-toggle="tooltip" data-placement="top" title="??????"> <i class="fa fa-edit"></i> </a>
+
+                    </td> <td>@m.Handle</td><td>@m.CheckoutUrl</td><td>@m.Amount</td><td>@m.TaxAmount</td><td>@m.DiscountAmount</td><td>@m.TotalAmount</td><td>@m.DiscountCode</td><td>@m.Quantity</td>                 
+                    
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+				<td colspan="9">
+                ?????? ???? ???
+				</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<partial name="_paginationpartial" model="@Model.Pagination" />
+<script>
+    $(document).ready(function () {
+        $("#cartTable").DataTable();
+    });
+</script>

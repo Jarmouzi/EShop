@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EShop.Model
 {
-    public class Product_Variant_Option: BaseModel
+    public class ProductVariant_Option: BaseModel
     { 
 		public Int64? ProductVariantId { get; set; }
 		public Int64? Product_OptionId { get; set; }

@@ -8,11 +8,11 @@ namespace EShop.AutoMapper
     {
         public Product_Variant_OptionProfile()
         {
-            CreateMap<Product_Variant_Option, Product_Variant_OptionViewModel>();
+            CreateMap<ProductVariant_Option, Product_Variant_OptionViewModel>();
 				//.ForMember(dest => dest.ProductVariantTitle, opt => opt.MapFrom(src => src.ProductVariant.Title))	
 				//.ForMember(dest => dest.Product_OptionTitle, opt => opt.MapFrom(src => src.Product_Option.Title))	;
 
-            CreateMap<Product_Variant_OptionViewModel, Product_Variant_Option>();
+            CreateMap<Product_Variant_OptionViewModel, ProductVariant_Option>();
         }
     }
 }

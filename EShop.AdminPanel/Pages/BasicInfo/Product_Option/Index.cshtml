@@ -1,0 +1,49 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Product_Option.IndexModel
+@{
+    ViewData["Title"] = "Product_Option";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="product_optionForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#product_optionForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&OptionId=&amp;OptionValueId=&amp;ProductId=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/Product_Option?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#OptionId").val("");  
+			$("#OptionValueId").val("");  
+			$("#ProductId").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var OptionId = $("input#OptionId").val(); 
+			var OptionValueId = $("input#OptionValueId").val(); 
+			var ProductId = $("input#ProductId").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;OptionId=${OptionId}&amp;OptionValueId=${OptionValueId}&amp;ProductId=${ProductId}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

@@ -1,0 +1,51 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.UserAddress.IndexModel
+@{
+    ViewData["Title"] = "UserAddress";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="useraddressForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#useraddressForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&Address=&amp;CityId=&amp;StateId=&amp;UserId=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/UserAddress?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#Address").val("");  
+			$("#CityId").val("");  
+			$("#StateId").val("");  
+			$("#UserId").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Address = $("input#Address").val(); 
+			var CityId = $("input#CityId").val(); 
+			var StateId = $("input#StateId").val(); 
+			var UserId = $("input#UserId").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Address=${Address}&amp;CityId=${CityId}&amp;StateId=${StateId}&amp;UserId=${UserId}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}
