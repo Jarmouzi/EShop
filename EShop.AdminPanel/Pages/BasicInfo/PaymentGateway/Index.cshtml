@@ -1,0 +1,51 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.PaymentGateway.IndexModel
+@{
+    ViewData["Title"] = "PaymentGateway";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="paymentgatewayForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#paymentgatewayForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&Description=&amp;IsPublic=&amp;Title=&amp;Url=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/PaymentGateway?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#Description").val("");  
+			$("#IsPublic").val("");  
+			$("#Title").val("");  
+			$("#Url").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Description = $("input#Description").val(); 
+			var IsPublic = $("input#IsPublic").val(); 
+			var Title = $("input#Title").val(); 
+			var Url = $("input#Url").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Description=${Description}&amp;IsPublic=${IsPublic}&amp;Title=${Title}&amp;Url=${Url}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

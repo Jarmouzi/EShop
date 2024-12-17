@@ -30,15 +30,14 @@ namespace EShop.IdentityService.Identity
             _httpContext = httpContext;
         }
 
-        public async Task<Guid?> Login(LoginUser credentials)
+        public async Task<bool> Login(LoginUser credentials)
         {
             var user = await _userManager.FindByNameAsync(credentials.Username);
             if (user != null)
             {
-                if (await _userManager.CheckPasswordAsync(user, credentials.Password))
-                    return Guid.Parse(user.Id);
+                return await _userManager.CheckPasswordAsync(user, credentials.Password);
             }
-            return null;
+            return false;
         }
 
         public async Task Logout()

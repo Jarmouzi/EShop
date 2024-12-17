@@ -87,7 +87,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _ProductRepository.GetAllAsync();
+                var result = await _ProductRepository.GetProcedureAsync("Product_Handles");
 
                 return Ok(result.Data);
             }

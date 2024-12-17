@@ -11,6 +11,6 @@ namespace EShop.Model
     { 
 		[Column(TypeName = "nvarchar(200)")]
 		public string? Title { get; set; }
-				public virtual ICollection<City> Citys { get; set; }
+		public virtual ICollection<City> Citys { get; set; }
 	}
 }

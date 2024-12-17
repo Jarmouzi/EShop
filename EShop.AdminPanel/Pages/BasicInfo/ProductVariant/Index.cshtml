@@ -1,0 +1,53 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.ProductVariant.IndexModel
+@{
+    ViewData["Title"] = "ProductVariant";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="productvariantForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#productvariantForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&AvailableForSale=&amp;Confirmed=&amp;Price=&amp;ProductId=&amp;SupplierId=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/ProductVariant?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#AvailableForSale").val("");  
+			$("#Confirmed").val("");  
+			$("#Price").val("");  
+			$("#ProductId").val("");  
+			$("#SupplierId").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var AvailableForSale = $("input#AvailableForSale").val(); 
+			var Confirmed = $("input#Confirmed").val(); 
+			var Price = $("input#Price").val(); 
+			var ProductId = $("input#ProductId").val(); 
+			var SupplierId = $("input#SupplierId").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;AvailableForSale=${AvailableForSale}&amp;Confirmed=${Confirmed}&amp;Price=${Price}&amp;ProductId=${ProductId}&amp;SupplierId=${SupplierId}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

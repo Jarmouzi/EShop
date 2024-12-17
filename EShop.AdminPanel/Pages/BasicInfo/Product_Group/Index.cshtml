@@ -1,0 +1,51 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Product_Group.IndexModel
+@{
+    ViewData["Title"] = "Product_Group";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="product_groupForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#product_groupForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&Confirmed=&amp;GroupId=&amp;ProductId=&amp;SimilarProductId=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/Product_Group?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#Confirmed").val("");  
+			$("#GroupId").val("");  
+			$("#ProductId").val("");  
+			$("#SimilarProductId").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Confirmed = $("input#Confirmed").val(); 
+			var GroupId = $("input#GroupId").val(); 
+			var ProductId = $("input#ProductId").val(); 
+			var SimilarProductId = $("input#SimilarProductId").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Confirmed=${Confirmed}&amp;GroupId=${GroupId}&amp;ProductId=${ProductId}&amp;SimilarProductId=${SimilarProductId}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

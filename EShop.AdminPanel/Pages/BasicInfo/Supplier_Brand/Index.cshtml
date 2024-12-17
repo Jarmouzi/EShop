@@ -1,0 +1,47 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand.IndexModel
+@{
+    ViewData["Title"] = "Supplier_Brand";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="supplier_brandForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#supplier_brandForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&BrandId=&amp;SupplierId=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/Supplier_Brand?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#BrandId").val("");  
+			$("#SupplierId").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var BrandId = $("input#BrandId").val(); 
+			var SupplierId = $("input#SupplierId").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;BrandId=${BrandId}&amp;SupplierId=${SupplierId}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

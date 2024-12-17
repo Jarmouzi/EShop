@@ -36,7 +36,7 @@
 			$("#Address").val("");  
 			$("#CityId").val("");  
 			$("#StateId").val("");  
-			$("#UserId").val(""); 
+			$("#Username").val(""); 
             $("#saveBtn").html("?????");
         }
 
@@ -44,8 +44,7 @@
 			var Address = $("input#Address").val(); 
 			var CityId = $("input#CityId").val(); 
 			var StateId = $("input#StateId").val(); 
-			var UserId = $("input#UserId").val();
-            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Address=${Address}&amp;CityId=${CityId}&amp;StateId=${StateId}&amp;UserId=${UserId}&take=${take}&skip=${skip}`);
+            $("#viewAll").load(`?handler=ViewAllPartial&Address=${Address}&CityId=${CityId}&StateId=${StateId}&take=${take}&skip=${skip}`);
         }
     </script>
 }

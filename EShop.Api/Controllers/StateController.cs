@@ -49,7 +49,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _StateRepository.GetAllAsync();
+                var result = await _StateRepository.GetAllItemAsync();
                 return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
             }
             catch (Exception ex)

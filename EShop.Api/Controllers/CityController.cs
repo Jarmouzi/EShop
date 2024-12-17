@@ -59,16 +59,21 @@ namespace EShop.Web.API.Controllers
         }
 
         [HttpGet("GetFiltered")]
-        public async Task<IActionResult> GetAll(string? json = null)
+        public async Task<IActionResult> GetAll(string? sId = null)
         {
             try
             {
-                var result = await _CityRepository.GetProcedureAsync("City_Json", json);
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                if (long.TryParse(sId, out long stateId))
+                {
+                    var result = await _CityRepository.GetAllItemAsync(m => m.StateId == stateId);
+                    return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                }
+                return Ok(new { Data = new List<SelectItemViewModel>(), Message = "", Status = 200 });
+
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
     }

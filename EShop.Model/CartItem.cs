@@ -19,6 +19,8 @@ namespace EShop.Model
 		[Column(TypeName = "nvarchar(2000)")]
 		public string? ProductUrl { get; set; }
 
+		public bool? SupplierConfirmed { get; set; }
+
 		[ForeignKey("CartId")]
         public virtual Cart Cart { get; set; }
 	}

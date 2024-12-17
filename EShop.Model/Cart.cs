@@ -11,9 +11,6 @@ namespace EShop.Model
     { 
 		[Column(TypeName = "char(12)")]
         public string Handle { get; set; }
-
-        [Column(TypeName = "nvarchar(2000)")]
-		public string? CheckoutUrl { get; set; }
 		public Int64 Amount { get; set; } = 0;
 		public Int64 TaxAmount { get; set; } = 0;
         public Int64 DiscountAmount { get; set; } = 0;

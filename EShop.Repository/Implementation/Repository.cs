@@ -264,5 +264,55 @@ namespace EShop.Repository.Implementation
             }
             return result;
         }
+
+        public async Task<Result<IEnumerable<SelectItemViewModel>>> GetAllItemAsync()
+        {
+            var result = new Result<IEnumerable<SelectItemViewModel>>();
+            result.Data = new List<SelectItemViewModel>();
+            try
+            {
+                var item = await _service.Where(m => m.ExpireDate == null).ToArrayAsync();
+                if (item != null)
+                {
+                    result.Data = _mappingEngine.Map<IEnumerable<SelectItemViewModel>>(item);
+                    result.Status = TS.Status.Success;
+                    return result;
+                }
+                result.Status = TS.Status.Warning;
+                result.Message = Resource.Notifications.NotFound;
+            }
+            catch (Exception ex)
+            {
+                result.Status = TS.Status.ServerError;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<Result<IEnumerable<SelectItemViewModel>>> GetAllItemAsync(Expression<Func<T, bool>> filter)
+        {
+            var result = new Result<IEnumerable<SelectItemViewModel>>();
+            result.Data = new List<SelectItemViewModel>();
+
+            try
+            {
+                var item = await _service.Where(filter).ToListAsync();
+                if (item != null)
+                {
+                    result.Data = _mappingEngine.Map<IEnumerable<SelectItemViewModel>>(item);
+                    result.Status = TS.Status.Success;
+                    return result;
+                }
+                result.Status = TS.Status.Warning;
+                result.Message = Resource.Notifications.NotFound;
+            }
+            catch (Exception ex)
+            {
+                result.Status = TS.Status.ServerError;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
     }
 }

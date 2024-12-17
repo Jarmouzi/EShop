@@ -1,0 +1,47 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.UserOrderStatus.IndexModel
+@{
+    ViewData["Title"] = "UserOrderStatus";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="userorderstatusForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#userorderstatusForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&ClassName=&amp;Title=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/UserOrderStatus?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#ClassName").val("");  
+			$("#Title").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var ClassName = $("input#ClassName").val(); 
+			var Title = $("input#Title").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;ClassName=${ClassName}&amp;Title=${Title}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

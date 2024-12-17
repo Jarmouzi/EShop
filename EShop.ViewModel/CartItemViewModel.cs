@@ -28,6 +28,9 @@ namespace EShop.ViewModel
         [DisplayName("ProductUrl")]
 		public string? ProductUrl { get; set; }
 
+        [DisplayName("ProductUrl")]
+        public bool? SupplierConfirmed { get; set; }
+
         [ValidateNever]
 		public string CartTitle { get; set; }
 	}

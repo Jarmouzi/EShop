@@ -1,0 +1,47 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.FeatureValue.IndexModel
+@{
+    ViewData["Title"] = "FeatureValue";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="featurevalueForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#featurevalueForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&FeatureId=&amp;Value=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/FeatureValue?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#FeatureId").val("");  
+			$("#Value").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var FeatureId = $("input#FeatureId").val(); 
+			var Value = $("input#Value").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;FeatureId=${FeatureId}&amp;Value=${Value}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

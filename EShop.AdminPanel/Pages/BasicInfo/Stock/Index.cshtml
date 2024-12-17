@@ -1,0 +1,61 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.Stock.IndexModel
+@{
+    ViewData["Title"] = "Stock";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="stockForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#stockForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&Confirmed=&amp;Count=&amp;Date=&amp;Desc=&amp;InventoryId=&amp;Price=&amp;ProductVariantId=&amp;Title=&amp;TranType=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/Stock?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#Confirmed").val("");  
+			$("#Count").val("");  
+			$("#Date").val("");  
+			$("#Desc").val("");  
+			$("#InventoryId").val("");  
+			$("#Price").val("");  
+			$("#ProductVariantId").val("");  
+			$("#Title").val("");  
+			$("#TranType").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var Confirmed = $("input#Confirmed").val(); 
+			var Count = $("input#Count").val(); 
+			var Date = $("input#Date").val(); 
+			var Desc = $("input#Desc").val(); 
+			var InventoryId = $("input#InventoryId").val(); 
+			var Price = $("input#Price").val(); 
+			var ProductVariantId = $("input#ProductVariantId").val(); 
+			var Title = $("input#Title").val(); 
+			var TranType = $("input#TranType").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;Confirmed=${Confirmed}&amp;Count=${Count}&amp;Date=${Date}&amp;Desc=${Desc}&amp;InventoryId=${InventoryId}&amp;Price=${Price}&amp;ProductVariantId=${ProductVariantId}&amp;Title=${Title}&amp;TranType=${TranType}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

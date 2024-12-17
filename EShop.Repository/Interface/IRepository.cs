@@ -18,5 +18,7 @@ namespace EShop.Repository.Interface
         Task<Result<TViewModel?>> GetAsync(Expression<Func<T, bool>> filter);
         Task<Result<TViewModel?>> GetByIdAsync(Int64 id);
         //Task<Result<bool>> ExistsAsync(Int64 id);
+        Task<Result<IEnumerable<SelectItemViewModel>>> GetAllItemAsync();
+        Task<Result<IEnumerable<SelectItemViewModel>>> GetAllItemAsync(Expression<Func<T, bool>> filter);
     }
 }

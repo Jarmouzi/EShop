@@ -2,6 +2,8 @@ using EShop.IdentityService.Infrastructure.Authorizaion;
 using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 
 namespace EShop.Web.API.Controllers
@@ -99,7 +101,19 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _CartRepository.GetProcedureAsync("Cart_Get", id);
+                string json = $"{{ id: '{id}'}}";
+
+                if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    JObject jsonObject = JObject.Parse(json);
+
+                    jsonObject["UserId"] = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)).ToString();
+
+                    json = jsonObject.ToString(Formatting.None);
+                }
+
+                var result = await _CartRepository.GetProcedureAsync("Cart_Get", json);
+
                 return Ok(result.Data);
             }
             catch (Exception ex)

@@ -6,7 +6,7 @@ namespace EShop.IdentityService.Identity
 {
     public interface IAuthService
     {
-        Task<Guid?> Login(LoginUser credentials);
+        Task<bool> Login(LoginUser credentials);
         Task Logout();
         Task<bool> RegisterUser(LoginUser user);
         Task<bool> AddUserClaim(string user, Claim claim);

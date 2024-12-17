@@ -17,10 +17,7 @@ namespace EShop.ViewModel
         [MaxLength(12)]
         [DisplayName("Handle")]
         public string Handle { get; set; } = ExtentionMethod.GenerateUniqueCode();
-
-        [DisplayName("CheckoutUrl")]
-		public string? CheckoutUrl { get; set; }
-		
+        		
         [DisplayName("Amount")]
 		public long Amount { get; set; } = 0;
 

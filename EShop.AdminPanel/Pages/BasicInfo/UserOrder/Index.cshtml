@@ -1,0 +1,57 @@
+@page
+@model EShop.AdminPanel.Pages.BasicInfo.UserOrder.IndexModel
+@{
+    ViewData["Title"] = "UserOrder";
+}
+@await Component.InvokeAsync("Breadcrumb")
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <div id="userorderForm" class="row"></div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div id="viewAll" class="card-body table-responsive col-sm-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('#userorderForm').load('?handler=FormPartial');
+            $('#viewAll').load('?handler=ViewAllPartial&CartId=&amp;Handle=&amp;PaymentConfirmationCode=&amp;PaymentGatewayId=&amp;UserAddressId=&amp;UserId=&amp;UserOrderStatusId=&amp;take=10&skip=0');
+        });
+
+        clearForm = () => {
+            $("#create-form").attr("action", "/UserOrder?id=&handler=CreateOrEdit"); 
+            $(".validation-summary-errors").val("");
+            $("field-validation-error").val("");  
+			$("#CartId").val("");  
+			$("#Handle").val("");  
+			$("#PaymentConfirmationCode").val("");  
+			$("#PaymentGatewayId").val("");  
+			$("#UserAddressId").val("");  
+			$("#UserId").val("");  
+			$("#UserOrderStatusId").val(""); 
+            $("#saveBtn").html("?????");
+        }
+
+        Search = (take, skip) => {  
+			var CartId = $("input#CartId").val(); 
+			var Handle = $("input#Handle").val(); 
+			var PaymentConfirmationCode = $("input#PaymentConfirmationCode").val(); 
+			var PaymentGatewayId = $("input#PaymentGatewayId").val(); 
+			var UserAddressId = $("input#UserAddressId").val(); 
+			var UserId = $("input#UserId").val(); 
+			var UserOrderStatusId = $("input#UserOrderStatusId").val();
+            $("#viewAll").load(`?handler=ViewAllPartial&&amp;CartId=${CartId}&amp;Handle=${Handle}&amp;PaymentConfirmationCode=${PaymentConfirmationCode}&amp;PaymentGatewayId=${PaymentGatewayId}&amp;UserAddressId=${UserAddressId}&amp;UserId=${UserId}&amp;UserOrderStatusId=${UserOrderStatusId}&take=${take}&skip=${skip}`);
+        }
+    </script>
+}

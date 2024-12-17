@@ -3,15 +3,15 @@
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
     <div class="form-group col-md-6">
         <label class="control-label">عنوان</label>
-        <input type="text" autocomplete="off" asp-for="Title" name="Title" class="form-control">
-        <span asp-validation-for="Title" class="text-danger"></span>
+        <input type="text" autocomplete="off" asp-for="Address" name="Title" class="form-control">
+        <span asp-validation-for="Address" class="text-danger"></span>
 
     </div>
-    <div class="form-group col-md-6">
+@*     <div class="form-group col-md-6">
         <label class="control-label">تایید</label>
         <input type="checkbox" autocomplete="off" asp-for="Confirmed" name="Confirm" class="form-control">
         <span asp-validation-for="Confirmed" class="text-danger"></span>
-    </div>
+    </div> *@
     <div class="form-group col-md-12 pull-left">        
         <div class="pull-left">
             <a onclick="clearForm()" class="btn btn-default">خالی کردن فرم</a>

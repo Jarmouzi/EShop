@@ -63,7 +63,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.UserProfile
                     };
                 else
                 {
-                    var userprofile = await _userprofileRepository.GetByIdAsync(id);
+                    var userprofile = await _userprofileRepository.GetByIdAsync(id.Value);
                     return new PartialViewResult
                     {
                         ViewName = "_UserProfileForm",
@@ -91,7 +91,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.UserProfile
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_UserProfileForm", new UserProfileViewModel()) });
                 else
                 {
-                    var thisUserProfile = await _userprofileRepository.GetByIdAsync(id);
+                    var thisUserProfile = await _userprofileRepository.GetByIdAsync(id.Value);
                     return new JsonResult(new { isValid = true, html = await _renderService.ToStringAsync("_UserProfileForm", thisUserProfile) });
                 }
 

@@ -28,8 +28,8 @@ namespace EShop.Auth.Controllers
             {
                 throw new ArgumentNullException("Login credentials");
             }
-            var userId = await _authService.Login(credentials);
-            if (userId.HasValue)
+
+            if (await _authService.Login(credentials))
             {
                 //var visitLogId = await _logRepository.AddVisitLogAsync(new LogService.Model.VisitLog
                 //{
