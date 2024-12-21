@@ -24,11 +24,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _OptionValueRepository.AddAsync(model);
 		//
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 		//
@@ -39,11 +39,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _OptionValueRepository.UpdateAsync(model);
 		//
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 		//
@@ -54,11 +54,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _OptionValueRepository.DeleteAsync(id);
 		//
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 
@@ -70,11 +70,11 @@ namespace EShop.Web.API.Controllers
             {
                 var result =await  _OptionValueRepository.GetByIdAsync(id);
 
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -85,11 +85,11 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _OptionValueRepository.GetAllAsync();
 
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -100,11 +100,11 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _OptionValueRepository.GetProcedureAsync("OptionValue_Json", json);
 
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
     }

@@ -42,9 +42,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
             var result = new PaginatedViewModel<FeatureViewModel>();
             try
             {
-                var list = await _featureRepository.GetPaginatedResult(categoryId, parentId, title, take, skip);
-
-                result = list.Data;
+                result = await _featureRepository.GetPaginatedResult(categoryId, parentId, title, take, skip);
             }
             catch (Exception ex)
             {
@@ -62,10 +60,10 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
             try
             {
                 var result = await _categoryRepository.GetPaginatedResult(null, 100000, 0);
-                var list = result.Data?.Data.ToList();
+                var list = result.Data?.ToList();
 
                 var pResult = await _featureRepository.GetAllAsync(m => m.ParentId == null);
-                var parents = new SelectList(pResult.Data, "Id", "Title", null);
+                var parents = new SelectList(pResult, "Id", "Title", null);
                 parents.Prepend(new SelectListItem("انتخاب نمایید", null));
 
                 if (!id.HasValue || id == 0)
@@ -81,13 +79,13 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
                 else
                 {
                     var feature = await _featureRepository.GetByIdAsync(id.Value);
-                    feature.Data.Categories = list;
-                    feature.Data.Parents = parents;
+                    feature.Categories = list;
+                    feature.Parents = parents;
 
                     return new PartialViewResult
                     {
                         ViewName = "_FeatureForm",
-                        ViewData = new ViewDataDictionary<FeatureViewModel>(ViewData, feature.Data)
+                        ViewData = new ViewDataDictionary<FeatureViewModel>(ViewData, feature)
                     };
                 }
             }
@@ -134,7 +132,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
                     if (!id.HasValue || id == 0)
                     {
                         var result = await _featureRepository.GetAllAsync(m => m.ParentId == feature.ParentId);
-                        var lastFeature = result.Data?.OrderBy(m => m.DisplayOrder).LastOrDefault();
+                        var lastFeature = result?.OrderBy(m => m.DisplayOrder).LastOrDefault();
                         feature.DisplayOrder = 1;
                         if (lastFeature != null)
                             feature.DisplayOrder = lastFeature.DisplayOrder + 1;
@@ -188,20 +186,18 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Feature
         private async Task<JsonResult> GetFeatures()
         {
             var isValid = false;
-            var html = "";
+            var data = "";
             try
             {
                 var list = await _featureRepository.GetPaginatedResult(null, null, null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
-
-                html = await _renderService.ToStringAsync("_FeatureList", list.Data);
+                data = await _renderService.ToStringAsync("_FeatureList", list);
             }
             catch (Exception ex)
             {
                 _logger.LogError("Feature GetFeatures: " + ex.Message);
             }
-            return new JsonResult(new { isValid = isValid, html = html });
+            return new JsonResult(data);
         }
     }
 }

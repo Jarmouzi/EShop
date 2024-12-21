@@ -18,16 +18,16 @@ namespace EShop.Web.API.Controllers
         }
         //[HttpPost("Add")]
         //public async Task<IActionResult> Insert(UserOrderViewModel model)
-        //{try{var result = await _UserOrderRepository.AddAsync(model); return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });}
+        //{try{var result = await _UserOrderRepository.AddAsync(model); return Ok(result);}
         // catch (Exception ex){return BadRequest(ex);}
         //}
         //[HttpPut("Update")]public async Task<IActionResult> Update(UserOrderViewModel model)
-        //{try{var result = await _UserOrderRepository.UpdateAsync(model);return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });}
+        //{try{var result = await _UserOrderRepository.UpdateAsync(model);return Ok(result);}
         // catch (Exception ex){return BadRequest(ex);}
         //}
         //[HttpDelete("Delete")]
         //public async Task<IActionResult> Delete(Int64 id)
-        //{try {var result = await _UserOrderRepository.DeleteAsync(id); return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status }); }
+        //{try {var result = await _UserOrderRepository.DeleteAsync(id); return Ok(result); }
         // catch (Exception ex){return BadRequest(ex);}
         //}
         [HttpGet("Get")]
@@ -36,7 +36,7 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result =await  _UserOrderRepository.GetByIdAsync(id);
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _UserOrderRepository.GetAllAsync();
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _UserOrderRepository.GetProcedureAsync("UserOrder_Json", json);
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {

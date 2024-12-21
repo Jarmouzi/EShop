@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Product_Group
             {
                 var list = await _product_groupRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Product_Group
                     return new PartialViewResult
                     {
                         ViewName = "_Product_GroupForm",
-                        ViewData = new ViewDataDictionary<Product_GroupViewModel>(ViewData, product_group.Data)
+                        ViewData = new ViewDataDictionary<Product_GroupViewModel>(ViewData, product_group)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Product_Group
             {
                 var list = await _product_groupRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_Product_GroupList", list.Data);
+                html = await _renderService.ToStringAsync("_Product_GroupList", list);
             }
             catch (Exception ex)
             {

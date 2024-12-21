@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.Supplier.Supplier_Contract
             {
                 var list = await _supplier_contractRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.Supplier.Supplier_Contract
                     return new PartialViewResult
                     {
                         ViewName = "_Supplier_ContractForm",
-                        ViewData = new ViewDataDictionary<Supplier_ContractViewModel>(ViewData, supplier_contract.Data)
+                        ViewData = new ViewDataDictionary<Supplier_ContractViewModel>(ViewData, supplier_contract)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.Supplier.Supplier_Contract
             {
                 var list = await _supplier_contractRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_Supplier_ContractList", list.Data);
+                html = await _renderService.ToStringAsync("_Supplier_ContractList", list);
             }
             catch (Exception ex)
             {

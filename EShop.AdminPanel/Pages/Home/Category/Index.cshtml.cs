@@ -39,7 +39,7 @@ namespace EShop.AdminPanel.Pages.Category
             {
                 var list = await _categoryRepository.GetPaginatedResult(parentId, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace EShop.AdminPanel.Pages.Category
             try
             {
                 var result = await _categoryRepository.GetPaginatedResult(null, 100000, 0);
-                var list = result.Data?.Data.ToList();
+                var list = result.Data?.ToList();
 
                 if (!id.HasValue || id == 0)
                     return new PartialViewResult
@@ -71,12 +71,12 @@ namespace EShop.AdminPanel.Pages.Category
                 else
                 {
                     var category = await _categoryRepository.GetByIdAsync(id.Value);
-                    category.Data.Categories = list;
+                    category.Categories = list;
 
                     return new PartialViewResult
                     {
                         ViewName = "_CategoryForm",
-                        ViewData = new ViewDataDictionary<CategoryViewModel>(ViewData, category.Data)
+                        ViewData = new ViewDataDictionary<CategoryViewModel>(ViewData, category)
                     };
                 }
             }
@@ -121,8 +121,8 @@ namespace EShop.AdminPanel.Pages.Category
                 {
                     var parent = await _categoryRepository.GetByIdAsync(category.ParentId.Value);
 
-                    if(parent.Data != null)
-                        level = ++parent.Data.Level;
+                    if(parent != null)
+                        level = ++parent.Level;
                 }
                 category.Level = level;
 
@@ -132,7 +132,7 @@ namespace EShop.AdminPanel.Pages.Category
                     if (!id.HasValue || id == 0)
                     {
                         var result = await _categoryRepository.GetAllAsync(m => m.ParentId == category.ParentId);
-                        var lastCategory = result.Data?.OrderBy(m => m.DisplayOrder).LastOrDefault();
+                        var lastCategory = result?.OrderBy(m => m.DisplayOrder).LastOrDefault();
                         category.DisplayOrder = 1;
                         if(lastCategory != null)
                             category.DisplayOrder = lastCategory.DisplayOrder + 1;
@@ -191,9 +191,9 @@ namespace EShop.AdminPanel.Pages.Category
             {
                 var list = await _categoryRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_CategoryList", list.Data);
+                html = await _renderService.ToStringAsync("_CategoryList", list);
             }
             catch (Exception ex)
             {

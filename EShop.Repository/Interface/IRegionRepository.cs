@@ -12,6 +12,6 @@ namespace EShop.Repository.Interface
 {
     public interface IRegionRepository: IRepository<Region, RegionViewModel>
     {
-        Task<Result<PaginatedViewModel<RegionViewModel>>> GetPaginatedResult(string? title = null, string? country = null, int take = 10, int skip = 0);
+        Task<PaginatedViewModel<RegionViewModel>> GetPaginatedResult(string? title = null, string? country = null, int take = 10, int skip = 0);
     }
 }

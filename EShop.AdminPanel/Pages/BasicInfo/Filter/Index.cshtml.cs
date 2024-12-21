@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
             {
                 var list = await _filterRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
                     return new PartialViewResult
                     {
                         ViewName = "_FilterForm",
-                        ViewData = new ViewDataDictionary<FilterViewModel>(ViewData, filter.Data)
+                        ViewData = new ViewDataDictionary<FilterViewModel>(ViewData, filter)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Filter
             {
                 var list = await _filterRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_FilterList", list.Data);
+                html = await _renderService.ToStringAsync("_FilterList", list);
             }
             catch (Exception ex)
             {

@@ -25,11 +25,11 @@ namespace EShop.Web.API.Controllers
                 model.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 model.ModifiedBy = model.UserId;
                 var result = await _UserAddressRepository.AddAsync(model);
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
         [HttpPut("Update")]
@@ -40,11 +40,11 @@ namespace EShop.Web.API.Controllers
                 model.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 model.ModifiedBy = model.UserId;
                 var result = await _UserAddressRepository.UpdateAsync(model);
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
         [HttpDelete("Delete")]
@@ -53,11 +53,11 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _UserAddressRepository.DeleteAsync(id);
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
         [HttpGet("Get")]
@@ -66,11 +66,11 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _UserAddressRepository.GetByIdAsync(id);
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -82,13 +82,13 @@ namespace EShop.Web.API.Controllers
                 if (Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var userId))
                 {
                     var result = await _UserAddressRepository.GetAllAsync(m => m.UserId == userId);
-                    return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                    return Ok(result);
                 }
                 return Ok(new { Data = new List<UserAddressViewModel>(), Message = "" });
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -98,11 +98,11 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _UserAddressRepository.GetProcedureAsync("UserAddress_Json", json);
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
     }

@@ -5,6 +5,6 @@ namespace EShop.Repository.Interface
 {
     public interface ISupplier_ContractRepository: IRepository<Supplier_Contract, Supplier_ContractViewModel>
     {
-        Task<Result<PaginatedViewModel<Supplier_ContractViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0);
+        Task<PaginatedViewModel<Supplier_ContractViewModel>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0);
     }
 }

@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.ProductVariant_Option
             {
                 var list = await _productvariant_optionRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.ProductVariant_Option
                     return new PartialViewResult
                     {
                         ViewName = "_ProductVariant_OptionForm",
-                        ViewData = new ViewDataDictionary<ProductVariant_OptionViewModel>(ViewData, productvariant_option.Data)
+                        ViewData = new ViewDataDictionary<ProductVariant_OptionViewModel>(ViewData, productvariant_option)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.ProductVariant_Option
             {
                 var list = await _productvariant_optionRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_ProductVariant_OptionList", list.Data);
+                html = await _renderService.ToStringAsync("_ProductVariant_OptionList", list);
             }
             catch (Exception ex)
             {

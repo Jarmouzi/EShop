@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Image
             {
                 var list = await _imageRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Image
                     return new PartialViewResult
                     {
                         ViewName = "_ImageForm",
-                        ViewData = new ViewDataDictionary<ImageViewModel>(ViewData, image.Data)
+                        ViewData = new ViewDataDictionary<ImageViewModel>(ViewData, image)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Image
             {
                 var list = await _imageRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_ImageList", list.Data);
+                html = await _renderService.ToStringAsync("_ImageList", list);
             }
             catch (Exception ex)
             {

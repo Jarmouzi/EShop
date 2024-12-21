@@ -19,7 +19,7 @@ namespace EShop.AdminPanel.ViewComponents
             //check user access
             var resources = await _resourceRepository.GetAllAsync();
 
-            return View(resources.Data.OrderBy(m => m.SortOrder));
+            return View(resources.OrderBy(m => m.SortOrder));
         }
     }
 }

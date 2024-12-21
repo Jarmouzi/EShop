@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Collection
             {
                 var list = await _collectionRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Collection
                     return new PartialViewResult
                     {
                         ViewName = "_CollectionForm",
-                        ViewData = new ViewDataDictionary<CollectionViewModel>(ViewData, collection.Data)
+                        ViewData = new ViewDataDictionary<CollectionViewModel>(ViewData, collection)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Collection
             {
                 var list = await _collectionRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_CollectionList", list.Data);
+                html = await _renderService.ToStringAsync("_CollectionList", list);
             }
             catch (Exception ex)
             {

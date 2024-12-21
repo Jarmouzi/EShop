@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
             {
                 var list = await _stockRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
                     return new PartialViewResult
                     {
                         ViewName = "_StockForm",
-                        ViewData = new ViewDataDictionary<StockViewModel>(ViewData, stock.Data)
+                        ViewData = new ViewDataDictionary<StockViewModel>(ViewData, stock)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Stock
             {
                 var list = await _stockRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_StockList", list.Data);
+                html = await _renderService.ToStringAsync("_StockList", list);
             }
             catch (Exception ex)
             {

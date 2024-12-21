@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PaymentGateway
             {
                 var list = await _paymentgatewayRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PaymentGateway
                     return new PartialViewResult
                     {
                         ViewName = "_PaymentGatewayForm",
-                        ViewData = new ViewDataDictionary<PaymentGatewayViewModel>(ViewData, paymentgateway.Data)
+                        ViewData = new ViewDataDictionary<PaymentGatewayViewModel>(ViewData, paymentgateway)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.PaymentGateway
             {
                 var list = await _paymentgatewayRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_PaymentGatewayList", list.Data);
+                html = await _renderService.ToStringAsync("_PaymentGatewayList", list);
             }
             catch (Exception ex)
             {

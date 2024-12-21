@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.UserAddress
             {
                 var list = await _useraddressRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.UserAddress
                     return new PartialViewResult
                     {
                         ViewName = "_UserAddressForm",
-                        ViewData = new ViewDataDictionary<UserAddressViewModel>(ViewData, useraddress.Data)
+                        ViewData = new ViewDataDictionary<UserAddressViewModel>(ViewData, useraddress)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.UserAddress
             {
                 var list = await _useraddressRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_UserAddressList", list.Data);
+                html = await _renderService.ToStringAsync("_UserAddressList", list);
             }
             catch (Exception ex)
             {

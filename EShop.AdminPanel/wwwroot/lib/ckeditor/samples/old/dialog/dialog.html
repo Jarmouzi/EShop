@@ -67,8 +67,8 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
 		// definition of existing dialogs.
 		CKEDITOR.on( 'dialogDefinition', function( ev ) {
 			// Take the dialog name and its definition from the event data.
-			var dialogName = ev.data.name;
-			var dialogDefinition = ev.data.definition;
+			var dialogName = ev.name;
+			var dialogDefinition = ev.definition;
 
 			// Check if the definition is from the dialog we're
 			// interested on (the "Link" dialog).

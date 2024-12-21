@@ -6,6 +6,7 @@ using EShop.Model.TypeSafe;
 using EShop.Repository.Interface;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace EShop.Repository.Implementation
 {
@@ -19,9 +20,9 @@ namespace EShop.Repository.Implementation
             _imageService = _unitOfWork.Set<Image>();
         }
 
-        public async Task<Result<IEnumerable<Product_ImageViewModel>>> GetPaginatedResult(Int64? productId, Int64? productOptionId)
+        public async Task<IEnumerable<Product_ImageViewModel>> GetPaginatedResult(Int64? productId, Int64? productOptionId)
         {
-            var result = new Result<IEnumerable<Product_ImageViewModel>>();
+            IEnumerable<Product_ImageViewModel> result = [];
 
             try
             {
@@ -32,28 +33,22 @@ namespace EShop.Repository.Implementation
 
                 var r = await GetProcedureAsync<Product_ImageViewModel>("Product_Image_Get", sparam);
 
-                if (r.Status == TS.Status.Success)
-                {
-                    result.Data = r.Data;
-                    result.Status = TS.Status.Success;
-                    return result;
-                }
-                result.Status = TS.Status.Warning;
-                result.Message = Resource.Notifications.NotFound;
+                return result;
+
             }
             catch (Exception ex)
             {
-                result.Status = TS.Status.ServerError;
-                result.Message = ex.Message;
+
+                throw ex;
             }
             return result;
         }
-        public async Task<Result<Product_ImageViewModel>> InsertUpdateAsync(Product_ImageViewModel model)
+        public async Task<Product_ImageViewModel> InsertUpdateAsync(Product_ImageViewModel model)
         {
-            var result = new Result<Product_ImageViewModel>();
+            var result = new Product_ImageViewModel();
             try
             {
-                result.Data = model;
+                result = model;
 
                 if (!string.IsNullOrWhiteSpace(model.ImageUrl))
                 {
@@ -63,7 +58,7 @@ namespace EShop.Repository.Implementation
                         Url = model.ImageUrl,
                         CreateDate = DateTime.Now,
                         ModifiedBy = model.ModifiedBy,
-                        Confirmed = true                     
+                        Confirmed = true
                     };
 
                     _imageService.Add(imageEntity);
@@ -83,17 +78,13 @@ namespace EShop.Repository.Implementation
                 else if (model.Id > 0)
                 {
                     var old = await GetByIdAsync(model.Id);
-                    model.ImageId = old.Data.ImageId;
+                    model.ImageId = old.ImageId;
                     return await UpdateAsync(model);
                 }
-                result.Status = TS.Status.ServerError;
-                result.Message = "امکان ثبت تصویر وجود ندارد!";
-
             }
             catch (Exception ex)
             {
-                result.Status = TS.Status.ServerError;
-                result.Message = ex.Message;
+                throw ex;
             }
             return result;
         }

@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Cart
             {
                 var list = await _cartRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Cart
                     return new PartialViewResult
                     {
                         ViewName = "_CartForm",
-                        ViewData = new ViewDataDictionary<CartViewModel>(ViewData, cart.Data)
+                        ViewData = new ViewDataDictionary<CartViewModel>(ViewData, cart)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Cart
             {
                 var list = await _cartRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_CartList", list.Data);
+                html = await _renderService.ToStringAsync("_CartList", list);
             }
             catch (Exception ex)
             {

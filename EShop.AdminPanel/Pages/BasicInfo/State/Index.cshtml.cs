@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.State
             {
                 var list = await _stateRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.State
                     return new PartialViewResult
                     {
                         ViewName = "_StateForm",
-                        ViewData = new ViewDataDictionary<StateViewModel>(ViewData, state.Data)
+                        ViewData = new ViewDataDictionary<StateViewModel>(ViewData, state)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.State
             {
                 var list = await _stateRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_StateList", list.Data);
+                html = await _renderService.ToStringAsync("_StateList", list);
             }
             catch (Exception ex)
             {

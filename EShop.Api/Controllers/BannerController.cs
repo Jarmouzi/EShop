@@ -24,11 +24,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _BannerRepository.AddAsync(model);
 		//
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 		//
@@ -39,11 +39,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _BannerRepository.UpdateAsync(model);
 		//
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 		//
@@ -54,11 +54,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _BannerRepository.DeleteAsync(id);
 		//
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 
@@ -70,7 +70,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result =await  _BannerRepository.GetByIdAsync(id);
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -85,7 +85,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _BannerRepository.GetAllAsync(m => m.ExpireDate == null && m.Confirmed == true);
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -100,7 +100,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _BannerRepository.GetProcedureAsync("Banner_Json", json);
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {

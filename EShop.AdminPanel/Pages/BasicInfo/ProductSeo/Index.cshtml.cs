@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.ProductSeo
             {
                 var list = await _productseoRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.ProductSeo
                     return new PartialViewResult
                     {
                         ViewName = "_ProductSeoForm",
-                        ViewData = new ViewDataDictionary<ProductSeoViewModel>(ViewData, productseo.Data)
+                        ViewData = new ViewDataDictionary<ProductSeoViewModel>(ViewData, productseo)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.ProductSeo
             {
                 var list = await _productseoRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_ProductSeoList", list.Data);
+                html = await _renderService.ToStringAsync("_ProductSeoList", list);
             }
             catch (Exception ex)
             {

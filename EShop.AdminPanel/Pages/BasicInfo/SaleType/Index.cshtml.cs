@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.SaleType
             {
                 var list = await _saletypeRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.SaleType
                     return new PartialViewResult
                     {
                         ViewName = "_SaleTypeForm",
-                        ViewData = new ViewDataDictionary<SaleTypeViewModel>(ViewData, saletype.Data)
+                        ViewData = new ViewDataDictionary<SaleTypeViewModel>(ViewData, saletype)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.SaleType
             {
                 var list = await _saletypeRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_SaleTypeList", list.Data);
+                html = await _renderService.ToStringAsync("_SaleTypeList", list);
             }
             catch (Exception ex)
             {

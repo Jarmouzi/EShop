@@ -25,11 +25,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _ProductRepository.AddAsync(model);
         //
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
         //
@@ -40,11 +40,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _ProductRepository.UpdateAsync(model);
         //
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
         //
@@ -55,11 +55,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _ProductRepository.DeleteAsync(id);
         //
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 
@@ -71,10 +71,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _ProductRepository.GetProcedureAsync("Product_GetByHandle", id);
 
-                if (result.Status == TS.Status.Success)
-                    return Ok(result.Data);
-
-                return BadRequest(result.Message);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -89,7 +86,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _ProductRepository.GetProcedureAsync("Product_Handles");
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -104,7 +101,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _ProductRepository.GetProcedureAsync("Product_Json", variables);
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -119,10 +116,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _ProductRepository.GetProcedureAsync("Product_GetByCollection", cn);
 
-                if (result.Status == TS.Status.Success)
-                    return Ok(result.Data);
-
-                return BadRequest(result.Message);
+                return Ok(result);
             }
             catch (Exception ex)
             {

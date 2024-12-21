@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.UserOrder
             {
                 var list = await _userorderRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.UserOrder
                     return new PartialViewResult
                     {
                         ViewName = "_UserOrderForm",
-                        ViewData = new ViewDataDictionary<UserOrderViewModel>(ViewData, userorder.Data)
+                        ViewData = new ViewDataDictionary<UserOrderViewModel>(ViewData, userorder)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.UserOrder
             {
                 var list = await _userorderRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_UserOrderList", list.Data);
+                html = await _renderService.ToStringAsync("_UserOrderList", list);
             }
             catch (Exception ex)
             {

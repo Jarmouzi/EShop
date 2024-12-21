@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
             {
                 var list = await _supplierRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
                     return new PartialViewResult
                     {
                         ViewName = "_SupplierForm",
-                        ViewData = new ViewDataDictionary<SupplierViewModel>(ViewData, supplier.Data)
+                        ViewData = new ViewDataDictionary<SupplierViewModel>(ViewData, supplier)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier
             {
                 var list = await _supplierRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_SupplierList", list.Data);
+                html = await _renderService.ToStringAsync("_SupplierList", list);
             }
             catch (Exception ex)
             {

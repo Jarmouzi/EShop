@@ -5,6 +5,6 @@ namespace EShop.Repository.Interface
 {
     public interface IComponentRepository: IRepository<Component, ComponentViewModel>
     {
-        Task<Result<PaginatedViewModel<ComponentViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0);
+        Task<PaginatedViewModel<ComponentViewModel>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0);
     }
 }

@@ -8,8 +8,8 @@ namespace EShop.AutoMapper
     {
         public CityProfile()
         {
-            CreateMap<City, CityViewModel>()
-				.ForMember(dest => dest.StateTitle, opt => opt.MapFrom(src => src.State.Title))	;
+            CreateMap<City, CityViewModel>();
+				//.ForMember(dest => dest.StateTitle, opt => opt.MapFrom(src => src.State.Title))	;
 
             CreateMap<CityViewModel, City>();
         }

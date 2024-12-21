@@ -13,7 +13,7 @@ namespace EShop.ViewModel
         [DisplayName("Title")]
 		public string? Title { get; set; }
 
-        [ValidateNever]
-		public string StateTitle { get; set; }
+  //      [ValidateNever]
+		//public string StateTitle { get; set; }
 	}
 }

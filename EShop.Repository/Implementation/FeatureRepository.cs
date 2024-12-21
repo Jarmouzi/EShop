@@ -19,10 +19,8 @@ namespace EShop.Repository.Implementation
             _service = _unitOfWork.Set<Feature>();
         }
 
-        public async Task<Result<PaginatedViewModel<FeatureViewModel>>> GetPaginatedResult(Int64? categoryId = null, Int64? parentId = null, string? title = null, int take = 10, int skip = 0)
+        public async Task<PaginatedViewModel<FeatureViewModel>> GetPaginatedResult(Int64? categoryId = null, Int64? parentId = null, string? title = null, int take = 10, int skip = 0)
         {
-            var result = new Result<PaginatedViewModel<FeatureViewModel>> ();
-
             try
             {
                 var totalCount = new SqlParameter("@TotalCount", System.Data.SqlDbType.Int);
@@ -31,45 +29,34 @@ namespace EShop.Repository.Implementation
                     new SqlParameter("@CategoryId", categoryId == null ? DBNull.Value : categoryId),
                     new SqlParameter("@ParentId", parentId == null ? DBNull.Value : parentId),
                     new SqlParameter("@Title", title == null ? DBNull.Value : title),
-					new SqlParameter("@Take", take),
+                    new SqlParameter("@Take", take),
                     new SqlParameter("@Skip", skip),
                     totalCount
                 };
 
                 var r = await GetProcedureAsync<FeatureViewModel>("Feature_Get", sparam);
 
-                if(r.Status == TS.Status.Success || r.Status == TS.Status.Warning) {
-                    result.Data = new PaginatedViewModel<FeatureViewModel>
+                return new PaginatedViewModel<FeatureViewModel>
+                {
+                    Data = r,
+                    Pagination = new PaginationViewModel
                     {
-                        Data = r.Data,
-                        Pagination = new PaginationViewModel
-                        {
-                            Take = take,
-                            Skip = skip,
-                            TotalCount = Convert.ToInt32(totalCount.Value)
-                        }
-                    };
-                    result.Status = TS.Status.Success;
-                    return result;
-                }
-                result.Status = TS.Status.Warning;
-                result.Message = Resource.Notifications.NotFound;
+                        Take = take,
+                        Skip = skip,
+                        TotalCount = Convert.ToInt32(totalCount.Value)
+                    }
+                };
             }
             catch (Exception ex)
             {
-                result.Status = TS.Status.ServerError;
-                result.Message = ex.Message;
+                throw ex;
             }
-            return result;
         }
 
-        public async Task<Result<bool>> ChangeDisplayOrder(Int64 id, int order)
+        public async Task<bool> ChangeDisplayOrder(Int64 id, int order)
         {
-            var result = new Result<bool>();
             try
             {
-                result.Data = false;
-
                 var model = _service.Find(id);
                 model.ModifyDate = DateTime.Now;
                 model.DisplayOrder += order;
@@ -88,18 +75,14 @@ namespace EShop.Repository.Implementation
                 }
                 if (await _unitOfWork.SaveAsync() > 0)
                 {
-                    result.Data = true;
-                    result.Message = Resource.Notifications.SuccessfulUpdate;
-                    result.Status = TS.Status.Success;
-                    return result;
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                result.Status = TS.Status.ServerError;
-                result.Message = ex.Message;
+                throw ex;
             }
-            return result;
+            return false;
         }
 
     }

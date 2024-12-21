@@ -49,7 +49,7 @@ namespace EShop.AdminPanel.Pages.Banner
             {
                 var list = await _bannerRepository.GetPaginatedResult(title, 10, 0);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace EShop.AdminPanel.Pages.Banner
                     return new PartialViewResult
                     {
                         ViewName = "_BannerForm",
-                        ViewData = new ViewDataDictionary<BannerViewModel>(ViewData, banner.Data)
+                        ViewData = new ViewDataDictionary<BannerViewModel>(ViewData, banner)
                     };
                 }
             }
@@ -204,9 +204,9 @@ namespace EShop.AdminPanel.Pages.Banner
             {
                 var list = await _bannerRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_BannerList", list.Data);
+                html = await _renderService.ToStringAsync("_BannerList", list);
             }
             catch (Exception ex)
             {

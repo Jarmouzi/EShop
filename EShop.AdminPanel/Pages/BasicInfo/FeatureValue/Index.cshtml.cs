@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.FeatureValue
             {
                 var list = await _featurevalueRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.FeatureValue
                     return new PartialViewResult
                     {
                         ViewName = "_FeatureValueForm",
-                        ViewData = new ViewDataDictionary<FeatureValueViewModel>(ViewData, featurevalue.Data)
+                        ViewData = new ViewDataDictionary<FeatureValueViewModel>(ViewData, featurevalue)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.FeatureValue
             {
                 var list = await _featurevalueRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_FeatureValueList", list.Data);
+                html = await _renderService.ToStringAsync("_FeatureValueList", list);
             }
             catch (Exception ex)
             {

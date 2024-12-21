@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Region
             {
                 var list = await _regionRepository.GetPaginatedResult(title, country, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Region
                     return new PartialViewResult
                     {
                         ViewName = "_RegionForm",
-                        ViewData = new ViewDataDictionary<RegionViewModel>(ViewData, region.Data)
+                        ViewData = new ViewDataDictionary<RegionViewModel>(ViewData, region)
                     };
                 }
             }
@@ -154,9 +154,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Region
             {
                 var list = await _regionRepository.GetPaginatedResult(null, null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_RegionList", list.Data);
+                html = await _renderService.ToStringAsync("_RegionList", list);
             }
             catch (Exception ex)
             {

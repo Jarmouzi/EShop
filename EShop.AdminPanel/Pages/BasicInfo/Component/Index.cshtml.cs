@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Component
             {
                 var list = await _componentRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Component
                     return new PartialViewResult
                     {
                         ViewName = "_ComponentForm",
-                        ViewData = new ViewDataDictionary<ComponentViewModel>(ViewData, component.Data)
+                        ViewData = new ViewDataDictionary<ComponentViewModel>(ViewData, component)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Component
             {
                 var list = await _componentRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_ComponentList", list.Data);
+                html = await _renderService.ToStringAsync("_ComponentList", list);
             }
             catch (Exception ex)
             {

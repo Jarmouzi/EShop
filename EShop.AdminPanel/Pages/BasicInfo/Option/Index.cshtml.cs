@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Option
             {
                 var list = await _optionRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Option
                     return new PartialViewResult
                     {
                         ViewName = "_OptionForm",
-                        ViewData = new ViewDataDictionary<OptionViewModel>(ViewData, option.Data)
+                        ViewData = new ViewDataDictionary<OptionViewModel>(ViewData, option)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Option
             {
                 var list = await _optionRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_OptionList", list.Data);
+                html = await _renderService.ToStringAsync("_OptionList", list);
             }
             catch (Exception ex)
             {

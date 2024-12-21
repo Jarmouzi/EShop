@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.OptionValue
             {
                 var list = await _optionvalueRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.OptionValue
                     return new PartialViewResult
                     {
                         ViewName = "_OptionValueForm",
-                        ViewData = new ViewDataDictionary<OptionValueViewModel>(ViewData, optionvalue.Data)
+                        ViewData = new ViewDataDictionary<OptionValueViewModel>(ViewData, optionvalue)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.OptionValue
             {
                 var list = await _optionvalueRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_OptionValueList", list.Data);
+                html = await _renderService.ToStringAsync("_OptionValueList", list);
             }
             catch (Exception ex)
             {

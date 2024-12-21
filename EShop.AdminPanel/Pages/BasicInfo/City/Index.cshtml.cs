@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.City
             {
                 var list = await _cityRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.City
                     return new PartialViewResult
                     {
                         ViewName = "_CityForm",
-                        ViewData = new ViewDataDictionary<CityViewModel>(ViewData, city.Data)
+                        ViewData = new ViewDataDictionary<CityViewModel>(ViewData, city)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.City
             {
                 var list = await _cityRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_CityList", list.Data);
+                html = await _renderService.ToStringAsync("_CityList", list);
             }
             catch (Exception ex)
             {

@@ -46,7 +46,7 @@ namespace EShop.AdminPanel.Pages.Product
             {
                 var list = await _productRepository.GetPaginatedResult(categoryId, brandId, title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -73,20 +73,20 @@ namespace EShop.AdminPanel.Pages.Product
                         ViewName = "_ProductForm",
                         ViewData = new ViewDataDictionary<ProductViewModel>(ViewData, new ProductViewModel
                         {
-                            Categories = new SelectList(result.Data, "Id", "Title", null, "ParentTitle"),
-                            Brands = new SelectList(bResult.Data, "Id", "Title", null)
+                            Categories = new SelectList(result, "Id", "Title", null, "ParentTitle"),
+                            Brands = new SelectList(bResult, "Id", "Title", null)
                         })
                     };
                 else
                 {
                     var product = await _productRepository.GetByIdAsync(id.Value);
-                    product.Data.Categories = new SelectList(result.Data, "Id", "Title", product.Data.CategoryId, "ParentTitle");
-                    product.Data.Brands = new SelectList(bResult.Data, "Id", "Title", product.Data.BrandId);
+                    product.Categories = new SelectList(result, "Id", "Title", product.CategoryId, "ParentTitle");
+                    product.Brands = new SelectList(bResult, "Id", "Title", product.BrandId);
 
                     return new PartialViewResult
                     {
                         ViewName = "_ProductForm",
-                        ViewData = new ViewDataDictionary<ProductViewModel>(ViewData, product.Data)
+                        ViewData = new ViewDataDictionary<ProductViewModel>(ViewData, product)
                     };
                 }
             }
@@ -167,20 +167,18 @@ namespace EShop.AdminPanel.Pages.Product
         private async Task<JsonResult> GetProducts()
         {
             var isValid = false;
-            var html = "";
+            var data = "";
             try
             {
                 var list = await _productRepository.GetPaginatedResult(null, null, null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
-
-                html = await _renderService.ToStringAsync("_ProductList", list.Data);
+                data = await _renderService.ToStringAsync("_ProductList", list);
             }
             catch (Exception ex)
             {
                 _logger.LogError("Product GetProducts: " + ex.Message);
             }
-            return new JsonResult(new { isValid = isValid, html = html });
+            return new JsonResult(data);
         }
     }
 }

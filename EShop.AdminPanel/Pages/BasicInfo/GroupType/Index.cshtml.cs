@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.GroupType
             {
                 var list = await _grouptypeRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.GroupType
                     return new PartialViewResult
                     {
                         ViewName = "_GroupTypeForm",
-                        ViewData = new ViewDataDictionary<GroupTypeViewModel>(ViewData, grouptype.Data)
+                        ViewData = new ViewDataDictionary<GroupTypeViewModel>(ViewData, grouptype)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.GroupType
             {
                 var list = await _grouptypeRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_GroupTypeList", list.Data);
+                html = await _renderService.ToStringAsync("_GroupTypeList", list);
             }
             catch (Exception ex)
             {

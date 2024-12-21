@@ -33,10 +33,10 @@ namespace EShop.Web.API.Controllers
 
                 var result = await _CartRepository.AddAsync(model);
 
-                if(result.Data != null && result.Data.Handle != null)
-                    return await Get(result.Data.Handle);
+                if(result != null && result.Handle != null)
+                    return await Get(result.Handle);
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _CartRepository.GetProcedureAsync("Cart_Update", json);
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _CartRepository.GetProcedureAsync("Cart_AddTo", json);
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _CartRepository.GetProcedureAsync("Cart_RemoveFrom", json);
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -86,14 +86,14 @@ namespace EShop.Web.API.Controllers
         //[HttpPut("Update")]
         //public async Task<IActionResult> Update(CartViewModel model)
         //{
-        //    try { var result = await _CartRepository.UpdateAsync(model); return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status }); }
-        //    catch (Exception ex) { return Ok(new { Message = ex.Message, Status = "server-error" }); }
+        //    try { var result = await _CartRepository.UpdateAsync(model); return Ok(result); }
+        //    catch (Exception ex) { return BadRequest(ex); }
         //}
         //[HttpDelete("Delete")]
         //public async Task<IActionResult> Delete(Int64 id)
         //{
-        //    try { var result = await _CartRepository.DeleteAsync(id); return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status }); }
-        //    catch (Exception ex) { return Ok(new { Message = ex.Message, Status = "server-error" }); }
+        //    try { var result = await _CartRepository.DeleteAsync(id); return Ok(result); }
+        //    catch (Exception ex) { return BadRequest(ex); }
         //}
 
         [HttpGet("Get")]
@@ -114,7 +114,7 @@ namespace EShop.Web.API.Controllers
 
                 var result = await _CartRepository.GetProcedureAsync("Cart_Get", json);
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -128,7 +128,7 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _CartRepository.GetProcedureAsync("Cart_GetAll", User.FindFirstValue(ClaimTypes.NameIdentifier));
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -142,7 +142,7 @@ namespace EShop.Web.API.Controllers
         //    try
         //    {
         //        var result = await _CartRepository.GetProcedureAsync("Cart_Json", json);
-        //        return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {

@@ -14,10 +14,8 @@ namespace EShop.Repository.Implementation
         {
         }
 
-        public async Task<Result<PaginatedViewModel<ProductViewModel>>> GetPaginatedResult(Int64? categoryId = null, Int64? brandId = null, string? title = null, int take = 10, int skip = 0)
+        public async Task<PaginatedViewModel<ProductViewModel>> GetPaginatedResult(Int64? categoryId = null, Int64? brandId = null, string? title = null, int take = 10, int skip = 0)
         {
-            var result = new Result<PaginatedViewModel<ProductViewModel>> ();
-
             try
             {
                 var totalCount = new SqlParameter("@TotalCount", System.Data.SqlDbType.Int);
@@ -33,29 +31,23 @@ namespace EShop.Repository.Implementation
 
                 var r = await GetProcedureAsync<ProductViewModel>("Product_Get", sparam);
 
-                if(r.Status == TS.Status.Success) {
-                    result.Data = new PaginatedViewModel<ProductViewModel>
+
+                return new PaginatedViewModel<ProductViewModel>
+                {
+                    Data = r,
+                    Pagination = new PaginationViewModel
                     {
-                        Data = r.Data,
-                        Pagination = new PaginationViewModel
-                        {
-                            Take = take,
-                            Skip = skip,
-                            TotalCount = Convert.ToInt32(totalCount.Value)
-                        }
-                    };
-                    result.Status = TS.Status.Success;
-                    return result;
-                }
-                result.Status = TS.Status.Warning;
-                result.Message = Resource.Notifications.NotFound;
+                        Take = take,
+                        Skip = skip,
+                        TotalCount = Convert.ToInt32(totalCount.Value)
+                    }
+                };
+
             }
             catch (Exception ex)
             {
-                result.Status = TS.Status.ServerError;
-                result.Message = ex.Message;
+                throw ex;
             }
-            return result;
         }
 
     }

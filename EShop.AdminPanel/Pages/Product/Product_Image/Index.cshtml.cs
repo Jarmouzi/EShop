@@ -57,7 +57,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
             {
                 var list = await _product_imageRepository.GetPaginatedResult(pId, oId);
 
-                result = list.Data.ToList();
+                result = list.ToList();
             }
             catch (Exception ex)
             {
@@ -80,13 +80,13 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
                     if (pId.HasValue)
                     {
                         var product = await _productRepository.GetByIdAsync(pId.Value);
-                        model.ProductTitle = product.Data.Title;
+                        model.ProductTitle = product.Title;
                     }
                     if (oId.HasValue)
                     {
                         var productOption = await _productOptionRepository.GetByIdAsync(oId.Value);
-                        model.OptionTitle = productOption.Data.OptionTitle;
-                        model.ValueTitle = productOption.Data.OptionValueTitle;
+                        model.OptionTitle = productOption.OptionTitle;
+                        model.ValueTitle = productOption.OptionValueTitle;
                     }
                     return new PartialViewResult
                     {
@@ -100,7 +100,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
                     return new PartialViewResult
                     {
                         ViewName = "_Product_ImageForm",
-                        ViewData = new ViewDataDictionary<Product_ImageViewModel>(ViewData, product_image.Data)
+                        ViewData = new ViewDataDictionary<Product_ImageViewModel>(ViewData, product_image)
                     };
                 }
             }
@@ -129,7 +129,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
                     {
                         isValid = true,
                         html = await _renderService.ToStringAsync("_Product_ImageForm",
-                                new Product_ImageViewModel { ProductId = ProductId ?? 0, ProductTitle = product.Data?.Title })
+                                new Product_ImageViewModel { ProductId = ProductId ?? 0, ProductTitle = product?.Title })
                     });
                 }
                 else
@@ -197,15 +197,11 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
                 product_image.ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
                 var result = await _product_imageRepository.InsertUpdateAsync(product_image);
-                if (result.Status == TS.Status.Success)
-                {
-                    html = await _renderService.ToStringAsync("_product_imageForm", product_image);
-                    return await GetProduct_Images(product_image.ProductId, product_image.Product_OptionId);
-                }
-                else
-                {
-                    ModelState.TryAddModelError("ProductId", result.Message);
-                }
+
+                html = await _renderService.ToStringAsync("_product_imageForm", product_image);
+                return await GetProduct_Images(product_image.ProductId, product_image.Product_OptionId);
+
+
                 //}
                 //else
                 //{
@@ -217,7 +213,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
             {
                 _logger.LogError("product_image OnPostCreateOrEditAsync: " + ex.Message, product_image);
             }
-            return new JsonResult(new { isValid = false, html = html });
+            return new JsonResult(html);
         }
         public async Task<JsonResult> OnPostDeleteAsync(Int64? ProductId, Int64? Product_OptionId, Int64 id)
         {
@@ -236,20 +232,18 @@ namespace EShop.AdminPanel.Pages.Product.Product_Image
         private async Task<JsonResult> GetProduct_Images(Int64? pId, Int64? oId)
         {
             var isValid = false;
-            var html = "";
+            var data = "";
             try
             {
                 var list = await _product_imageRepository.GetPaginatedResult(pId, oId);
 
-                isValid = list.Status == TS.Status.Success;
-
-                html = await _renderService.ToStringAsync("_Product_ImageList", list.Data);
+                data = await _renderService.ToStringAsync("_Product_ImageList", list);
             }
             catch (Exception ex)
             {
                 _logger.LogError("Product_Image GetProduct_Images: " + ex.Message);
             }
-            return new JsonResult(new { isValid = isValid, html = html });
+            return new JsonResult(data);
         }
     }
 }

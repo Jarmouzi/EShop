@@ -45,8 +45,8 @@ namespace EShop.AdminPanel.Pages.Category1
         private async Task SetSelectLists()
         {
             var result = await _categoryRepository.GetAllAsync(m => m.Level == 1 && m.Confirmed == true);
-            Categories = result.Data;
-            PrimaryCategories = new SelectList(result.Data, "Id", "Title");
+            Categories = result;
+            PrimaryCategories = new SelectList(result, "Id", "Title");
             PrimaryCategories.Prepend(new SelectListItem("انتخاب نمایید", null));
 
             //result = await _categoryRepository.GetAllAsync(m => m.Level == 2 && m.Confirmed == true);
@@ -56,18 +56,18 @@ namespace EShop.AdminPanel.Pages.Category1
         public async Task<JsonResult> OnGetSubCategories()
         {
             var result = await _categoryRepository.GetAllAsync(m => m.Confirmed == true && m.ParentId == CategoryId);
-            return new JsonResult(result.Data);
+            return new JsonResult(result);
         }
         public async Task<JsonResult> OnGetDeleteCategory()
         {
             var result = await _categoryRepository.DeleteAsync(CategoryId);
-            return new JsonResult(result.Data);
+            return new JsonResult(result);
         }
         public async Task<JsonResult> OnGetUpdateCategory()
         {
             var result = await _categoryRepository.GetByIdAsync(CategoryId);
 
-            return new JsonResult(result.Data);
+            return new JsonResult(result);
         }
 
     }

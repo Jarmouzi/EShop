@@ -46,7 +46,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
                 if (id == null)
                     Product_Features = new List<Product_FeatureViewModel>();
                 else
-                    Product_Features = _product_featureRepository.GetProductFeatures(id.Value).Result.Data.ToList();
+                    Product_Features = _product_featureRepository.GetProductFeatures(id.Value).Result.ToList();
 
             }
             catch (Exception ex)
@@ -98,7 +98,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
         //    {
         //        var list = await _product_featureRepository.GetPaginatedResult(title, take, skip);
 
-        //        result = list.Data;
+        //        result = list;
         //    }
         //    catch (Exception ex)
         //    {
@@ -115,7 +115,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
         {
             try
             {
-                Product_Features = _product_featureRepository.GetProductFeatures(id).Result.Data.ToList();
+                Product_Features = _product_featureRepository.GetProductFeatures(id).Result.ToList();
                 //return new PartialViewResult
                 //{
                 //    ViewName = "_Product_FeatureForm",

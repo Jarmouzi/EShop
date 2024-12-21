@@ -24,11 +24,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _CategoryRepository.AddAsync(model);
 
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 
@@ -39,11 +39,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _CategoryRepository.UpdateAsync(model);
 
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 
@@ -54,11 +54,11 @@ namespace EShop.Web.API.Controllers
         //    {
         //        var result = await _CategoryRepository.DeleteAsync(id);
 
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
 
@@ -70,11 +70,11 @@ namespace EShop.Web.API.Controllers
             {
                 var result =await  _CategoryRepository.GetByIdAsync(id);
 
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -85,11 +85,11 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _CategoryRepository.GetAllAsync();
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -101,7 +101,7 @@ namespace EShop.Web.API.Controllers
                 if(json == null) json = "{ \"Level1Id\": null,\"Level2Id\": null, \"Take\": 10, \"Skip\": 0}";
                 var result = await _CategoryRepository.GetProcedureAsync("Category_Json", json);
 
-                return Ok( result.Data );
+                return Ok( result );
             }
             catch (Exception ex)
             {
@@ -116,7 +116,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _CategoryRepository.GetProcedureAsync("Menu_Json", null);
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -131,7 +131,7 @@ namespace EShop.Web.API.Controllers
             {
                 var result = await _CategoryRepository.GetProcedureAsync("Menu_Json", null);
 
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception ex)
             {

@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
             {
                 var list = await _bannerRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
                     return new PartialViewResult
                     {
                         ViewName = "_BannerForm",
-                        ViewData = new ViewDataDictionary<BannerViewModel>(ViewData, banner.Data)
+                        ViewData = new ViewDataDictionary<BannerViewModel>(ViewData, banner)
                     };
                 }
             }
@@ -150,20 +150,18 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Banner
         private async Task<JsonResult> GetBanners()
         {
             var isValid = false;
-            var html = "";
+            var data = "";
             try
             {
                 var list = await _bannerRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
-
-                html = await _renderService.ToStringAsync("_BannerList", list.Data);
+                data = await _renderService.ToStringAsync("_BannerList", list);
             }
             catch (Exception ex)
             {
                 _logger.LogError("Banner GetBanners: " + ex.Message);
             }
-            return new JsonResult(new { isValid = isValid, html = html });
+            return new JsonResult(data);
         }
     }
 }

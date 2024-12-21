@@ -22,11 +22,11 @@ namespace EShop.Web.API.Controllers
         //    try
         //    {
         //        var result = await _FeatureValueRepository.AddAsync(model);
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
         //[HttpPut("Update")]
@@ -35,11 +35,11 @@ namespace EShop.Web.API.Controllers
         //    try
         //    {
         //        var result = await _FeatureValueRepository.UpdateAsync(model);
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
         //[HttpDelete("Delete")]
@@ -48,11 +48,11 @@ namespace EShop.Web.API.Controllers
         //    try
         //    {
         //        var result = await _FeatureValueRepository.DeleteAsync(id);
-        //        return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+        //        return Ok(result);
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Ok( new { Message = ex.Message, Status = "server-error" });
+        //        return BadRequest(ex);
         //    }
         //}
         [HttpGet("Get")]
@@ -61,11 +61,11 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result =await  _FeatureValueRepository.GetByIdAsync(id);
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -75,11 +75,11 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _FeatureValueRepository.GetAllAsync();
-                return Ok( new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok( new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
 
@@ -89,11 +89,11 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _FeatureValueRepository.GetProcedureAsync("FeatureValue_Json", json);
-                return Ok(new { Data = result.Data, Message = result.Message, Status = result.Status });
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return Ok(new { Message = ex.Message, Status = "server-error" });
+                return BadRequest(ex);
             }
         }
     }

@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
             {
                 var list = await _supplier_brandRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
                     return new PartialViewResult
                     {
                         ViewName = "_Supplier_BrandForm",
-                        ViewData = new ViewDataDictionary<Supplier_BrandViewModel>(ViewData, supplier_brand.Data)
+                        ViewData = new ViewDataDictionary<Supplier_BrandViewModel>(ViewData, supplier_brand)
                     };
                 }
             }
@@ -155,9 +155,9 @@ namespace EShop.AdminPanel.Pages.BasicInfo.Supplier_Brand
             {
                 var list = await _supplier_brandRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
+                
 
-                html = await _renderService.ToStringAsync("_Supplier_BrandList", list.Data);
+                html = await _renderService.ToStringAsync("_Supplier_BrandList", list);
             }
             catch (Exception ex)
             {

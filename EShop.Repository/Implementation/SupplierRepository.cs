@@ -14,10 +14,8 @@ namespace EShop.Repository.Implementation
         {
         }
 
-        public async Task<Result<PaginatedViewModel<SupplierViewModel>>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
+        public async Task<PaginatedViewModel<SupplierViewModel>> GetPaginatedResult(string? title = null, int take = 10, int skip = 0)
         {
-            var result = new Result<PaginatedViewModel<SupplierViewModel>> ();
-
             try
             {
                 var totalCount = new SqlParameter("@TotalCount", System.Data.SqlDbType.Int);
@@ -31,30 +29,21 @@ namespace EShop.Repository.Implementation
 
                 var r = await GetProcedureAsync<SupplierViewModel>("Supplier_Get", sparam);
 
-                if(r.Status == TS.Status.Success) {
-                    result.Data = new PaginatedViewModel<SupplierViewModel>
+                return new PaginatedViewModel<SupplierViewModel>
                     {
-                        Data = r.Data,
+                        Data = r,
                         Pagination = new PaginationViewModel
                         {
                             Take = take,
                             Skip = skip,
                             TotalCount = Convert.ToInt32(totalCount.Value)
                         }
-                    };
-                    result.Status = TS.Status.Success;
-                    return result;
-                }
-                result.Status = TS.Status.Warning;
-                result.Message = Resource.Notifications.NotFound;
+                    };                     
             }
             catch (Exception ex)
-            {
-                result.Status = TS.Status.ServerError;
-                result.Message = ex.Message;
+            {                
+                throw ex;
             }
-            return result;
         }
-
     }
 }

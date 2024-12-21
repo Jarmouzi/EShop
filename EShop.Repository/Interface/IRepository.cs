@@ -8,17 +8,17 @@ namespace EShop.Repository.Interface
 {
     public interface IRepository<T, TViewModel> where T : BaseModel where TViewModel : BaseViewModel, new()
     {
-        Task<Result<TViewModel>> AddAsync(TViewModel model);
-        Task<Result<TViewModel>> UpdateAsync(TViewModel model);
-        Task<Result<Int64>> DeleteAsync(Int64 id);
-        Task<Result<IEnumerable<TViewModel>>> GetAllAsync();
-        Task<Result<IEnumerable<TViewModel>>> GetAllAsync(Expression<Func<T, bool>> filter);
-        Task<Result<IEnumerable<TResult>>> GetProcedureAsync<TResult>(string procedureName, SqlParameter[] sparams) where TResult : class;
-        Task<Result<string>> GetProcedureAsync(string procedureName, string? jsonparams = null);
-        Task<Result<TViewModel?>> GetAsync(Expression<Func<T, bool>> filter);
-        Task<Result<TViewModel?>> GetByIdAsync(Int64 id);
-        //Task<Result<bool>> ExistsAsync(Int64 id);
-        Task<Result<IEnumerable<SelectItemViewModel>>> GetAllItemAsync();
-        Task<Result<IEnumerable<SelectItemViewModel>>> GetAllItemAsync(Expression<Func<T, bool>> filter);
+        Task<TViewModel> AddAsync(TViewModel model);
+        Task<TViewModel> UpdateAsync(TViewModel model);
+        Task<Int64> DeleteAsync(Int64 id);
+        Task<IEnumerable<TViewModel>> GetAllAsync();
+        Task<IEnumerable<TViewModel>> GetAllAsync(Expression<Func<T, bool>> filter);
+        Task<IEnumerable<TResult>> GetProcedureAsync<TResult>(string procedureName, SqlParameter[] sparams) where TResult : class;
+        Task<string> GetProcedureAsync(string procedureName, string? jsonparams = null);
+        Task<TViewModel?> GetAsync(Expression<Func<T, bool>> filter);
+        Task<TViewModel?> GetByIdAsync(Int64 id);
+        //Task<bool>> ExistsAsync(Int64 id);
+        Task<IEnumerable<SelectItemViewModel>> GetAllItemAsync();
+        Task<IEnumerable<SelectItemViewModel>> GetAllItemAsync(Expression<Func<T, bool>> filter);
     }
 }

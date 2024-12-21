@@ -38,7 +38,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.CartItem
             {
                 var list = await _cartitemRepository.GetPaginatedResult(title, take, skip);
 
-                result = list.Data;
+                result = list;
             }
             catch (Exception ex)
             {
@@ -67,7 +67,7 @@ namespace EShop.AdminPanel.Pages.BasicInfo.CartItem
                     return new PartialViewResult
                     {
                         ViewName = "_CartItemForm",
-                        ViewData = new ViewDataDictionary<CartItemViewModel>(ViewData, cartitem.Data)
+                        ViewData = new ViewDataDictionary<CartItemViewModel>(ViewData, cartitem)
                     };
                 }
             }
@@ -150,20 +150,18 @@ namespace EShop.AdminPanel.Pages.BasicInfo.CartItem
         private async Task<JsonResult> GetCartItems()
         {
             var isValid = false;
-            var html = "";
+            var data = "";
             try
             {
                 var list = await _cartitemRepository.GetPaginatedResult(null, 10, 0);
 
-                isValid = list.Status == TS.Status.Success;
-
-                html = await _renderService.ToStringAsync("_CartItemList", list.Data);
+                data = await _renderService.ToStringAsync("_CartItemList", list);
             }
             catch (Exception ex)
             {
                 _logger.LogError("CartItem GetCartItems: " + ex.Message);
             }
-            return new JsonResult(new { isValid = isValid, html = html });
+            return new JsonResult(data);
         }
     }
 }
