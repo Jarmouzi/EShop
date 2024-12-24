@@ -18,10 +18,22 @@ namespace EShop.Web.API.Controllers
             _UserAddressRepository = UserAddressRepository;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> Insert(UserAddressViewModel model)
+        public async Task<IActionResult> Insert([FromForm] UserAddressViewModel model)
         {
             try
             {
+                //var tModel = new UserAddressViewModel
+                //{
+                //    Address = model.Address,
+                //    CityId = model.CityId,
+                //    StateId = model.StateId,
+                //    PostalCode = model.PostalCode,
+                //    Number = model.Number,
+                //    Unit = model.Unit,
+                //    Title = model.Title,
+                //    UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                //    ModifiedBy = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                //};
                 model.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 model.ModifiedBy = model.UserId;
                 var result = await _UserAddressRepository.AddAsync(model);

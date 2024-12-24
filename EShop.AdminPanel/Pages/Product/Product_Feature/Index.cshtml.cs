@@ -72,7 +72,7 @@ namespace EShop.AdminPanel.Pages.Product.Product_Feature
                         }
                         else
                         {
-                            await _product_featureRepository.DeleteAsync(item.Id);
+                            await _product_featureRepository.DeleteAsync(item.Id.Value);
                         }
                     }
                     else

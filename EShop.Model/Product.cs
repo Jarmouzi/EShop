@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
 
 namespace EShop.Model
 {
     public class Product : BaseModel
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DefaultValue("[dbo].[UniqueHandle](newid())")]
         public string Handle { get; set; } = string.Empty;
         public string? Title { get; set; }
         public string? Description { get; set; }

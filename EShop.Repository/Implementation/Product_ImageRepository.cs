@@ -75,10 +75,10 @@ namespace EShop.Repository.Implementation
                         }
                     }
                 }
-                else if (model.Id > 0)
+                else if (model.Id.HasValue)
                 {
-                    var old = await GetByIdAsync(model.Id);
-                    model.ImageId = old.ImageId;
+                    var old = await GetByIdAsync(model.Id.Value);
+                    model.ImageId = old?.ImageId;
                     return await UpdateAsync(model);
                 }
             }

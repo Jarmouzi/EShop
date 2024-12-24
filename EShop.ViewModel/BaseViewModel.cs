@@ -15,7 +15,7 @@ namespace EShop.ViewModel
         }
 
         [ValidateNever]
-        public Int64 Id { get; set; }
+        public Int64? Id { get; set; }
 
         [ValidateNever]
         public Guid? ModifiedBy { get; set; }
