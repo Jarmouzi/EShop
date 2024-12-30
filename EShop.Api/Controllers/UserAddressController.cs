@@ -18,7 +18,7 @@ namespace EShop.Web.API.Controllers
             _UserAddressRepository = UserAddressRepository;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> Insert([FromForm] UserAddressViewModel model)
+        public async Task<IActionResult> Insert(UserAddressViewModel model)
         {
             try
             {
@@ -36,6 +36,7 @@ namespace EShop.Web.API.Controllers
                 //};
                 model.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 model.ModifiedBy = model.UserId;
+                CheckDefaultAddress(model);
                 var result = await _UserAddressRepository.AddAsync(model);
                 return Ok(result);
             }
@@ -51,6 +52,7 @@ namespace EShop.Web.API.Controllers
             {
                 model.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 model.ModifiedBy = model.UserId;
+                CheckDefaultAddress(model);
                 var result = await _UserAddressRepository.UpdateAsync(model);
                 return Ok(result);
             }
@@ -59,6 +61,12 @@ namespace EShop.Web.API.Controllers
                 return BadRequest(ex);
             }
         }
+        private async Task CheckDefaultAddress(UserAddressViewModel model) {
+
+            if(model.IsDefault == true)
+                await _UserAddressRepository.RemoveOtherDefaultAddress(model);
+        }
+
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(Int64 id)
         {

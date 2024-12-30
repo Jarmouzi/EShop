@@ -5,7 +5,6 @@ namespace EShop.ViewModel
 {
     public class UserAddressViewModel: BaseViewModel
     { 
-		
         [DisplayName("UserId")]
 		public Guid? UserId { get; set; }
 		

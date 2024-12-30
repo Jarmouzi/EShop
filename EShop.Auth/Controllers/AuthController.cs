@@ -22,7 +22,7 @@ namespace EShop.Auth.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromForm]LoginUser credentials)
+        public async Task<IActionResult> Login([FromForm] LoginUser credentials)
         {
             if (credentials == null)
             {
@@ -55,6 +55,20 @@ namespace EShop.Auth.Controllers
             return BadRequest();
         }
 
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await _authService.Logout_Api();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpPost("GenerateToken")]
         public async Task<IActionResult> GenerateToken(string email)
         {
@@ -73,7 +87,7 @@ namespace EShop.Auth.Controllers
         {
             var user = await _authService.VerifyOTPToken(email, token);
 
-            if(user != null)
+            if (user != null)
 
                 return Ok(
                     new

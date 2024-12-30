@@ -215,7 +215,7 @@ namespace EShop.IdentityService.Infrastructure
             
             services.Configure<DataProtectionTokenProviderOptions>(options =>
             {
-                options.TokenLifespan = TimeSpan.FromMinutes(5);
+                options.TokenLifespan = TimeSpan.FromDays(1);
             }); 
             
             services.AddScoped<IUserTwoFactorTokenProvider<IdentityUser>, EmailTokenProvider<IdentityUser>>();

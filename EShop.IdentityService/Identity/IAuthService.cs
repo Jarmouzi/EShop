@@ -8,6 +8,7 @@ namespace EShop.IdentityService.Identity
     {
         Task<bool> Login(LoginUser credentials);
         Task Logout();
+        Task Logout_Api();
         Task<bool> RegisterUser(LoginUser user);
         Task<bool> AddUserClaim(string user, Claim claim);
         Task<bool> AddUpdateClaim(string user, Claim claim);

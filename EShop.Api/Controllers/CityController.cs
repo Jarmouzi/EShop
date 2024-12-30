@@ -7,7 +7,7 @@ namespace EShop.Web.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-    [AuthorizeApi]
+    //[AuthorizeApi]
     public class CityController : ControllerBase
     {
 		private readonly ICityRepository _CityRepository;

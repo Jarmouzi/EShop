@@ -21,7 +21,7 @@ namespace EShop.IdentityService.Infrastructure.Authorizaion
             {
                 return;
             }
-            context.Result = new  UnauthorizedObjectResult("شما به این سرویس دسترسی ندارید.");
+            context.Result = new UnauthorizedObjectResult("شما به این سرویس دسترسی ندارید.");
         }
     }
     public class AuthorizePageAttribute : Attribute, IAsyncAuthorizationFilter

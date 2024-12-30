@@ -7,7 +7,7 @@ namespace EShop.Web.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-    [AuthorizeApi]
+    //[AuthorizeApi]
     public class StateController : ControllerBase
     {
 		private readonly IStateRepository _StateRepository;

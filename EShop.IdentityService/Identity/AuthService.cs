@@ -44,6 +44,10 @@ namespace EShop.IdentityService.Identity
         {
             await _httpContext.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
+        public async Task Logout_Api()
+        {
+            await _httpContext.HttpContext.SignOutAsync();
+        }
 
         public async Task<bool> RegisterUser(LoginUser user)
         {
