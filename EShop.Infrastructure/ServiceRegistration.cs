@@ -73,6 +73,8 @@ namespace EShop.Infrastructure
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IUserAddressRepository, UserAddressRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IPaymentGatewayRepository, PaymentGatewayRepository>();
+            services.AddScoped<IUserOrderRepository, UserOrderRepository>();
 
             return services;
         }

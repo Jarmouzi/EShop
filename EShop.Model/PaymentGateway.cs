@@ -16,5 +16,6 @@ namespace EShop.Model
 		[Column(TypeName = "nvarchar(2000)")]
 		public string? Url { get; set; }
 		public bool? IsPublic { get; set; }
-	}
+        public string? Logo { get; set; }
+    }
 }

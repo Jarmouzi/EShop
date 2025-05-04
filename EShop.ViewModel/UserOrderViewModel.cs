@@ -29,12 +29,6 @@ namespace EShop.ViewModel
 		public string? PaymentConfirmationCode { get; set; }
 
         [ValidateNever]
-		public string CartTitle { get; set; }
-
-        [ValidateNever]
-		public string UserAddressTitle { get; set; }
-
-        [ValidateNever]
 		public string UserOrderStatusTitle { get; set; }
 	}
 }

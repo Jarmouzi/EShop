@@ -14,8 +14,11 @@ namespace EShop.ViewModel
 		
         [DisplayName("Url")]
 		public string? Url { get; set; }
-		
+
         [DisplayName("IsPublic")]
-		public bool? IsPublic { get; set; }
-	}
+        public bool? IsPublic { get; set; }
+
+        [DisplayName("Logo")]
+        public string? Logo { get; set; }
+    }
 }

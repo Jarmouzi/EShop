@@ -5,37 +5,35 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EShop.Web.API.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
+    [Route("api/[controller]")]
+    [ApiController]
     [AuthorizeApi]
-    public class UserOrderController : ControllerBase
+    public class UserOrderController(IUserOrderRepository userOrderRepository) : ControllerBase
     {
-		private readonly IUserOrderRepository _UserOrderRepository;
-
-        public UserOrderController(IUserOrderRepository UserOrderRepository)
-        {
-            _UserOrderRepository = UserOrderRepository;
-        }
-        //[HttpPost("Add")]
-        //public async Task<IActionResult> Insert(UserOrderViewModel model)
-        //{try{var result = await _UserOrderRepository.AddAsync(model); return Ok(result);}
-        // catch (Exception ex){return BadRequest(ex);}
-        //}
-        //[HttpPut("Update")]public async Task<IActionResult> Update(UserOrderViewModel model)
-        //{try{var result = await _UserOrderRepository.UpdateAsync(model);return Ok(result);}
-        // catch (Exception ex){return BadRequest(ex);}
-        //}
-        //[HttpDelete("Delete")]
-        //public async Task<IActionResult> Delete(Int64 id)
-        //{try {var result = await _UserOrderRepository.DeleteAsync(id); return Ok(result); }
-        // catch (Exception ex){return BadRequest(ex);}
-        //}
-        [HttpGet("Get")]
-        public async Task<IActionResult> Get(Int64 id)
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update(UserOrderViewModel model)
         {
             try
             {
-                var result =await  _UserOrderRepository.GetByIdAsync(id);
+                var result = await userOrderRepository.UpdateAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("Get")]
+        public async Task<IActionResult> Get(string id)
+        {
+            try
+            {
+                var result = await userOrderRepository.GetAsync(m => m.Cart.Handle == id);
+
+                if (result == null)
+                    return NotFound();
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -49,7 +47,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _UserOrderRepository.GetAllAsync();
+                var result = await userOrderRepository.GetAllAsync();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -63,7 +61,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _UserOrderRepository.GetProcedureAsync("UserOrder_Json", json);
+                var result = await userOrderRepository.GetProcedureAsync("UserOrder_Json", json);
                 return Ok(result);
             }
             catch (Exception ex)

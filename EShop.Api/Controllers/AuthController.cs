@@ -12,10 +12,7 @@ namespace EShop.Api.Controllers
         {
             try
             {
-                if (User.FindFirstValue(ClaimTypes.NameIdentifier) == null)
-                    return Ok(false);
-
-                return Ok(true);
+                return Ok(User.Identity != null && User.Identity.IsAuthenticated);
             }
             catch (Exception ex)
             {

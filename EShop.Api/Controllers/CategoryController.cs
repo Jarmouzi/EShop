@@ -64,11 +64,26 @@ namespace EShop.Web.API.Controllers
 
 
         [HttpGet("Get")]
-        public async Task<IActionResult> Get(Int64 id)
+        public async Task<IActionResult> Get(string id)
         {
             try
             {
-                var result =await  _CategoryRepository.GetByIdAsync(id);
+                var result = await _CategoryRepository.GetProcedureAsync("Category_GetByHandle", id);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("GetByProduct")]
+        public async Task<IActionResult> GetByProduct(string id)
+        {
+            try
+            {
+                var result = await _CategoryRepository.GetProcedureAsync("Category_GetByProductHandle", id);
 
                 return Ok(result);
             }
@@ -98,7 +113,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                if(json == null) json = "{ \"Level1Id\": null,\"Level2Id\": null, \"Take\": 10, \"Skip\": 0}";
+                if(json == null) json = "{ \"Level1Id\": null,\"Level2Id\": null, \"Take\": 1000, \"Skip\": 0}";
                 var result = await _CategoryRepository.GetProcedureAsync("Category_Json", json);
 
                 return Ok( result );

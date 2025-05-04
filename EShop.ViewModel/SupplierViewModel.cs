@@ -11,6 +11,7 @@ namespace EShop.ViewModel
 		public string? FaxNumber { get; set; }
 		public string? Logo { get; set; }
 		public string? Banner { get; set; }
-		public bool? Confirmed { get; set; }
+        public string? Signe { get; set; }
+        public bool? Confirmed { get; set; }
 	}
 }

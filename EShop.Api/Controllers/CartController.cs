@@ -101,7 +101,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                string json = $"{{ id: '{id}'}}";
+                string json = $"{{ \"id\": \"{id}\"}}";
 
                 if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
