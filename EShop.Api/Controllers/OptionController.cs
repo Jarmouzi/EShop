@@ -1,4 +1,5 @@
 using EShop.IdentityService.Infrastructure.Authorizaion;
+using EShop.Repository.Implementation;
 using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ namespace EShop.Web.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-    [AuthorizeApi]
+    //[AuthorizeApi]
     public class OptionController : ControllerBase
     {
 		private readonly IOptionRepository _OptionRepository;
@@ -63,42 +64,43 @@ namespace EShop.Web.API.Controllers
         //}
 
 
-        [HttpGet("Get")]
-        public async Task<IActionResult> Get(Int64 id)
+        //[HttpGet("Get")]
+        //public async Task<IActionResult> Get(Int64 id)
+        //{
+        //    try
+        //    {
+        //        var result =await  _OptionRepository.GetByIdAsync(id);
+
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex);
+        //    }
+        //}
+
+        //[HttpGet("GetAll")]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    try
+        //    {
+        //        var result = await _OptionRepository.GetAllAsync();
+
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex);
+        //    }
+        //}
+
+
+        [HttpGet("GetCollectionOptions")]
+        public async Task<IActionResult> GetCollectionOptions(string? cn = null)
         {
             try
             {
-                var result =await  _OptionRepository.GetByIdAsync(id);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                var result = await _OptionRepository.GetAllAsync();
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
-        [HttpGet("GetFiltered")]
-        public async Task<IActionResult> GetAll(string? json = null)
-        {
-            try
-            {
-                var result = await _OptionRepository.GetProcedureAsync("Option_Json", json);
+                var result = await _OptionRepository.GetProcedureAsync("Option_GetByCategory", cn);
 
                 return Ok(result);
             }

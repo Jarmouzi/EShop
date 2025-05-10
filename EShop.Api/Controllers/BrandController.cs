@@ -7,7 +7,7 @@ namespace EShop.Web.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-    [AuthorizeApi]
+    //[AuthorizeApi]
     public class BrandController : ControllerBase
     {
 		private readonly IBrandRepository _BrandRepository;
@@ -93,12 +93,13 @@ namespace EShop.Web.API.Controllers
             }
         }
 
-        [HttpGet("GetFiltered")]
-        public async Task<IActionResult> GetAll(string? json = null)
+
+        [HttpGet("GetCollectionBrands")]
+        public async Task<IActionResult> GetCollectionBrands(string? cn = null)
         {
             try
             {
-                var result = await _BrandRepository.GetProcedureAsync("Brand_Json", json);
+                var result = await _BrandRepository.GetProcedureAsync("Brand_GetByCategory", cn);
 
                 return Ok(result);
             }

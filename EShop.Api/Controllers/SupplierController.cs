@@ -1,4 +1,5 @@
 using EShop.IdentityService.Infrastructure.Authorizaion;
+using EShop.Repository.Implementation;
 using EShop.Repository.Interface;
 using EShop.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -99,6 +100,21 @@ namespace EShop.Web.API.Controllers
             try
             {
                 var result = await _SupplierRepository.GetProcedureAsync("Supplier_Json", json);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("GetCollectionSuppliers")]
+        public async Task<IActionResult> GetCollectionSuppliers(string? cn = null)
+        {
+            try
+            {
+                var result = await _SupplierRepository.GetProcedureAsync("Supplier_GetByCategory", cn);
 
                 return Ok(result);
             }

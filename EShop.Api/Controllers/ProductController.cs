@@ -114,7 +114,7 @@ namespace EShop.Web.API.Controllers
         {
             try
             {
-                var result = await _ProductRepository.GetProcedureAsync("Product_GetByCollection", cn);
+                var result = await _ProductRepository.GetProcedureAsync("Product_GetByCategory", cn);
 
                 return Ok(result);
             }

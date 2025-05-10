@@ -7,7 +7,7 @@ namespace EShop.Web.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-    [AuthorizeApi]
+    //[AuthorizeApi]
     public class FeatureController : ControllerBase
     {
 		private readonly IFeatureRepository _FeatureRepository;
@@ -93,12 +93,13 @@ namespace EShop.Web.API.Controllers
             }
         }
 
-        [HttpGet("GetFiltered")]
-        public async Task<IActionResult> GetAll(string? json = null)
+
+        [HttpGet("GetCollectionFeatures")]
+        public async Task<IActionResult> GetCollectionFeatures(string? cn = null)
         {
             try
             {
-                var result = await _FeatureRepository.GetProcedureAsync("Feature_Json", json);
+                var result = await _FeatureRepository.GetProcedureAsync("Feature_GetByCategory", cn);
 
                 return Ok(result);
             }
